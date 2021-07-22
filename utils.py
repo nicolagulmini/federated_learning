@@ -78,3 +78,29 @@ class federated_setup:
         for c in clusters_list:
             c.print_information()
         return clusters_list
+    
+    def assign_dataset_to_clusters(list_of_clusters, list_of_training_dictionary, list_of_test_dictionary):
+        if not ((len(list_of_clusters) == len(list_of_training_dictionary)) and (len(list_of_training_dictionary) == len(list_of_test_dictionary))):
+            print("The number of clusters, training datasets and test sets have to be the same! Also, provide the datasets as dictionary with images and labels.")
+            return
+        for _ in range(len(list_of_clusters)):
+            c = list_of_clusters[_]
+            train_data = list_of_training_dictionary[_]
+            test_data = list_of_test_dictionary[_]
+            xtrain = train_data['images']
+            ytrain = train_data['labels']
+            xtest = test_data['images']
+            ytest = test_data['labels']
+            # permute
+            c.set_train_data({'images': xtrain, 'labels': ytrain})
+            c.set_test_data({'images': xtest, 'labels': ytest})
+            print("Set data for cluster " + str(c.number))
+        # the cluster of the list are modified 
+        print("Done.")
+        return
+    
+    def assign_data_from_cluster_to_users(cluster):
+        if len(cluster.train_data) == 0 or len(cluster.test_data) == 0:
+            print("No data in the cluster " + str(cluster.number) + ".")
+            return
+        # to complete
