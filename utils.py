@@ -1,3 +1,8 @@
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Reshape
+from tensorflow.keras.layers import Flatten
+
 class cluster:
     def __init__(self, number):
         self.users = []
@@ -35,8 +40,23 @@ class user_information:
         self.estimation = estimation
     def get_estimation(self):
         return self.estimation
-        
     
+class define_model_mnist():
+    def __init__(self):
+        self.model = Sequential()
+        self.model.add(Flatten(input_shape=(28, 28)))
+        self.model.add(Dense(10, activation='softmax'))
+        self.model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+class define_autoencoder_mnist():
+    def __init__(self):
+        self.model = Sequential()
+        self.model.add(Flatten(input_shape=(28, 28)))
+        self.model.add(Dense(10, activation='relu'))
+        self.model.add(Dense(784, activation='sigmoid'))
+        self.model.add(Reshape((28, 28)))
+        self.model.compile(optimizer='adam', loss='binary_crossentropy')
+        
 class federated_setup:
     
     def assign_users_to_clusters(number_of_users, number_of_clusters):
