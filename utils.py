@@ -2,6 +2,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
+from numpy.random import permutation
 
 class cluster:
     def __init__(self, number):
@@ -91,7 +92,9 @@ class federated_setup:
             ytrain = train_data['labels']
             xtest = test_data['images']
             ytest = test_data['labels']
-            # permute
+            shuffler = permutation(len(xtrain)) # from numpy
+            xtrain = xtrain[shuffler]
+            ytrain = ytrain[shuffler]    
             c.set_train_data({'images': xtrain, 'labels': ytrain})
             c.set_test_data({'images': xtest, 'labels': ytest})
             print("Set data for cluster " + str(c.number))
