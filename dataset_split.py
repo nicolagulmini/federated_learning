@@ -7,7 +7,7 @@ import os
 
 number_of_clusters = 9
 bias = 0.5
-number_of_images_per_cluster = 4000
+number_of_images_per_dataset = 4000
 
 (X_train, Y_train), (X_test, Y_test) = tensorflow.keras.datasets.mnist.load_data()
 X_train = X_train.astype('float32') / 255.0
@@ -26,12 +26,12 @@ most_frequent_class_for_client = [random.randint(0, 9) for _ in range(number_of_
 client_x_train, client_y_train, client_x_test, client_y_test = [[[] for _ in range(number_of_clusters)] for i in range(4)]
 
 for c in range(number_of_clusters):
-    for _ in range(int(number_of_images_per_cluster*bias)):
+    for _ in range(int(number_of_images_per_dataset*bias)):
         client_x_train[c].append(random.choice(single_digit_training_sets[most_frequent_class_for_client[c]]))
         client_x_test[c].append(random.choice(single_digit_test_sets[most_frequent_class_for_client[c]]))
         client_y_train[c].append(most_frequent_class_for_client[c])
         client_y_test[c].append(most_frequent_class_for_client[c])
-    for _ in range(int(number_of_images_per_cluster*(1-bias))):
+    for _ in range(int(number_of_images_per_dataset*(1-bias))):
         random_index = random.randint(0, len(X_train)-1)
         client_x_train[c].append(X_train[random_index])
         client_y_train[c].append(Y_train[random_index])
