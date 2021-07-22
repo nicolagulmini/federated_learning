@@ -40,8 +40,8 @@ def save_federated_mnist(number_of_clusters, bias, number_of_images_per_dataset)
             client_x_test[c].append(X_test[random_index])
             client_y_test[c].append(Y_test[random_index])
         
-    os.makedirs('./dfataset')
-    root_path = "./dfataset"
+    os.makedirs('./dataset')
+    root_path = "./dataset"
     for c in range(number_of_clusters):
         client_path = root_path + "/" + str(c)
         os.makedirs(client_path)
@@ -58,8 +58,3 @@ def save_federated_mnist(number_of_clusters, bias, number_of_images_per_dataset)
         df.to_csv(client_path + "/test_labels.csv", header=False, index=False)
 
 save_federated_mnist(number_of_clusters, bias, number_of_images_per_dataset)
-
-        
-
-    
-
