@@ -39,13 +39,13 @@ class cluster:
         if len(self.train_data) == 0 or len(self.test_data) == 0:
             print("No data in the cluster " + str(self.number) + ".")
             return
-        # note that not all the users have got the same number of data
-        # note also that the users have only training data because the test data are at the cluster level, to make the computation easier
+        # note that the users have only training data because the test data are at the cluster level, to make the computation easier
         amount_of_user_data = int(self.train_data['images'].shape[0] / self.number_of_users())
         xtrain = self.train_data['images']
         ytrain = self.train_data['labels']
         for i in range(len(self.users)):
-            self.users[i].set_data({'images': xtrain[i*amount_of_user_data: (i+1)*amount_of_user_data-1], 'labels': ytrain[i*amount_of_user_data: (i+1)*amount_of_user_data-1]})
+            self.users[i].set_data({'images': xtrain[i*amount_of_user_data:(i+1)*amount_of_user_data], 'labels': ytrain[i*amount_of_user_data:(i+1)*amount_of_user_data]})
+            # issue: the first and the last image of the user i is shared with, respectively, user i-1 and user i+1...
             print("Set data for user " + str(self.users[i].name) + " of cluster " + str(self.number))
             print("The shape of data is " + str(self.users[i].data['images'].shape))
         return
