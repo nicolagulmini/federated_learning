@@ -1,5 +1,10 @@
 # Federated Learning
 
+This directory contains the code for simulating and studying the tradeoff between local and global accuracy in a distributed scenario
+in which each user has its own data distribution.
+
+Research project: "Communication-Aware Clustered Federated Learning: How to Leverage Data Heterogeneity"
+
 ## federated_mnist 
 The federated_mnist folder contains:
 - 9 heterogeneous datasets (training and test)
