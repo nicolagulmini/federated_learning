@@ -26,6 +26,14 @@ class cluster:
         return self.estimation
     def print_information(self):
         print("Cluster number " + str(self.number) + ". User ids: " + str([user.name for user in self.users]))
+    def transfer_cluster_model_to_users(self):
+        for user in self.users:
+            user.model.set_weights(self.model.get_weights())
+        return
+    def transfer_cluster_estimation_to_users(self):
+        for user in self.users:
+            user.estimation.set_weights(self.estimation.get_weights())
+        return
         
 class user_information:
     def __init__(self, name, cluster):
@@ -81,6 +89,7 @@ class federated_setup:
         return clusters_list
     
     def assign_dataset_to_clusters(list_of_clusters, list_of_training_dictionary, list_of_test_dictionary):
+        # given the already divided datasets, in a dictionary with 'images' and 'labels' for each cluster, this method modifies each cluster of the list setting the train and the test data
         if not ((len(list_of_clusters) == len(list_of_training_dictionary)) and (len(list_of_training_dictionary) == len(list_of_test_dictionary))):
             print("The number of clusters, training datasets and test sets have to be the same! Also, provide the datasets as dictionary with images and labels.")
             return
@@ -92,7 +101,7 @@ class federated_setup:
             ytrain = train_data['labels']
             xtest = test_data['images']
             ytest = test_data['labels']
-            shuffler = permutation(len(xtrain)) # from numpy
+            shuffler = permutation(xtrain.shape[0]) # from numpy
             xtrain = xtrain[shuffler]
             ytrain = ytrain[shuffler]    
             c.set_train_data({'images': xtrain, 'labels': ytrain})
@@ -103,7 +112,12 @@ class federated_setup:
         return
     
     def assign_data_from_cluster_to_users(cluster):
+        # if the cluster already has got the data, an assignment is performed in order to give at each user a uniform portion of them.
         if len(cluster.train_data) == 0 or len(cluster.test_data) == 0:
             print("No data in the cluster " + str(cluster.number) + ".")
             return
-        # to complete
+        # note that not all the users have got the same number of data
+        # note also that the users have only training data because the test data are at the cluster level, to make the computation easier
+        amount_of_user_data = int(cluster.train_data['images'].shape[0] / cluster.number_of_users)
+        
+        
