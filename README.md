@@ -16,12 +16,6 @@ The federated_mnist folder contains:
 This dataset has been created with dataset_split.py.
 
 ## References
-
-@misc{reisser2021federated,
-      title={Federated Mixture of Experts}, 
-      author={Matthias Reisser and Christos Louizos and Efstratios Gavves and Max Welling},
-      year={2021},
-      eprint={2107.06724},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
-}
+- The Communication-Aware Clustered Federated Learning Problem: https://ieeexplore.ieee.org/document/9174245
+- Federated Mixture of Experts: https://arxiv.org/abs/2107.06724
+- others
