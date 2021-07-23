@@ -5,6 +5,8 @@ in which each user has its own data distribution.
 
 Research project: "Communication-Aware Clustered Federated Learning: How to Leverage Data Heterogeneity"
 
+The (deprecated) files contain messy code. The first tests are with a federated version of mnist, to obtain a fast computation. If you want to generate your own version of federated mnist, you can use dataset_split.py, changing the initial parameters. Soon will be available also a federated version of cifar10 and the related notebook.
+
 ## federated_mnist 
 The federated_mnist folder contains:
 - 9 heterogeneous datasets (training and test)
