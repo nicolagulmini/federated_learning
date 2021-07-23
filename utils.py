@@ -111,6 +111,7 @@ class federated_setup:
         print("Done.")
         return
     
+    # sposta in cluster e metti self
     def assign_data_from_cluster_to_users(cluster):
         # if the cluster already has got the data, an assignment is performed in order to give at each user a uniform portion of them.
         if len(cluster.train_data) == 0 or len(cluster.test_data) == 0:
@@ -119,5 +120,12 @@ class federated_setup:
         # note that not all the users have got the same number of data
         # note also that the users have only training data because the test data are at the cluster level, to make the computation easier
         amount_of_user_data = int(cluster.train_data['images'].shape[0] / cluster.number_of_users)
+        xtrain = cluster.train_data['images']
+        ytrain = cluster.train_data['labels']
+        for i in range(len(cluster.users)):
+            cluster.users[i].set_data({'images': xtrain[i*amount_of_user_data: (i+1)*amount_of_user_data-1], 'labels': ytrain[i*amount_of_user_data: (i+1)*amount_of_user_data-1]})
+            print("Set data for user " + str(cluster.users[i].name) + " of cluster " + cluster.number)
+            print("The shape of data is " + str(cluster.users[i].data['images'].shape))
+        return
         
         
