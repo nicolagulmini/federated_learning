@@ -46,7 +46,7 @@ class cluster:
         ytrain = self.train_data['labels']
         for i in range(len(self.users)):
             self.users[i].set_data({'images': xtrain[i*amount_of_user_data: (i+1)*amount_of_user_data-1], 'labels': ytrain[i*amount_of_user_data: (i+1)*amount_of_user_data-1]})
-            print("Set data for user " + str(self.users[i].name) + " of cluster " + self.number)
+            print("Set data for user " + str(self.users[i].name) + " of cluster " + str(self.number))
             print("The shape of data is " + str(self.users[i].data['images'].shape))
         return
         
