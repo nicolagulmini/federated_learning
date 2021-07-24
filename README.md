@@ -1,7 +1,7 @@
 # Federated Learning
 
 This repository contains the code for simulating and studying the tradeoff between local and global accuracy in a distributed scenario
-in which each user wants to train a classification model on its own data distribution.
+in which each user trains a classification model on its own data distribution.
 
 Research project: "Communication-Aware Clustered Federated Learning: How to Leverage Data Heterogeneity"
 
