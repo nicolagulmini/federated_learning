@@ -179,8 +179,10 @@ class federated_setup:
         return
        
     def train_validation_split(x_train, y_train):
-        # shuffle befor the split!
         train_length = len(x_train)
+        shuffler = permutation(train_length) # from numpy
+        x_train = x_train[shuffler]
+        y_train = y_train[shuffler]    
         validation_length = int(train_length / 4)
         x_val = x_train[:validation_length]
         x_train = x_train[validation_length:]
