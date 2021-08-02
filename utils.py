@@ -6,35 +6,70 @@ from tensorflow.keras.layers import Flatten
 from numpy.random import permutation
 
 class cluster:
+    # this class realizes a cluster of users 
+    
     def __init__(self, number):
         self.users = []
         self.number = number
+        
     def number_of_users(self):
         return len(self.users)
+    
     def add_user(self, user):
         self.users.append(user)
+        
     def set_train_data(self, train_data):
         self.train_data = train_data
+        
     def set_test_data(self, test_data):
         self.test_data = test_data
+        
     def set_model(self, model):
         self.model = model
+        
     def set_estimation(self, estimation):
         self.estimation = estimation
+        
     def get_model(self):
         return self.model
+    
     def get_estimation(self):
         return self.estimation
+    
     def print_information(self):
         print("Cluster number " + str(self.number) + ". User ids: " + str([user.name for user in self.users]))
+        
+    def initialize_models(self):
+        # inizialize the models
+        classification_model = define_model_mnist()
+        estimation_model = define_autoencoder_mnist()
+        self.set_model(classification_model.model)
+        self.set_estimation(estimation_model.model)
+        return
+    
+    def cluster_to_users_initialization(self):
+        # to copy the initial models from the cluster to its users
+        for user in self.users:
+            user.set_model(clone_model(self.model))
+            user.set_estimation(clone_model(self.estimation))
+        return
+    
     def transfer_cluster_model_to_users(self):
+        # propagate from cluster to its users the classification model
+        if self.number_of_users() == 0:
+            print("No users in the cluster " + str(self.number))
         for user in self.users:
             user.model.set_weights(self.model.get_weights())
         return
+    
     def transfer_cluster_estimation_to_users(self):
+        # propagate from cluster to its users the estimation model
+        if self.number_of_users() == 0:
+            print("No users in the cluster " + str(self.number))
         for user in self.users:
             user.estimation.set_weights(self.estimation.get_weights())
         return
+    
     def assign_data_from_cluster_to_users(self, verbose):
         # if the cluster already has got the data, an assignment is performed in order to give at each user a uniform portion of them.
         if len(self.train_data) == 0 or len(self.test_data) == 0 or self.number_of_users() == 0:
@@ -51,16 +86,6 @@ class cluster:
                 print("Set data for user " + str(self.users[i].name) + " of cluster " + str(self.number))
                 print("The shape of data is " + str(self.users[i].data['images'].shape))
         return
-    def propagate_classification_model_to_users(self):
-        if self.number_of_users() == 0:
-            print("No users in the cluster " + str(self.number))
-            return
-        return 
-    def propagate_estimation_model_to_users(self):
-        if self.number_of_users() == 0:
-            print("No users in the cluster " + str(self.number))
-            return
-        return 
         
 class user_information:
     def __init__(self, name, cluster):
@@ -95,6 +120,7 @@ class define_autoencoder_mnist():
         
 class federated_setup:
     # in this class there are all the methods that use the previous classes and are necessary to build the federated setup
+    
     def initialize_users_to_clusters(number_of_users, number_of_clusters):
         # assigns uniformly and in a sorted way, the given users to the given clusters. Returns a list of clusters. This step has to be done before the data assignment.
         if not number_of_users % number_of_clusters == 0:
@@ -143,19 +169,7 @@ class federated_setup:
         for cluster in list_of_clusters:
             cluster.assign_data_from_cluster_to_users(verbose)
         return
-        
-    def initialize_classification_model(cluster):
-        # inizialize a classification model to a given cluster
-        classification_model = define_model_mnist()
-        cluster.set_model(classification_model.model)
-        return
-    
-    def initialize_estimation_model(cluster):
-        # inizialize an estimation model to a given cluster
-        estimation_model = define_autoencoder_mnist()
-        cluster.set_estimation(estimation_model.model)
-        return
-    
+            
     def server_to_cluster_classification(list_of_clusters, server_classification_model):
         # assign a classification model to the clusters
         # pay attention: each cluster has its own model, so the weights are copied
@@ -163,14 +177,17 @@ class federated_setup:
         for cluster in list_of_clusters:
             cluster.set_model(clone_model(server_classification_model))
         return
-    
-    def cluster_from_users_models(cluster):
-        # propagate from cluster to its users the classification and estimation models
-        for user in cluster.users:
-            user.set_model(clone_model(cluster.get_model))
-            user.set_estimation(clone_model(cluster.get_estimation))
-        return 
+       
+    def train_validation_split(x_train, y_train):
+        # shuffle befor the split!
+        train_length = len(x_train)
+        validation_length = int(train_length / 4)
+        x_val = x_train[:validation_length]
+        x_train = x_train[validation_length:]
+        y_val = y_train[:validation_length]
+        y_train = y_train[validation_length:]
+        return x_train, y_train, x_val, y_val
     
     def sparsificate(model, k): # k is a fraction of parameters to save: k in [0,1]
-        modello.model.count_params()
+        #modello.model.count_params()
         return 0 # return the same model but sparse!!
