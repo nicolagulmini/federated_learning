@@ -1,4 +1,5 @@
 from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import clone_model
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
@@ -143,7 +144,7 @@ class federated_setup:
             cluster.assign_data_from_cluster_to_users(verbose)
         return
         
-    def initialize_classification_model():
+    def initialize_classification_model(cluster):
         # inizialize a classification model to a given cluster
         classification_model = define_model_mnist()
         cluster.set_model(classification_model.model)
@@ -155,18 +156,21 @@ class federated_setup:
         cluster.set_estimation(estimation_model.model)
         return
     
-    def server_to_cluster_classification(list_of_clusters, server_model):
+    def server_to_cluster_classification(list_of_clusters, server_classification_model):
         # assign a classification model to the clusters
         # pay attention: each cluster has its own model, so the weights are copied
         # this method has to be called AFTER initialize_classification_model()
-        
-        return 0
+        for cluster in list_of_clusters:
+            cluster.set_model(clone_model(server_classification_model))
+        return
     
     def cluster_from_users_models(cluster):
         # propagate from cluster to its users the classification and estimation models
-        return 0
+        for user in cluster.users:
+            user.set_model(clone_model(cluster.get_model))
+            user.set_estimation(clone_model(cluster.get_estimation))
+        return 
     
-    def number_of_weights(model):
-        return 0 # todo
     def sparsificate(model, k): # k is a fraction of parameters to save: k in [0,1]
+        modello.model.count_params()
         return 0 # return the same model but sparse!!
