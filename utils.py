@@ -34,10 +34,10 @@ class cluster:
         for user in self.users:
             user.estimation.set_weights(self.estimation.get_weights())
         return
-    def assign_data_from_cluster_to_users(self):
+    def assign_data_from_cluster_to_users(self, verbose):
         # if the cluster already has got the data, an assignment is performed in order to give at each user a uniform portion of them.
-        if len(self.train_data) == 0 or len(self.test_data) == 0:
-            print("No data in the cluster " + str(self.number) + ".")
+        if len(self.train_data) == 0 or len(self.test_data) == 0 or self.number_of_users() == 0:
+            print("No users and/or data in the cluster " + str(self.number))
             return
         # note that the users have only training data because the test data are at the cluster level, to make the computation easier
         amount_of_user_data = int(self.train_data['images'].shape[0] / self.number_of_users())
@@ -46,9 +46,20 @@ class cluster:
         for i in range(len(self.users)):
             self.users[i].set_data({'images': xtrain[i*amount_of_user_data:(i+1)*amount_of_user_data], 'labels': ytrain[i*amount_of_user_data:(i+1)*amount_of_user_data]})
             # issue: the first and the last image of the user i is shared with, respectively, user i-1 and user i+1...
-            print("Set data for user " + str(self.users[i].name) + " of cluster " + str(self.number))
-            print("The shape of data is " + str(self.users[i].data['images'].shape))
+            if not verbose == 0:
+                print("Set data for user " + str(self.users[i].name) + " of cluster " + str(self.number))
+                print("The shape of data is " + str(self.users[i].data['images'].shape))
         return
+    def propagate_classification_model_to_users(self):
+        if self.number_of_users() == 0:
+            print("No users in the cluster " + str(self.number))
+            return
+        return 
+    def propagate_estimation_model_to_users(self):
+        if self.number_of_users() == 0:
+            print("No users in the cluster " + str(self.number))
+            return
+        return 
         
 class user_information:
     def __init__(self, name, cluster):
@@ -82,12 +93,12 @@ class define_autoencoder_mnist():
         self.model.compile(optimizer='adam', loss='binary_crossentropy')
         
 class federated_setup:
-    
-    def assign_users_to_clusters(number_of_users, number_of_clusters):
+    # in this class there are all the methods that use the previous classes and are necessary to build the federated setup
+    def initialize_users_to_clusters(number_of_users, number_of_clusters):
         # assigns uniformly and in a sorted way, the given users to the given clusters. Returns a list of clusters. This step has to be done before the data assignment.
         if not number_of_users % number_of_clusters == 0:
             print("It is better to have the same number of users for each cluster, to make the computation easier. This issue will be solved.")
-            return
+            return []
         users_per_cluster = int(number_of_users/number_of_clusters)
         clusters_list = []
         user_id = 0
@@ -126,6 +137,36 @@ class federated_setup:
         print("Done.")
         return
     
+    def assign_clusters_data_to_users(list_of_clusters, verbose):
+        # for each cluster, assign the training data to its users
+        for cluster in list_of_clusters:
+            cluster.assign_data_from_cluster_to_users(verbose)
+        return
+        
+    def initialize_classification_model():
+        # inizialize a classification model to a given cluster
+        classification_model = define_model_mnist()
+        cluster.set_model(classification_model.model)
+        return
     
+    def initialize_estimation_model(cluster):
+        # inizialize an estimation model to a given cluster
+        estimation_model = define_autoencoder_mnist()
+        cluster.set_estimation(estimation_model.model)
+        return
+    
+    def server_to_cluster_classification(list_of_clusters, server_model):
+        # assign a classification model to the clusters
+        # pay attention: each cluster has its own model, so the weights are copied
+        # this method has to be called AFTER initialize_classification_model()
         
-        
+        return 0
+    
+    def cluster_from_users_models(cluster):
+        # propagate from cluster to its users the classification and estimation models
+        return 0
+    
+    def number_of_weights(model):
+        return 0 # todo
+    def sparsificate(model, k): # k is a fraction of parameters to save: k in [0,1]
+        return 0 # return the same model but sparse!!
