@@ -22,4 +22,4 @@ This dataset has been created with dataset_split.py.
 - Federated Mixture of Experts: https://arxiv.org/abs/2107.06724
 - others
 
-<img src="https://latex.codecogs.com/gif.latex?x^*&space;\approx&space;\arg\max_{\mathcal{C}\in\bar\Omega(\mathcal{C}_{i\in[1,k]})}\mathcal{L}^{\Omega*}_{jhr}(x)" title="x^* \approx \arg\max_{\mathcal{C}\in\bar\Omega(\mathcal{C}_{i\in[1,k]})}\mathcal{L}^{\Omega*}_{jhr}(x)" />
+<img src="https://latex.codecogs.com/gif.latex?\bg_white&space;x^*&space;\approx&space;\arg\max_{\mathcal{C}\in\bar\Omega(\mathcal{C}_{i\in[1,k]})}\mathcal{L}^{\Omega*}_{jhr}(x)" title="x^* \approx \arg\max_{\mathcal{C}\in\bar\Omega(\mathcal{C}_{i\in[1,k]})}\mathcal{L}^{\Omega*}_{jhr}(x)" />
