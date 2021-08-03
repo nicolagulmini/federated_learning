@@ -21,3 +21,5 @@ This dataset has been created with dataset_split.py.
 - The Communication-Aware Clustered Federated Learning Problem: https://ieeexplore.ieee.org/document/9174245
 - Federated Mixture of Experts: https://arxiv.org/abs/2107.06724
 - others
+
+https://render.githubusercontent.com/render/math?math=\mathcal{C}=\sum_{i=0}^ni^2 = \frac{1}{2}.
