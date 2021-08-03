@@ -1,8 +1,11 @@
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
+from keras.optimizers import SGD
 from numpy.random import permutation
 from numpy import add
 from numpy import subtract
@@ -153,11 +156,22 @@ class user_information:
     
 class define_model_mnist():
     def __init__(self):
+        ''' old model
         self.model = Sequential()
         self.model.add(Flatten(input_shape=(28, 28)))
-        self.model.add(Dense(10, activation='relu'))
         self.model.add(Dense(10, activation='softmax'))
         self.model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+        '''        
+        self.model = Sequential() 
+        self.model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', input_shape=(28, 28, 1)))
+        self.model.add(MaxPooling2D((2, 2)))
+        self.model.add(Flatten())
+        self.model.add(Dense(100, activation='relu', kernel_initializer='he_uniform'))
+        self.model.add(Dense(10, activation='softmax'))
+    	# compile model
+        opt = SGD(lr=0.01, momentum=0.9)
+        self.model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
+
 
 class define_autoencoder_mnist():
     def __init__(self):
