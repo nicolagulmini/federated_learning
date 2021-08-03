@@ -102,7 +102,8 @@ class cluster:
         w = [user.get_model().get_weights() for user in self.users]
         resulting_weights = self.model.get_weights()
         for layer in range(len(resulting_weights)):
-            add(resulting_weights[layer], sum([w[i][layer] for i in range(len(w))])/len(self.users)) # from numpy
+            #add(resulting_weights[layer], sum([w[i][layer] for i in range(len(w))])/len(self.users)) # from numpy
+            resulting_weights[layer] = sum([w[i][layer] for i in range(len(w))])/len(self.users)
         self.model.set_weights(resulting_weights)
         return        
         
