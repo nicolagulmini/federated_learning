@@ -155,6 +155,7 @@ class define_model_mnist():
     def __init__(self):
         self.model = Sequential()
         self.model.add(Flatten(input_shape=(28, 28)))
+        self.model.add(Dense(10, activation='relu'))
         self.model.add(Dense(10, activation='softmax'))
         self.model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
@@ -242,3 +243,17 @@ class federated_setup:
     def sparsificate(model, k): # k is a fraction of parameters to save: k in [0,1]
         #modello.model.count_params()
         return 0 # return the same model but sparse!!
+    
+    def train_one_shot(list_of_clusters, local_epochs, local_batch, verbose):
+        # realizes one communication round: for each cluster, propagate the model to its users, train each user individually and then aggregate users model updating the cluster one
+        avg_local_acc = 0
+        for cluster in list_of_clusters:
+            print("** Cluster number " + str(cluster.number) + " training just started.")   
+            cluster.transfer_cluster_model_to_users()
+            for user in cluster.users:
+                user.train(local_epochs, local_batch, verbose) / len(cluster.users)
+            cluster.update_cluster_classification_model()
+            local_acc = cluster.get_model().evaluate(cluster.test_data['images'], to_categorical(cluster.test_data['labels'], 10), verbose=0)[1]
+            avg_local_acc += local_acc/len(list_of_clusters)
+            print("* LOCAL Accuracy of the cluster " + str(cluster.number) + " model is " + str(local_acc) + ".\n")
+        return avg_local_acc
