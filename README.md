@@ -21,5 +21,3 @@ This dataset has been created with dataset_split.py.
 - The Communication-Aware Clustered Federated Learning Problem: https://ieeexplore.ieee.org/document/9174245
 - Federated Mixture of Experts: https://arxiv.org/abs/2107.06724
 - others
-
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
