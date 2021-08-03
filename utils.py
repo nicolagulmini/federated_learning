@@ -144,16 +144,14 @@ class user_information:
         
         # training
         print('debug. User', self.name , 'model weights BEFORE TRAINING are:', self.model.get_weights())
-        tmp_model = self.model
-        tmp_model.fit(x_train, y_train, epochs=epochs, batch_size=batch, verbose=2, validation_data=(x_val, y_val))
-        self.set_model(tmp_model)
+        self.model.fit(x_train, y_train, epochs=epochs, batch_size=batch, verbose=0, validation_data=(x_val, y_val))
         print('debug. User', self.name , 'model weights AFTER TRAINING are:', self.model.get_weights())
         if not verbose == 0:
             accuracy = self.model.evaluate(self.cluster.test_data['images'], to_categorical(self.cluster.test_data['labels'], 10))[1]
             print("Accuracy of the user " + str(self.name) + " of the cluster " + str(self.cluster.number) + " AFTER the training is " + str(accuracy))
         
-        #validation_accuracy = self.model.evaluate(x_val, y_val, verbose=0)[1]
-        #return validation_accuracy
+        validation_accuracy = self.model.evaluate(x_val, y_val, verbose=0)[1]
+        return validation_accuracy
             
 class define_model_mnist():
     def __init__(self):
