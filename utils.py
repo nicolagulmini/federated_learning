@@ -102,8 +102,7 @@ class cluster:
     def update_cluster_classification_model(self):
         # this method updates the cluster classification model using the user ones
         w = [user.get_model().get_weights() for user in self.users]
-        for weight in w:
-            print(weight[0][0])
+
         # compute the weight for the update
         fracs = [len(user.data['labels']) for user in self.users]
         tot_data = sum(fracs)
@@ -146,7 +145,8 @@ class user_information:
         before_weights = self.model.get_weights() # debug
         self.model.fit(x_train, y_train, epochs=epochs, batch_size=batch, verbose=0, validation_data=(x_val, y_val))
         after_weights = self.model.get_weights()
-        print(subtract(after_weights, before_weights))
+        for el in subtract(after_weights, before_weights):
+            print(el)
         if not verbose == 0:
             accuracy = self.model.evaluate(self.cluster.test_data['images'], to_categorical(self.cluster.test_data['labels'], 10))[1]
             print("Accuracy of the user " + str(self.name) + " of the cluster " + str(self.cluster.number) + " AFTER the training is " + str(accuracy))
