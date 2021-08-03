@@ -54,6 +54,8 @@ class cluster:
         for user in self.users:
             user.set_model(clone_model(self.model))
             user.set_estimation(clone_model(self.estimation))
+            user.model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+            user.estimation.compile(optimizer='adam', loss='binary_crossentropy')
         return
     
     def transfer_cluster_model_to_users(self):
