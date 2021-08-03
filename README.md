@@ -13,13 +13,11 @@ The first experiments are carried out with a federated version of mnist, to have
 The federated_mnist folder contains:
 - 9 heterogeneous datasets (training and test)
 - in each folder there is a .csv file with name of images and related label
-- the heterogeneity is realized in this way: 50% of the images are of the same label, the other 50% are taken randomly from the original dataset (so there may be duplicates)
-- each dataset contains 400 images, so each cluster contains exactly 800 images. Some of these could be in common between more clusters.
+- the heterogeneity is realized in this way: 40% of the images are of the same label, the other 50% are taken randomly from the original dataset (so there may be duplicates)
+- each dataset contains 1000 images, so each cluster contains exactly 2000 images. Some of these could be in common between more clusters.
 This dataset has been created with dataset_split.py.
 
 ## References
 - The Communication-Aware Clustered Federated Learning Problem: https://ieeexplore.ieee.org/document/9174245
 - Federated Mixture of Experts: https://arxiv.org/abs/2107.06724
 - others
-
-
