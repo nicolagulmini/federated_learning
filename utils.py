@@ -144,7 +144,7 @@ class user_information:
         
         # training
         print('debug. User', self.name , 'model weights BEFORE TRAINING are:', self.model.get_weights())
-        self.model.fit(x_train, y_train, epochs=epochs, batch_size=batch, verbose=verbose, validation_data=(x_val, y_val))
+        self.model.fit(x_train, y_train, epochs=epochs, batch_size=batch, verbose=2, validation_data=(x_val, y_val))
         print('debug. User', self.name , 'model weights AFTER TRAINING are:', self.model.get_weights())
         if not verbose == 0:
             accuracy = self.model.evaluate(self.cluster.test_data['images'], to_categorical(self.cluster.test_data['labels'], 10))[1]
