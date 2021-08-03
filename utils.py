@@ -5,6 +5,7 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
 from numpy.random import permutation
+from numpy import add
 
 class cluster:
     # this class realizes a cluster of users 
@@ -92,6 +93,16 @@ class cluster:
                 print("Set data for user " + str(self.users[i].name) + " of cluster " + str(self.number))
                 print("The shape of data is " + str(self.users[i].data['images'].shape))
         return
+    
+    def averaging_users_classification_models_weights(self):
+        # ATTENTION: it makes the average without looking at the number of users data samples, supposing each user has the same dataset len
+        # this method takes the users classification models and perform an average of their weights, updating the cluster model
+        w = [user.get_model().get_weights() for user in self.users]
+        resulting_weights = self.model.get_weights()
+        for layer in range(len(resulting_weights)):
+            add(resulting_weights[layer], sum([w[i][layer] for i in range(len(w))])/len(self.users)) # from numpy
+        self.model.set_weights(resulting_weights)
+        return        
         
 class user_information:
     def __init__(self, name, cluster):
@@ -114,13 +125,15 @@ class user_information:
         # to_categorical is from keras.utils
         x_train, y_train, x_val, y_val = federated_setup.train_validation_split(self.data['images'], to_categorical(self.data['labels'], 10))
         
-        accuracy = self.model.evaluate(self.cluster.test_data['images'], to_categorical(self.cluster.test_data['labels'], 10))[1]
-        
         if not verbose == 0:
+            accuracy = self.model.evaluate(self.cluster.test_data['images'], to_categorical(self.cluster.test_data['labels'], 10))[1]
             print("Accuracy of the user " + str(self.name) + " of the cluster " + str(self.cluster.number) + " BEFORE the training is " + str(accuracy))
+        
         # training
         self.model.fit(x_train, y_train, epochs=epochs, batch_size=batch, verbose=verbose, validation_data=(x_val, y_val))
+        
         if not verbose == 0:
+            accuracy = self.model.evaluate(self.cluster.test_data['images'], to_categorical(self.cluster.test_data['labels'], 10))[1]
             print("Accuracy of the user " + str(self.name) + " of the cluster " + str(self.cluster.number) + " AFTER the training is " + str(accuracy))
         return
             
