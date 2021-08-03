@@ -51,6 +51,7 @@ class cluster:
         self.set_estimation(estimation_model.model)
         return
     
+    '''
     def cluster_to_users_initialization(self):
         # to copy the initial models from the cluster to its users
         for user in self.users:
@@ -59,6 +60,7 @@ class cluster:
             user.model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
             user.estimation.compile(optimizer='adam', loss='binary_crossentropy')
         return
+    '''
     
     def transfer_cluster_model_to_users(self):
         # propagate from cluster to its users the classification model
@@ -117,6 +119,9 @@ class user_information:
     def __init__(self, name, cluster):
         self.name = name
         self.cluster = cluster
+    def initialize_classification_model(self):
+        model = define_model_mnist().model
+        self.set_model(model)
     def set_data(self, data):
         self.data = data
     def set_model(self, model):
