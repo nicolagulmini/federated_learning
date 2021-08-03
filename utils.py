@@ -130,7 +130,10 @@ class user_information:
         self.estimation = estimation
     def get_estimation(self):
         return self.estimation
-    
+    def set_model_weights(self, weights):
+        self.model.set_weights(weights)
+        return
+    '''
     def train(self, epochs, batch, verbose):
         # train the local user model on the local user dataset and compute the accuracy on the local cluster dataset
         
@@ -153,7 +156,8 @@ class user_information:
         
         validation_accuracy = self.model.evaluate(x_val, y_val, verbose=0)[1]
         return validation_accuracy
-            
+    '''
+    
 class define_model_mnist():
     def __init__(self):
         self.model = Sequential()
