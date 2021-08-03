@@ -130,10 +130,7 @@ class user_information:
         self.estimation = estimation
     def get_estimation(self):
         return self.estimation
-    def set_model_weights(self, weights):
-        self.model.set_weights(weights)
-        return
-    '''
+    
     def train(self, epochs, batch, verbose):
         # train the local user model on the local user dataset and compute the accuracy on the local cluster dataset
         
@@ -147,16 +144,14 @@ class user_information:
         # training
         before_weights = self.model.get_weights() # debug
         self.model.fit(x_train, y_train, epochs=epochs, batch_size=batch, verbose=0, validation_data=(x_val, y_val))
-        after_weights = self.model.get_weights()
-        for el in subtract(after_weights, before_weights):
-            print(el)
+        after_weights = self.model.get_weights() # debug
+        print(subtract(after_weights, before_weights)) # debug
         if not verbose == 0:
             accuracy = self.model.evaluate(self.cluster.test_data['images'], to_categorical(self.cluster.test_data['labels'], 10))[1]
             print("Accuracy of the user " + str(self.name) + " of the cluster " + str(self.cluster.number) + " AFTER the training is " + str(accuracy))
         
         validation_accuracy = self.model.evaluate(x_val, y_val, verbose=0)[1]
         return validation_accuracy
-    '''
     
 class define_model_mnist():
     def __init__(self):
