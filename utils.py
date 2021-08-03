@@ -102,15 +102,16 @@ class cluster:
     def update_cluster_classification_model(self):
         # this method updates the cluster classification model using the user ones
         w = [user.get_model().get_weights() for user in self.users]
-
+        for weight in w:
+            print(weight[0][0])
         # compute the weight for the update
         fracs = [len(user.data['labels']) for user in self.users]
         tot_data = sum(fracs)
         fracs = [f/tot_data for f in fracs]
         
         resulting_weights = self.model.get_weights()
-        resulting_weights = add(resulting_weights, sum([subtract(w[i], resulting_weights)*fracs[i] for i in range(len(self.users))]))
-        self.model.set_weights(array(resulting_weights))
+        resulting_weights = add(resulting_weights, array(sum([subtract(w[i], resulting_weights)*fracs[i] for i in range(len(self.users))])))
+        self.model.set_weights(resulting_weights)
         return        
         
 class user_information:
