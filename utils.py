@@ -143,7 +143,9 @@ class user_information:
         if not verbose == 0:
             accuracy = self.model.evaluate(self.cluster.test_data['images'], to_categorical(self.cluster.test_data['labels'], 10))[1]
             print("Accuracy of the user " + str(self.name) + " of the cluster " + str(self.cluster.number) + " AFTER the training is " + str(accuracy))
-        return
+        
+        validation_accuracy = self.model.evaluate(x_val, y_val)[1]
+        return validation_accuracy
             
 class define_model_mnist():
     def __init__(self):
