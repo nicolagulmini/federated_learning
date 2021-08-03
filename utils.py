@@ -108,9 +108,11 @@ class cluster:
         fracs = [f/tot_data for f in fracs]
         
         resulting_weights = self.model.get_weights()
+        print(resulting_weights) # debug
         for layer in range(len(resulting_weights)):
             resulting_weights[layer] = add(resulting_weights[layer], sum([subtract(w[i][layer], resulting_weights[layer])*fracs[i] for i in range(len(self.users))]))
         self.model.set_weights(resulting_weights)
+        print(resulting_weights) # debug
         return        
         
 class user_information:
