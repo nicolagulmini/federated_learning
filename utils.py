@@ -1,4 +1,5 @@
 from tensorflow.keras.models import Sequential
+from tensorflow.keras import regularizers
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import clone_model
 from tensorflow.keras.layers import Dense
@@ -144,14 +145,16 @@ class user_information:
             accuracy = self.model.evaluate(self.cluster.test_data['images'], to_categorical(self.cluster.test_data['labels'], 10))[1]
             print("Accuracy of the user " + str(self.name) + " of the cluster " + str(self.cluster.number) + " AFTER the training is " + str(accuracy))
         
-        validation_accuracy = self.model.evaluate(x_val, y_val)[1]
+        validation_accuracy = self.model.evaluate(x_val, y_val, verbose=0)[1]
         return validation_accuracy
             
 class define_model_mnist():
     def __init__(self):
         self.model = Sequential()
         self.model.add(Flatten(input_shape=(28, 28)))
-        self.model.add(Dense(10, activation='softmax'))
+        self.model.add(Dense(10, activation='softmax', kernel_regularizer=regularizers.l1_l2(l1=1e-5, l2=1e-4),
+                                                       bias_regularizer=regularizers.l2(1e-4),
+                                                       activity_regularizer=regularizers.l2(1e-5)))
         self.model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 class define_autoencoder_mnist():
