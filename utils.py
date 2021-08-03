@@ -1,4 +1,5 @@
 from tensorflow.keras.models import Sequential
+from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import clone_model
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Reshape
@@ -70,6 +71,11 @@ class cluster:
             user.estimation.set_weights(self.estimation.get_weights())
         return
     
+    def set_cluster_model_weights(self, weights):
+        # set the cluster model weights as given. The given weights have to be compatible (same shape as the weights of the current cluster model)
+        self.model.set_weights(weights)
+        return
+    
     def assign_data_from_cluster_to_users(self, verbose):
         # if the cluster already has got the data, an assignment is performed in order to give at each user a uniform portion of them.
         if len(self.train_data) == 0 or len(self.test_data) == 0 or self.number_of_users() == 0:
@@ -102,6 +108,22 @@ class user_information:
     def get_estimation(self):
         return self.estimation
     
+    def train(self, epochs, batch, verbose):
+        # train the local user model on the local user dataset and compute the accuracy on the local cluster dataset
+        
+        # to_categorical is from keras.utils
+        x_train, y_train, x_val, y_val = federated_setup.train_validation_split(self.data['images'], to_categorical(self.data['labels'], 10))
+        
+        accuracy = self.model.evaluate(self.cluster.test_data['images'], to_categorical(self.cluster.test_data['labels'], 10))[1]
+        
+        if not verbose == 0:
+            print("Accuracy of the user " + str(self.name) + " of the cluster " + str(self.cluster.number) + " BEFORE the training is " + str(accuracy))
+        # training
+        self.model.fit(x_train, y_train, epochs=epochs, batch_size=batch, verbose=verbose, validation_data=(x_val, y_val))
+        if not verbose == 0:
+            print("Accuracy of the user " + str(self.name) + " of the cluster " + str(self.cluster.number) + " AFTER the training is " + str(accuracy))
+        return
+            
 class define_model_mnist():
     def __init__(self):
         self.model = Sequential()
@@ -175,7 +197,7 @@ class federated_setup:
         # pay attention: each cluster has its own model, so the weights are copied
         # this method has to be called AFTER initialize_classification_model()
         for cluster in list_of_clusters:
-            cluster.set_model(clone_model(server_classification_model))
+            cluster.model.set_weights(server_classification_model.get_weights())
         return
        
     def train_validation_split(x_train, y_train):
