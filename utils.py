@@ -156,6 +156,7 @@ class user_information:
     
 class define_model_mnist():
     def __init__(self):
+    '''
         self.model = Sequential()
         self.model.add(Flatten(input_shape=(28, 28)))
         self.model.add(Dense(10, activation='softmax'))
@@ -171,7 +172,7 @@ class define_model_mnist():
     	# compile model
         opt = SGD(learning_rate=0.01, momentum=0.9)
         self.model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
-        '''
+        
 
 class define_autoencoder_mnist():
     def __init__(self):
