@@ -6,6 +6,7 @@ from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
 from numpy.random import permutation
 from numpy import add
+from numpy import subtract
 
 class cluster:
     # this class realizes a cluster of users 
@@ -96,13 +97,18 @@ class cluster:
                 print("The shape of data is " + str(self.users[i].data['images'].shape))
         return
     
-    def averaging_users_classification_models_weights(self):
-        # ATTENTION: it makes the average without looking at the number of users data samples, supposing each user has the same dataset len
-        # this method takes the users classification models and perform an average of their weights, updating the cluster model
+    def update_cluster_classification_model(self):
+        # this method updates the cluster classification model using the user ones
         w = [user.get_model().get_weights() for user in self.users]
+        
+        # compute the weight for the update
+        fracs = [len(user.data['labels']) for user in self.users]
+        tot_data = sum(fracs)
+        fracs = [f/tot_data for f in fracs]
+        
         resulting_weights = self.model.get_weights()
         for layer in range(len(resulting_weights)):
-            add(resulting_weights[layer], sum([w[i][layer] for i in range(len(w))])/len(self.users)) # from numpy
+            resulting_weights[layer] = add(resulting_weights[layer], sum([subtract(w[i][layer], resulting_weights[layer])*fracs[i] for i in range(len(self.users))]))
         self.model.set_weights(resulting_weights)
         return        
         
