@@ -22,4 +22,4 @@ This dataset has been created with dataset_split.py.
 - Federated Mixture of Experts: https://arxiv.org/abs/2107.06724
 - others
 
-<img src="https://render.githubusercontent.com/render/math?math=\mathcal{C}=\sum_{i=0}^ni^2%20=%20\frac{1}{2}.">
+<img src="https://render.githubusercontent.com/render/math?math=\color{white}\mathcal{C}=\sum_{i=0}^ni^2%20=%20\frac{1}{2}.">
