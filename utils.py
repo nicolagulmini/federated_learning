@@ -1,13 +1,12 @@
 from tensorflow.keras.models import Sequential
-from tensorflow.keras import regularizers
 from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.models import clone_model
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
 from numpy.random import permutation
 from numpy import add
 from numpy import subtract
+from numpy import array
 
 class cluster:
     # this class realizes a cluster of users 
@@ -111,7 +110,7 @@ class cluster:
         
         resulting_weights = self.model.get_weights()
         resulting_weights = add(resulting_weights, sum([subtract(w[i], resulting_weights)*fracs[i] for i in range(len(self.users))]))
-        self.model.set_weights(resulting_weights)
+        self.model.set_weights(array(resulting_weights))
         return        
         
 class user_information:
@@ -156,9 +155,7 @@ class define_model_mnist():
     def __init__(self):
         self.model = Sequential()
         self.model.add(Flatten(input_shape=(28, 28)))
-        self.model.add(Dense(10, activation='softmax', kernel_regularizer=regularizers.l1_l2(l1=1e-5, l2=1e-4),
-                                                       bias_regularizer=regularizers.l2(1e-4),
-                                                       activity_regularizer=regularizers.l2(1e-5)))
+        self.model.add(Dense(10, activation='softmax'))
         self.model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 class define_autoencoder_mnist():
