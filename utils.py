@@ -103,8 +103,10 @@ class cluster:
         w = [user.get_model().get_weights() for user in self.users]
         
         print("Print weights of the users models:") # debug
+        i = 0 # debug
         for weights in w: # debug
-            print(weights[0]) # debug
+            print("first weight of the 0-th layer of the " + str(i) + "-th model:" + str(weights[0][0])) # debug
+            i += 1 # debug
             
         # compute the weight for the update
         fracs = [len(user.data['labels']) for user in self.users]
@@ -114,14 +116,14 @@ class cluster:
         resulting_weights = self.model.get_weights()
         
         print("Initial weights of the cluster model:") # debug
-        print(resulting_weights) # debug
+        print(resulting_weights[0][0]) # debug
         
         for layer in range(len(resulting_weights)):
             resulting_weights[layer] = add(resulting_weights[layer], sum([subtract(w[i][layer], resulting_weights[layer])*fracs[i] for i in range(len(self.users))]))
         self.model.set_weights(resulting_weights)
         
         print("FINAL weights of the cluster model:") # debug
-        print(self.model.get_weights()) # debug
+        print(self.model.get_weights()[0][0]) # debug
         return        
         
 class user_information:
