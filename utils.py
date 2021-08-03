@@ -163,7 +163,7 @@ class define_model_mnist():
         self.model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
         '''        
         self.model = Sequential() 
-        self.model.add(Reshape((28, 28, 1), input_shape=(28, 28))
+        self.model.add(Reshape((28, 28, 1), input_shape=(28, 28)))
         self.model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform'))
         self.model.add(MaxPooling2D((2, 2)))
         self.model.add(Flatten())
