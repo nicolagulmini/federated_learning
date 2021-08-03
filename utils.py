@@ -110,7 +110,7 @@ class cluster:
         fracs = [f/tot_data for f in fracs]
         
         resulting_weights = self.model.get_weights()
-        resulting_weights = add(resulting_weights, array(sum([subtract(w[i], resulting_weights)*fracs[i] for i in range(len(self.users))])))
+        resulting_weights = array(add(resulting_weights, sum([subtract(w[i], resulting_weights)*fracs[i] for i in range(len(self.users))])))
         self.model.set_weights(resulting_weights)
         return        
         
@@ -149,8 +149,8 @@ class user_information:
             accuracy = self.model.evaluate(self.cluster.test_data['images'], to_categorical(self.cluster.test_data['labels'], 10))[1]
             print("Accuracy of the user " + str(self.name) + " of the cluster " + str(self.cluster.number) + " AFTER the training is " + str(accuracy))
         
-        validation_accuracy = self.model.evaluate(x_val, y_val, verbose=0)[1]
-        return validation_accuracy
+        #validation_accuracy = self.model.evaluate(x_val, y_val, verbose=0)[1]
+        #return validation_accuracy
             
 class define_model_mnist():
     def __init__(self):
