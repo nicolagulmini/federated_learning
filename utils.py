@@ -219,9 +219,6 @@ class federated_setup:
             xtest = test_data['images']
             ytest = test_data['labels']
             shuffler = permutation(xtrain.shape[0]) # from numpy
-            print(shuffler)
-            print('\n')
-            print(shuffler)
             xtrain = xtrain[shuffler]
             ytrain = ytrain[shuffler]    
             c.set_train_data({'images': xtrain, 'labels': ytrain})
