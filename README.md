@@ -7,7 +7,7 @@ Research project: "*Communication-Aware Clustered Federated Learning: How to Lev
 
 The (deprecated) files contain messy code. 
 
-The first experiments are carried out with a federated version of mnist, to have a fast computation. If you want to generate your own version of federated mnist, you can use dataset_split.py, changing the initial parameters. Soon will be available also a federated version of cifar10 and the related notebook.
+The first experiments are carried out with a federated version of mnist, to have a fast computation. If you want to generate your own version of federated mnist, you can use `dataset_split.py`, changing the initial parameters. Soon will be available also a federated version of cifar10 and the related notebook.
 
 ## federated_mnist_x
 
