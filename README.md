@@ -35,6 +35,8 @@ In the following plots these metrics are taken into account:
 
 ###### 50% heterogeneity
 <img src = "https://user-images.githubusercontent.com/62892813/128369330-25dcacb2-5b96-48a3-87a4-74106ea25f17.png" width = "400" height = " 300">
+<img src = "https://user-images.githubusercontent.com/62892813/128371801-e2c9c66f-c3de-458b-bac3-a9584a256bd4.png" width = "400" height = " 300">
+<img src = "https://user-images.githubusercontent.com/62892813/128371811-74fa0b33-d78f-4239-981b-78198edbc5a5.png" width = "400" height = " 300">
 
 ###### 80% heterogeneity
 <img src = "https://user-images.githubusercontent.com/62892813/128368650-dced8066-99f5-4450-b349-acfbcefebedd.png" width = "400" height = " 300">
