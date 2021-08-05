@@ -41,6 +41,7 @@ In the following plots these metrics are taken into account:
 
 ###### Discussion
 Note that in the first case, with a low degree of heterogeneity, the curves are stable in 5/6 communication rounds. The genie curve, as expected, is the highest, and all the others are quite at the same level. But when we start to increase the heterogeneity level, the curves start to separate and switch.
+... to complete
 
 ## References
 - The Communication-Aware Clustered Federated Learning Problem: https://ieeexplore.ieee.org/document/9174245
