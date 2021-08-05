@@ -10,6 +10,7 @@ The (deprecated) files contain messy code.
 The first experiments are carried out with a federated version of mnist, to have a fast computation. If you want to generate your own version of federated mnist, you can use dataset_split.py, changing the initial parameters. Soon will be available also a federated version of cifar10 and the related notebook.
 
 ## federated_mnist_x
+
 The federated_mnist folder contains:
 - 9 heterogeneous datasets (training and test)
 - in each folder there is a .csv file with name of images and related label
@@ -18,6 +19,7 @@ The federated_mnist folder contains:
 This dataset has been created with dataset_split.py.
 
 ## Results
+
 Let the *global accuracy* be the accuracy of a model on the homogeneous (balanced) server-side dataset; and the *local accuracy* the accuracy of a model on a local dataset, i.e. a cluster heterogeneous (unbalanced) dataset. 
 When we want to test a model on the local datasets, the local accuracy is measured on each local dataset and then the average is considered.
 When we want to test the local / clusters models on the server dataset, each one has its own accuracy and even in this case the average is computed.
@@ -31,19 +33,21 @@ In the following plots these metrics are taken into account:
 - **avg local acc - avg softmax outputs**: the average softmax outputs method on each local dataset, and then the average of each local accuracy is considered.
 
 ###### 15% heterogeneity
-<img src = "https://user-images.githubusercontent.com/62892813/128368565-8bb1ce4c-848e-41d2-8a65-435195fdf052.png" width = "400" height = "300">
 
 ###### 50% heterogeneity
 <img src = "https://user-images.githubusercontent.com/62892813/128373075-121239c9-05e1-4e68-b154-3d4105941ec5.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128373079-8df2e8a5-85d4-43d1-b5b6-7ace33cba406.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128373086-f3fe794b-03c1-4c2e-b6f4-3d2cc5b6ba32.png" width = "315" height = "210">
 
 ###### 80% heterogeneity
-<img src = "https://user-images.githubusercontent.com/62892813/128368650-dced8066-99f5-4450-b349-acfbcefebedd.png" width = "400" height = " 300">
+
 
 ###### Discussion
+
 Note that in the first case, with a low degree of heterogeneity, the curves are stable in 5/6 communication rounds. The genie curve, as expected, is the highest, and all the others are quite at the same level. But when we start to increase the heterogeneity level, the curves start to separate and switch.
-... to complete
+
+In order to make a comparation on the same dataset, the plots are split in the global accuracy curves and local accuracy curves. A new model could provide an higher global accuracy on the server testset, better exploiting the information from each single cluster. The objective is to stay in the ** genie - avg softmax outputs ** gap, in order to obtain better results wrt the avg softmax outputs method, and reach as much as possible the genie performance. Test with various heterogeneity degrees are performed to simulate an high unbalanced scenario in which that gap is noticeably wide.
 
 ## References
+
 - The Communication-Aware Clustered Federated Learning Problem: https://ieeexplore.ieee.org/document/9174245
 - Federated Mixture of Experts: https://arxiv.org/abs/2107.06724
 - others
