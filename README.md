@@ -7,7 +7,7 @@ Research project: "*Communication-Aware Clustered Federated Learning: How to Lev
 
 The (deprecated) files contain messy code. 
 
-The first experiments are carried out with a federated version of mnist, to have a fast computation. If you want to generate your own version of federated mnist, you can use `dataset_split.py`, changing the initial parameters. Soon will be available also a federated version of cifar10 and the related notebook.
+The first experiments are carried out with a federated version of mnist, to have a fast computation. Soon will be available also a federated version of cifar10 and the related notebook.
 
 ## federated_mnist_x
 
@@ -16,7 +16,14 @@ The federated_mnist folder contains:
 - in each folder there is a .csv file with name of images and related label
 - the heterogeneity is realized in this way: x% of the images are of the same label, the other are taken randomly from the original dataset (so there may be duplicates)
 - each dataset contains 1000 images, so each cluster contains exactly 2000 images. Some of these could be in common between more clusters.
-This dataset has been created with dataset_split.py.
+
+If you want to generate your own version of federated mnist, you can use `dataset_split.py`, changing the initial parameters:
+```
+number_of_clusters = 9
+bias = 0.8
+number_of_images_per_dataset = 1000
+```
+where in this case there are 9 local datasets, with 1000 train and 1000 test images each, and an 80% (= bias * 100) heterogeneity.
 
 ## Results
 
