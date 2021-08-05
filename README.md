@@ -34,10 +34,10 @@ In the following plots these metrics are taken into account:
 <img src = "https://user-images.githubusercontent.com/62892813/128368565-8bb1ce4c-848e-41d2-8a65-435195fdf052.png" width = "400" height = " 300">
 
 ###### 50% heterogeneity
-<img src = "https://user-images.githubusercontent.com/62892813/128369330-25dcacb2-5b96-48a3-87a4-74106ea25f17.png">
+<img src = "https://user-images.githubusercontent.com/62892813/128369330-25dcacb2-5b96-48a3-87a4-74106ea25f17.png" width = "400" height = " 300">
 
 ###### 80% heterogeneity
-<img src = "https://user-images.githubusercontent.com/62892813/128368650-dced8066-99f5-4450-b349-acfbcefebedd.png">
+<img src = "https://user-images.githubusercontent.com/62892813/128368650-dced8066-99f5-4450-b349-acfbcefebedd.png" width = "400" height = " 300">
 
 ###### Discussion
 Note that in the first case, with a low degree of heterogeneity, the curves are stable in 5/6 communication rounds. The genie curve, as expected, is the highest, and all the others are quite at the same level. But when we start to increase the heterogeneity level, the curves start to separate and switch.
