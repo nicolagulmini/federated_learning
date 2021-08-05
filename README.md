@@ -3,7 +3,7 @@
 This repository contains the code for simulating and studying the tradeoff between local and global accuracy in a distributed scenario
 in which each user trains a classification model on its own data distribution.
 
-Research project: "Communication-Aware Clustered Federated Learning: How to Leverage Data Heterogeneity"
+Research project: "*Communication-Aware Clustered Federated Learning: How to Leverage Data Heterogeneity*"
 
 The (deprecated) files contain messy code. 
 
@@ -18,8 +18,29 @@ The federated_mnist folder contains:
 This dataset has been created with dataset_split.py.
 
 ## results
-Let the *global accuracy* be the accuracy of a model on the homogeneous (balanced) server-side dataset; and the *local accuracy* the accuracy of a model on a local dataset, i.e. a cluster heterogeneous (unbalanced) dataset. Since there are many clusters, the local accuracy is measured on each local dataset and then the average is considered.
-When the local / clusters models are tested on the server dataset, each one has its own accuracy, so even in this case the average is computed.
+Let the *global accuracy* be the accuracy of a model on the homogeneous (balanced) server-side dataset; and the *local accuracy* the accuracy of a model on a local dataset, i.e. a cluster heterogeneous (unbalanced) dataset. 
+When we want to test a model on the local datasets, the local accuracy is measured on each local dataset and then the average is considered.
+When we want to test the local / clusters models on the server dataset, each one has its own accuracy and even in this case the average is computed.
+
+In the following plots these metrics are taken into account:
+- **avg local acc - clusters models**: each local model measures the accuracy on its local dataset, and then the average is considered. No cross measures (for instance the cluster 1 model on the cluster 2 dataset) is considered;
+- **avg global acc - cluster models**: each local model measures the accuracy on the same balanced server dataset, and then the average is considered;
+- **global acc - avg softmax outputs**: given a server dataset image, each cluster model predicts its label. Then the average of the softmax outputs (the last layer of each classification model) is considered and the argmax of that unique vector is used to predict the label;
+- **global acc - most secure model for each img**: given an image, each cluster predicts its label. Then only the most confident model is listened, so only its prediction is used.
+- **global acc - genie**: this is the expected upper bound that we want to reach on the server dataset. For each image we look at its label, and if there is a cluster with a local dataset unbalanced on that label (i.e. in that dataset there are a lot of images with that label), its model is used to predict it (note that it could be wrong). Otherwise, if there are not any dataset unbalanced on that label, the softmax average is considered, like the "global acc - avg softmax outputs" case;
+- **avg local acc - avg softmax outputs**: the average softmax outputs method on each local dataset, and then the average of each local accuracy is considered.
+
+###### 15% heterogeneity
+![results 15](https://user-images.githubusercontent.com/62892813/128368565-8bb1ce4c-848e-41d2-8a65-435195fdf052.png)
+
+###### 50% heterogeneity
+![results 50](https://user-images.githubusercontent.com/62892813/128369330-25dcacb2-5b96-48a3-87a4-74106ea25f17.png)
+
+###### 80% heterogeneity
+![results 80](https://user-images.githubusercontent.com/62892813/128368650-dced8066-99f5-4450-b349-acfbcefebedd.png)
+
+###### Discussion
+Note that in the first case, with a low degree of heterogeneity, the curves are stable in 5/6 communication rounds. The genie curve, as expected, is the highest, and all the others are quite at the same level. But when we start to increase the heterogeneity level, the curves start to separate and switch.
 
 ## References
 - The Communication-Aware Clustered Federated Learning Problem: https://ieeexplore.ieee.org/document/9174245
