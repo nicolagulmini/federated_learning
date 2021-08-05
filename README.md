@@ -31,7 +31,7 @@ In the following plots these metrics are taken into account:
 - **avg local acc - avg softmax outputs**: the average softmax outputs method on each local dataset, and then the average of each local accuracy is considered.
 
 ###### 15% heterogeneity
-<img src = "https://user-images.githubusercontent.com/62892813/128368565-8bb1ce4c-848e-41d2-8a65-435195fdf052.png">
+<img src = "https://user-images.githubusercontent.com/62892813/128368565-8bb1ce4c-848e-41d2-8a65-435195fdf052.png" width = "100" height = " 100">
 
 ###### 50% heterogeneity
 <img src = "https://user-images.githubusercontent.com/62892813/128369330-25dcacb2-5b96-48a3-87a4-74106ea25f17.png">
