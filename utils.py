@@ -280,7 +280,8 @@ class federated_setup:
             tmp_index = randint(0, len(original_mnist_x_test)-1)
             server_x_test.append(original_mnist_x_test[tmp_index])
             server_y_test.append(original_mnist_y_test[tmp_index])
-
+            
+        print("Server dataset setting completed.")
         return array(server_x_train), array(server_y_train), array(server_x_test), array(server_y_test)
     
     def train_one_shot(list_of_clusters, local_epochs, local_batch, verbose):
