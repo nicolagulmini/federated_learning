@@ -70,4 +70,3 @@ A new model could provide an higher global accuracy on the server testset, bette
 - [ ] make more versions of federated_mnist, organize them in a directory, and make federated_cifar10
 - [ ] tutorial notebook for the simulations
 - [ ] make a directory with a set of already trained model, for different scenarios
-- [ ] 
