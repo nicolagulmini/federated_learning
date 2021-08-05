@@ -59,7 +59,7 @@ In order to make a comparation on the same dataset, the plots are split in the g
 
 ## References
 
-- The Communication-Aware Clustered Federated Learning Problem: https://ieeexplore.ieee.org/document/9174245
-- Federated Mixture of Experts: https://arxiv.org/abs/2107.06724
-- FedMD: Heterogeneous Federated Learning via Model Distillation: https://towardsdatascience.com/fedmd-heterogeneous-federated-learning-via-model-distillation-e84676183eb4
+- [The Communication-Aware Clustered Federated Learning Problem](https://ieeexplore.ieee.org/document/9174245)
+- [Federated Mixture of Experts](https://arxiv.org/abs/2107.06724)
+- [FedMD: Heterogeneous Federated Learning via Model Distillation](https://towardsdatascience.com/fedmd-heterogeneous-federated-learning-via-model-distillation-e84676183eb4)
 - others...
