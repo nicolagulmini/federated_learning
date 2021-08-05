@@ -5,7 +5,7 @@ import pandas
 import os
 
 number_of_clusters = 9
-bias = 0.15
+bias = 0.5
 number_of_images_per_dataset = 1000
 
 def save_federated_mnist(number_of_clusters, bias, number_of_images_per_dataset):
