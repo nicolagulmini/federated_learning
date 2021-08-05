@@ -40,14 +40,14 @@ In the following plots these metrics are taken into account:
 - **avg local acc - avg softmax outputs**: the average softmax outputs method on each local dataset, and then the average of each local accuracy is considered.
 
 ###### 15% heterogeneity
-<img src = "https://user-images.githubusercontent.com/62892813/128375181-d3530e8f-f0ab-4d34-bd4d-f7343aa38cc4.png" width = "300" height = "200"><img src = "https://user-images.githubusercontent.com/62892813/128375174-5ece393d-277b-4eb5-bc3c-d5537689f2c4.png" width = "300" height = "200"><img src = "https://user-images.githubusercontent.com/62892813/128375177-30b2804a-b15d-42d3-81cb-3464bccba3bf.png" width = "300" height = "200">
+<img src = "https://user-images.githubusercontent.com/62892813/128375181-d3530e8f-f0ab-4d34-bd4d-f7343aa38cc4.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128375174-5ece393d-277b-4eb5-bc3c-d5537689f2c4.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128375177-30b2804a-b15d-42d3-81cb-3464bccba3bf.png" width = "315" height = "210">
 
 ###### 50% heterogeneity
-<img src = "https://user-images.githubusercontent.com/62892813/128373075-121239c9-05e1-4e68-b154-3d4105941ec5.png" width = "300" height = "200"><img src = "https://user-images.githubusercontent.com/62892813/128373079-8df2e8a5-85d4-43d1-b5b6-7ace33cba406.png" width = "300" height = "200"><img src = "https://user-images.githubusercontent.com/62892813/128373086-f3fe794b-03c1-4c2e-b6f4-3d2cc5b6ba32.png" width = "300" height = "200">
+<img src = "https://user-images.githubusercontent.com/62892813/128373075-121239c9-05e1-4e68-b154-3d4105941ec5.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128373079-8df2e8a5-85d4-43d1-b5b6-7ace33cba406.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128373086-f3fe794b-03c1-4c2e-b6f4-3d2cc5b6ba32.png" width = "315" height = "210">
 
 ###### 80% heterogeneity
 
-<img src = "https://user-images.githubusercontent.com/62892813/128377196-786db75d-1b44-4621-a620-fdb58a1ed3dc.png" width = "300" height = "200"><img src = "https://user-images.githubusercontent.com/62892813/128377190-2921d90f-59d5-4a50-9d23-28c3199c8aa0.png" width = "300" height = "200"><img src = "https://user-images.githubusercontent.com/62892813/128377199-a2914223-bf9a-4c10-befd-a08b5eb382c2.png" width = "300" height = "200">
+<img src = "https://user-images.githubusercontent.com/62892813/128377196-786db75d-1b44-4621-a620-fdb58a1ed3dc.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128377190-2921d90f-59d5-4a50-9d23-28c3199c8aa0.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128377199-a2914223-bf9a-4c10-befd-a08b5eb382c2.png" width = "315" height = "210">
 
 ## Discussion
 
