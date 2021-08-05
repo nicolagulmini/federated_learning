@@ -17,7 +17,7 @@ The federated_mnist folder contains:
 - each dataset contains 1000 images, so each cluster contains exactly 2000 images. Some of these could be in common between more clusters.
 This dataset has been created with dataset_split.py.
 
-## results
+## Results
 Let the *global accuracy* be the accuracy of a model on the homogeneous (balanced) server-side dataset; and the *local accuracy* the accuracy of a model on a local dataset, i.e. a cluster heterogeneous (unbalanced) dataset. 
 When we want to test a model on the local datasets, the local accuracy is measured on each local dataset and then the average is considered.
 When we want to test the local / clusters models on the server dataset, each one has its own accuracy and even in this case the average is computed.
