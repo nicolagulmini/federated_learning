@@ -1,3 +1,4 @@
+from tensorflow.keras.datasets import mnist
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.layers import Dense
@@ -6,10 +7,12 @@ from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
 from keras.optimizers import SGD
+from random import randint
 from numpy.random import permutation
 from numpy import add
 from numpy import subtract
 from numpy import array
+
 
 class cluster:
     # this class realizes a cluster of users 
@@ -257,6 +260,28 @@ class federated_setup:
     def sparsificate(model, k): # k is a fraction of parameters to save: k in [0,1]
         #modello.model.count_params()
         return 0 # return the same model but sparse!!
+    
+    def server_side_dataset_generator(number_of_server_training_data, number_of_server_test_data):
+        # server side homogeneous dataset
+        (original_mnist_x_train, original_mnist_y_train), (original_mnist_x_test, original_mnist_y_test) = mnist.load_data()
+        original_mnist_x_train = original_mnist_x_train.astype('float32') / 255.0
+        original_mnist_x_test = original_mnist_x_test.astype('float32') / 255.0
+        original_mnist_y_train = to_categorical(original_mnist_y_train, 10)
+        original_mnist_y_test = to_categorical(original_mnist_y_test, 10)
+        
+        server_x_train, server_y_train, server_x_test, server_y_test = [], [], [], []
+        
+        for _ in range(number_of_server_training_data):
+            tmp_index = randint(0, len(original_mnist_x_train)-1)
+            server_x_train.append(original_mnist_x_train[tmp_index])
+            server_y_train.append(original_mnist_y_train[tmp_index])
+        
+        for _ in range(number_of_server_test_data):
+            tmp_index = randint(0, len(original_mnist_x_test)-1)
+            server_x_test.append(original_mnist_x_test[tmp_index])
+            server_y_test.append(original_mnist_y_test[tmp_index])
+
+        return array(server_x_train), array(server_y_train), array(server_x_test), array(server_y_test)
     
     def train_one_shot(list_of_clusters, local_epochs, local_batch, verbose):
         # realizes one communication round: for each cluster, propagate the model to its users, train each user individually and then aggregate users model updating the cluster one
