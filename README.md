@@ -55,7 +55,7 @@ Note that in the first case, with a low degree of heterogeneity, the curves are 
 
 In order to make a comparation on the same dataset, the plots are split in the global accuracy curves and local accuracy curves. A new model could provide an higher global accuracy on the server testset, better exploiting the information from each single cluster. The objective is to stay in the **genie - avg softmax outputs** gap, in order to obtain better results wrt the avg softmax outputs method, and reach as much as possible the genie performance. Test with various heterogeneity degrees are performed to simulate an high unbalanced scenario in which that gap is noticeably wide.
 
-![ezgif com-gif-maker](https://user-images.githubusercontent.com/62892813/128377847-f757e079-2832-4c68-a8be-913c62c8552a.gif)
+<img src = "https://user-images.githubusercontent.com/62892813/128377847-f757e079-2832-4c68-a8be-913c62c8552a.gif" width = "450" height = "300">
 
 ## References
 
