@@ -34,7 +34,7 @@ In the following plots these metrics are taken into account:
 <img src = "https://user-images.githubusercontent.com/62892813/128368565-8bb1ce4c-848e-41d2-8a65-435195fdf052.png" width = "400" height = "300">
 
 ###### 50% heterogeneity
-<img src = "https://user-images.githubusercontent.com/62892813/128369330-25dcacb2-5b96-48a3-87a4-74106ea25f17.png" width = "300" height = "200"><img src = "https://user-images.githubusercontent.com/62892813/128371801-e2c9c66f-c3de-458b-bac3-a9584a256bd4.png" width = "300" height = "200"><img src = "https://user-images.githubusercontent.com/62892813/128371811-74fa0b33-d78f-4239-981b-78198edbc5a5.png" width = "300" height = "200">
+<img src = "https://user-images.githubusercontent.com/62892813/128373075-121239c9-05e1-4e68-b154-3d4105941ec5.png" width = "375" height = "250"><img src = "https://user-images.githubusercontent.com/62892813/128373079-8df2e8a5-85d4-43d1-b5b6-7ace33cba406.png" width = "375" height = "250"><img src = "https://user-images.githubusercontent.com/62892813/128373086-f3fe794b-03c1-4c2e-b6f4-3d2cc5b6ba32.png" width = "375" height = "250">
 
 ###### 80% heterogeneity
 <img src = "https://user-images.githubusercontent.com/62892813/128368650-dced8066-99f5-4450-b349-acfbcefebedd.png" width = "400" height = " 300">
