@@ -118,13 +118,10 @@ class cluster:
         fracs = [f/tot_data for f in fracs]
         
         resulting_weights = self.model.get_weights()
-        resulting_weights = array(sum([w[i]*fracs[i] for i in range(len(self.users))])) # fed avg
+        for layer in range(len(resulting_weights)):
+            resulting_weights[layer] = array(sum([w[i][layer]*fracs[i] for i in range(len(self.users))])) # fed avg
         self.model.set_weights(resulting_weights)
         return        
-        '''
-        for layer in range(len(final_weights)):
-            final_weights[layer] = array(sum([list_of_clusters[i].model.get_weights()[layer]*fracs[i] for i in range(len(list_of_clusters))]))
-        '''
     
     
 class user_information:
