@@ -65,6 +65,8 @@ Notice that by augmenting the dataset, the gap gets wider.
 <img src = "https://user-images.githubusercontent.com/62892813/128528039-b446e1da-fef1-4117-9899-52e2e0f0ca25.gif" width = "450" height = "300"><img src = "https://user-images.githubusercontent.com/62892813/128528615-890050c7-3fff-40b9-925a-77801452dd08.gif" width = "450" height = "300">
 
 
+
+
 ## References
 
 - [The Communication-Aware Clustered Federated Learning Problem](https://ieeexplore.ieee.org/document/9174245)
