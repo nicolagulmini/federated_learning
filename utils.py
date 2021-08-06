@@ -7,6 +7,7 @@ from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
 from keras.optimizers import SGD
+from keras.optimizers import Adam
 from random import randint
 from numpy.random import permutation
 from numpy import add
@@ -162,7 +163,7 @@ class define_model_mnist():
         self.model = Sequential()
         self.model.add(Flatten(input_shape=(28, 28)))
         self.model.add(Dense(10, activation='softmax'))
-        self.model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+        self.model.compile(optimizer = Adam(learning_rate = 0.0001), loss='categorical_crossentropy', metrics=['accuracy'])
         '''        
         self.model = Sequential() 
         self.model.add(Reshape((28, 28, 1), input_shape=(28, 28)))
