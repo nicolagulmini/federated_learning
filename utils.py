@@ -9,10 +9,12 @@ from tensorflow.keras.layers import Flatten
 from keras.optimizers import SGD
 from keras.optimizers import Adam
 from random import randint
+from random import choice
 from numpy.random import permutation
 from numpy import add
 from numpy import subtract
 from numpy import array
+from skimage import transform
 
 
 class cluster:
@@ -274,12 +276,12 @@ class federated_setup:
         
         for _ in range(number_of_server_training_data):
             tmp_index = randint(0, len(original_mnist_x_train)-1)
-            server_x_train.append(original_mnist_x_train[tmp_index])
+            server_x_train.append(transform.rotate(original_mnist_x_train[tmp_index], choice([0, 90, 180, 270])))
             server_y_train.append(original_mnist_y_train[tmp_index])
-        
+            
         for _ in range(number_of_server_test_data):
             tmp_index = randint(0, len(original_mnist_x_test)-1)
-            server_x_test.append(original_mnist_x_test[tmp_index])
+            server_x_test.append(transform.rotate(original_mnist_x_test[tmp_index], choice([0, 90, 180, 270])))
             server_y_test.append(original_mnist_y_test[tmp_index])
             
         print("Server dataset setting completed.")
