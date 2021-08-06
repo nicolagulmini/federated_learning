@@ -60,7 +60,7 @@ The following gif is on global accuracy results without augmenting the datasets.
 
 <img src = "https://user-images.githubusercontent.com/62892813/128377847-f757e079-2832-4c68-a8be-913c62c8552a.gif" width = "450" height = "300">
 
-Note that as the dataset increases, the gap begins to widen.
+Notice that by augmenting the dataset, the gap gets wider.
 
 <img src = "https://user-images.githubusercontent.com/62892813/128528039-b446e1da-fef1-4117-9899-52e2e0f0ca25.gif" width = "450" height = "300">
 
