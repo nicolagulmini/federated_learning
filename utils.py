@@ -314,6 +314,9 @@ class federated_setup:
         tot_data = sum(fracs)
         fracs = [f/tot_data for f in fracs]
         # update the server model
-        server_model.set_weights(array(sum([list_of_clusters[i].model.get_weights()*fracs[i] for i in range(len(list_of_clusters))])))
+        final_weights = server_model.get_weights()
+        for layer in range(len(final_weights)):
+            final_weights[layer] = array(sum([list_of_clusters[i].model.get_weights()[layer]*fracs[i] for i in range(len(list_of_clusters))]))
+        server_model.set_weights(final_weights)
         print("Server weights updated.")
         return server_model.evaluate(server_x_test, server_y_test)[1]
