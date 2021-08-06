@@ -7,7 +7,8 @@ Research project: "*Communication-Aware Clustered Federated Learning: How to Lev
 
 The (deprecated) files contain messy code. 
 
-The first experiments are carried out with a federated version of mnist, to have a fast computation. Soon will be available also a federated version of cifar10 and the related notebook.
+The first experiments are carried out with a federated version of mnist, to have a fast computation. 
+Soon will be available also a federated version of cifar10 and the related notebook.
 
 ## federated_mnist_x
 
@@ -23,7 +24,9 @@ number_of_clusters = 9
 bias = 0.8
 number_of_images_per_dataset = 1000
 ```
-where in this case there are 9 local datasets, with 1000 train and 1000 test images each, and an 80% (= bias * 100) heterogeneity. In the following results, the loaded dataset was augmented to make the learning more challenging but effective.
+where in this case there are 9 local datasets, with 1000 train and 1000 test images each, and an 80% (= bias * 100) heterogeneity. 
+
+In the following results, the loaded dataset was augmented to make the learning more challenging.
 
 ## Results
 
@@ -39,6 +42,9 @@ In the following plots these metrics are taken into account:
 - **global acc - genie**: this is the expected upper bound that we want to reach on the server dataset. For each image we look at its label, and if there is a cluster with a local dataset unbalanced on that label (i.e. in that dataset there are a lot of images with that label), its model is used to predict it (note that it could be wrong). Otherwise, if there are not any dataset unbalanced on that label, the softmax average is considered, like the "global acc - avg softmax outputs" case;
 - **avg local acc - avg softmax outputs**: the average softmax outputs method on each local dataset, and then the average of each local accuracy is considered.
 
+In order to make a comparation on the same datasetm the following plots are divided in global accuracy and local accuracy, for different heterogeneity degrees, and with rotated images in both the local and the server side datasets.
+Note also that the same model, with the same hyperparameters, is used for each cluster and for each simulation.
+
 ###### 15% heterogeneity
 <img src = "https://user-images.githubusercontent.com/62892813/128527262-033d0a06-deac-4225-87cb-15ba3567243e.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128527266-2fbd96ba-536b-4840-b6e4-82b990e26599.png" width = "315" height = "210">
 
@@ -50,9 +56,7 @@ In the following plots these metrics are taken into account:
 
 ## Discussion
 
-In the first case, with a low degree of heterogeneity, the curves are stable in a few communication rounds. The genie curve, as expected, is the highest, and all the others are quite at the same level. When we start to increase the heterogeneity level, the curves start to separate, because they need more communication rounds to stabilize. With an high degree of heterogeneity, the curve of the average local accuracies of the clusters models is the only one that passes the genie one.
-
-In order to make a comparation on the same dataset, the plots are split in the global accuracy curves and local accuracy curves. Note also that the same model, with the same hyperparameters, is used for each cluster and for each simulation.
+~~In the first case, with a low degree of heterogeneity, the curves are stable in a few communication rounds. The genie curve, as expected, is the highest, and all the others are quite at the same level. When we start to increase the heterogeneity level, the curves start to separate, because they need more communication rounds to stabilize. With an high degree of heterogeneity, the curve of the average local accuracies of the clusters models is the only one that passes the genie one.~~
 
 A new model could provide an higher global accuracy on the server testset, better exploiting the information from each single cluster. The objective is to stay in the **genie - avg softmax outputs** gap, in order to obtain better results with respect to the avg softmax outputs method, and reach as much as possible the genie performance. Test with various heterogeneity degrees are performed to simulate an high unbalanced scenario in which that gap is noticeably wide, especially in the first communication rounds.
 
