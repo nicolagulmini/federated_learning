@@ -23,7 +23,7 @@ number_of_clusters = 9
 bias = 0.8
 number_of_images_per_dataset = 1000
 ```
-where in this case there are 9 local datasets, with 1000 train and 1000 test images each, and an 80% (= bias * 100) heterogeneity.
+where in this case there are 9 local datasets, with 1000 train and 1000 test images each, and an 80% (= bias * 100) heterogeneity. In the following results, the loaded dataset was augmented to make the learning more challenging but effective.
 
 ## Results
 
@@ -45,11 +45,11 @@ In the following plots these metrics are taken into account:
 
 ###### 50% heterogeneity
 [comment]: <> (<img src = "https://user-images.githubusercontent.com/62892813/128373075-121239c9-05e1-4e68-b154-3d4105941ec5.png" width = "315" height = "210">)
-<img src = "https://user-images.githubusercontent.com/62892813/128373086-f3fe794b-03c1-4c2e-b6f4-3d2cc5b6ba32.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128373079-8df2e8a5-85d4-43d1-b5b6-7ace33cba406.png" width = "315" height = "210">
+<img src = "https://user-images.githubusercontent.com/62892813/128526240-286f44a4-94b2-4313-af0f-6e428f4f9e06.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128526237-8c08868c-cfce-4e3a-ad2e-7b67da91be0e.png" width = "315" height = "210">
 
 ###### 80% heterogeneity
 [comment]: <> (<img src = "https://user-images.githubusercontent.com/62892813/128377196-786db75d-1b44-4621-a620-fdb58a1ed3dc.png" width = "315" height = "210">)
-<img src = "https://user-images.githubusercontent.com/62892813/128377199-a2914223-bf9a-4c10-befd-a08b5eb382c2.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128377190-2921d90f-59d5-4a50-9d23-28c3199c8aa0.png" width = "315" height = "210">
+<img src = "https://user-images.githubusercontent.com/62892813/128526068-44a3db49-dbab-4b28-b401-0f3dcb6b4f77.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128526063-6af8a7e0-a7a1-450e-b70d-edb9aa8d54e6.png" width = "315" height = "210">
 
 ## Discussion
 
