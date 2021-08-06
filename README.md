@@ -40,15 +40,12 @@ In the following plots these metrics are taken into account:
 - **avg local acc - avg softmax outputs**: the average softmax outputs method on each local dataset, and then the average of each local accuracy is considered.
 
 ###### 15% heterogeneity
-[comment]: <> (<img src = "https://user-images.githubusercontent.com/62892813/128375181-d3530e8f-f0ab-4d34-bd4d-f7343aa38cc4.png" width = "315" height = "210">)
-<img src = "https://user-images.githubusercontent.com/62892813/128375177-30b2804a-b15d-42d3-81cb-3464bccba3bf.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128375174-5ece393d-277b-4eb5-bc3c-d5537689f2c4.png" width = "315" height = "210">
+<img src = "https://user-images.githubusercontent.com/62892813/128527262-033d0a06-deac-4225-87cb-15ba3567243e.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128527266-2fbd96ba-536b-4840-b6e4-82b990e26599.png" width = "315" height = "210">
 
 ###### 50% heterogeneity
-[comment]: <> (<img src = "https://user-images.githubusercontent.com/62892813/128373075-121239c9-05e1-4e68-b154-3d4105941ec5.png" width = "315" height = "210">)
 <img src = "https://user-images.githubusercontent.com/62892813/128526240-286f44a4-94b2-4313-af0f-6e428f4f9e06.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128526237-8c08868c-cfce-4e3a-ad2e-7b67da91be0e.png" width = "315" height = "210">
 
 ###### 80% heterogeneity
-[comment]: <> (<img src = "https://user-images.githubusercontent.com/62892813/128377196-786db75d-1b44-4621-a620-fdb58a1ed3dc.png" width = "315" height = "210">)
 <img src = "https://user-images.githubusercontent.com/62892813/128526068-44a3db49-dbab-4b28-b401-0f3dcb6b4f77.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128526063-6af8a7e0-a7a1-450e-b70d-edb9aa8d54e6.png" width = "315" height = "210">
 
 ## Discussion
@@ -59,7 +56,11 @@ In order to make a comparation on the same dataset, the plots are split in the g
 
 A new model could provide an higher global accuracy on the server testset, better exploiting the information from each single cluster. The objective is to stay in the **genie - avg softmax outputs** gap, in order to obtain better results with respect to the avg softmax outputs method, and reach as much as possible the genie performance. Test with various heterogeneity degrees are performed to simulate an high unbalanced scenario in which that gap is noticeably wide, especially in the first communication rounds.
 
+The following gif is on global accuracy results without augmenting the datasets.
 <img src = "https://user-images.githubusercontent.com/62892813/128377847-f757e079-2832-4c68-a8be-913c62c8552a.gif" width = "450" height = "300">
+
+Note that as the dataset increases, the gap begins to widen.
+<img src = "https://user-images.githubusercontent.com/62892813/128528039-b446e1da-fef1-4117-9899-52e2e0f0ca25.gif" width = "450" height = "300">
 
 ## References
 
@@ -72,7 +73,7 @@ A new model could provide an higher global accuracy on the server testset, bette
 - [x] make more versions of federated_mnist, organize them in a directory
 - [ ] other versions of federated_mnist to study the heterogeneity
 - [ ] make federated_cifar10
-- [ ] tutorial notebook for the simulations
+- [ ] ~~tutorial notebook for the simulations~~ add the tutorial notebook
 - [ ] make a directory with a set of already trained model, for different scenarios
-- [ ] add metrics in train_one_shot method
+- [x] ~~add metrics in train_one_shot method~~ added metrics in notebook
 - [ ] add estimation model section
