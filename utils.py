@@ -322,4 +322,4 @@ class federated_setup:
             final_weights[layer] = array(sum([list_of_clusters[i].model.get_weights()[layer]*fracs[i] for i in range(len(list_of_clusters))]))
         server_model.set_weights(final_weights)
         print("Server weights updated.")
-        return avg_local_acc, server_model.evaluate(server_x_test, server_y_test)[1]
+        return avg_local_acc, server_model.evaluate(server_x_test, server_y_test, verbose=0)[1]
