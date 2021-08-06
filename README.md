@@ -54,7 +54,7 @@ Note also that the same model, with the same hyperparameters, is used for each c
 ###### 80% heterogeneity
 <img src = "https://user-images.githubusercontent.com/62892813/128526068-44a3db49-dbab-4b28-b401-0f3dcb6b4f77.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128526063-6af8a7e0-a7a1-450e-b70d-edb9aa8d54e6.png" width = "315" height = "210">
 
-## Discussion
+## Aim of the project
 
 ~~In the first case, with a low degree of heterogeneity, the curves are stable in a few communication rounds. The genie curve, as expected, is the highest, and all the others are quite at the same level. When we start to increase the heterogeneity level, the curves start to separate, because they need more communication rounds to stabilize. With an high degree of heterogeneity, the curve of the average local accuracies of the clusters models is the only one that passes the genie one.~~
 
@@ -67,9 +67,6 @@ The following gif is on global accuracy results without augmenting the datasets.
 Notice that by augmenting the dataset, the gap gets wider.
 
 <img src = "https://user-images.githubusercontent.com/62892813/128528039-b446e1da-fef1-4117-9899-52e2e0f0ca25.gif" width = "450" height = "300"><img src = "https://user-images.githubusercontent.com/62892813/128528615-890050c7-3fff-40b9-925a-77801452dd08.gif" width = "450" height = "300">
-
-
-
 
 ## References
 
