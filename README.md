@@ -78,7 +78,8 @@ As you can see, by augmenting the dataset, the gap gets wider. These gifs show t
 # TODO
 - [x] make more versions of federated_mnist, organize them in a directory
 - [ ] other versions of federated_mnist to study the heterogeneity
-- [ ] include the fedavg performance 
+- [x] include the fedavg performance 
+- [ ] include more complex metrics on the centralized model
 - [ ] make federated_cifar10
 - [ ] ~~tutorial notebook for the simulations~~ add the tutorial notebook
 - [ ] make a directory with a set of already trained model, for different scenarios
