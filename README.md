@@ -64,7 +64,7 @@ The following gif is on global accuracy results without augmenting the datasets.
 
 <img src = "https://user-images.githubusercontent.com/62892813/128377847-f757e079-2832-4c68-a8be-913c62c8552a.gif" width = "450" height = "300">
 
-Notice that by augmenting the dataset, the gap gets wider.
+As you can see, by augmenting the dataset, the gap gets wider. These gifs show the same plots as before (15, 50 and 80% heterogeneity) but with augmented datasets.
 
 <img src = "https://user-images.githubusercontent.com/62892813/128528039-b446e1da-fef1-4117-9899-52e2e0f0ca25.gif" width = "450" height = "300"><img src = "https://user-images.githubusercontent.com/62892813/128528615-890050c7-3fff-40b9-925a-77801452dd08.gif" width = "450" height = "300">
 
@@ -78,6 +78,7 @@ Notice that by augmenting the dataset, the gap gets wider.
 # TODO
 - [x] make more versions of federated_mnist, organize them in a directory
 - [ ] other versions of federated_mnist to study the heterogeneity
+- [ ] include the fedavg performance 
 - [ ] make federated_cifar10
 - [ ] ~~tutorial notebook for the simulations~~ add the tutorial notebook
 - [ ] make a directory with a set of already trained model, for different scenarios
