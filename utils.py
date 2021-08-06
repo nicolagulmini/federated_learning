@@ -303,12 +303,13 @@ class federated_setup:
     
     def clustered_fed_avg_one_shot(server_model, server_x_test, server_y_test, list_of_clusters, local_epochs, local_batch, verbose=0, local_updates=True):
         # realizes one communication round in which the server model is updated using fed avg on clusters models
+        # this method returns the results of the local training and the result of the final server update
         print("* Server FedAvg method. If local_updates is True, at the beginning of this method, the same weights of the server model are set on each cluster model.")
         if local_updates:
             for cluster in list_of_clusters:
                 cluster.model.set_weights(server_model.get_weights())
             print("Cluster models weights updated.")
-        federated_setup.train_one_shot(list_of_clusters, local_epochs, local_batch, verbose)
+        avg_local_acc = federated_setup.train_one_shot(list_of_clusters, local_epochs, local_batch, verbose)
         # compute the len of each local dataset
         fracs = [len(cluster.train_data['labels']) for cluster in list_of_clusters]
         tot_data = sum(fracs)
@@ -319,4 +320,4 @@ class federated_setup:
             final_weights[layer] = array(sum([list_of_clusters[i].model.get_weights()[layer]*fracs[i] for i in range(len(list_of_clusters))]))
         server_model.set_weights(final_weights)
         print("Server weights updated.")
-        return server_model.evaluate(server_x_test, server_y_test)[1]
+        return avg_local_acc, server_model.evaluate(server_x_test, server_y_test)[1]
