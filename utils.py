@@ -163,7 +163,7 @@ class define_model_mnist():
         self.model = Sequential()
         self.model.add(Flatten(input_shape=(28, 28)))
         self.model.add(Dense(10, activation='softmax'))
-        self.model.compile(optimizer = Adam(learning_rate = 0.0001), loss='categorical_crossentropy', metrics=['accuracy'])
+        self.model.compile(optimizer = Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
         '''        
         self.model = Sequential() 
         self.model.add(Reshape((28, 28, 1), input_shape=(28, 28)))
