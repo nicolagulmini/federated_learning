@@ -73,6 +73,7 @@ As you can see, by augmenting the dataset, the gap gets wider. These gifs show t
 - [The Communication-Aware Clustered Federated Learning Problem](https://ieeexplore.ieee.org/document/9174245)
 - [Federated Mixture of Experts](https://arxiv.org/abs/2107.06724)
 - [FedMD: Heterogeneous Federated Learning via Model Distillation](https://towardsdatascience.com/fedmd-heterogeneous-federated-learning-via-model-distillation-e84676183eb4)
+- [Specialized federated learning using a mixture of experts](https://arxiv.org/pdf/2010.02056.pdf)
 - others...
 
 # TODO
