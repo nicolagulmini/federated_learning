@@ -43,7 +43,7 @@ In the following plots these metrics are taken into account:
 - **global acc - server fedavg with cluster models**: the same as before, but the server shares the weights with the clusters, so the scenario is different (in fact the simulation is performed in a separated way, and then the curves are included in the same plot).
 - **avg local acc - avg local models weights** and **avg local acc - server fedavg with cluster models** are the same as before, but computing the accuracies on the local datasets and then averaged them.
 
-In order to make a comparation on the same datasetm the following plots are divided in global accuracy and local accuracy, for different heterogeneity degrees, and with rotated images in both the local and the server side datasets.
+In order to make a comparation on the same dataset the following plots are divided in global accuracy and local accuracy, for different heterogeneity degrees, and with rotated images in both the local and the server side datasets.
 Note also that the same model, with the same hyperparameters, is used for each cluster and for each simulation.
 
 ###### 15% heterogeneity
