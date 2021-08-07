@@ -64,7 +64,7 @@ Also the local accuracy plots are interesting because all the approaches, except
 
 The following gifs show the curves changing according to the heterogeneity degree. Even if the global gap in which our model has to stay does not change a lot, there is another gap in the local plots that gets wider, so the 80% heterogeneity is the best scenario in which we can run our experiments.
 
-<img src = "https://user-images.githubusercontent.com/62892813/128599507-b5192e98-6881-44f2-a01f-8224e5f4ce61.gif" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128599509-77e9975a-dbb3-420d-b274-a7b71445d66f.gif" width = "315" height = "210">
+<img src = "https://user-images.githubusercontent.com/62892813/128599509-77e9975a-dbb3-420d-b274-a7b71445d66f.gif" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128599507-b5192e98-6881-44f2-a01f-8224e5f4ce61.gif" width = "315" height = "210">
 
 ## References
 
@@ -79,7 +79,7 @@ The following gifs show the curves changing according to the heterogeneity degre
 - [ ] other versions of federated_mnist to study the heterogeneity
 - [x] include the fedavg performance 
 - [ ] include more complex metrics on the centralized model and separate the results
-- [ ] update the figures on readme
+- [x] update the figures on readme
 - [ ] make federated_cifar10
 - [ ] ~~tutorial notebook for the simulations~~ add the tutorial notebook
 - [ ] make a directory with a set of already trained model, for different scenarios
