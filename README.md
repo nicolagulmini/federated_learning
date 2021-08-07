@@ -41,32 +41,26 @@ In the following plots these metrics are taken into account:
 - **global acc - most secure model for each img**: given an image, each cluster predicts its label. Then only the most confident model is listened, so only its prediction is used.
 - **global acc - genie**: this is the expected upper bound that we want to reach on the server dataset. For each image we look at its label, and if there is a cluster with a local dataset unbalanced on that label (i.e. in that dataset there are a lot of images with that label), its model is used to predict it (note that it could be wrong). Otherwise, if there are not any dataset unbalanced on that label, the softmax average is considered, like the "global acc - avg softmax outputs" case;
 - **avg local acc - avg softmax outputs**: the average softmax outputs method on each local dataset, and then the average of each local accuracy is considered.
+- **global acc - avg local models weights**: the accuracy on the server dataset, computed my a model whose weights are the average of the clusters models weights, for each communication round. There is no weights update: the server does not share the model with the clusters, it only receives the updated weights.
+- **global acc - server fedavg with cluster models**: the same as before, but the server shares the weights with the clusters, so the scenario is different (in fact the simulation is performed in a separated way, and then the curves are included in the same plot).
+- **avg local acc - avg local models weights** and **avg local acc - server fedavg with cluster models** are the same as before, but computing the accuracies on the local datasets and then averaged them.
 
 In order to make a comparation on the same datasetm the following plots are divided in global accuracy and local accuracy, for different heterogeneity degrees, and with rotated images in both the local and the server side datasets.
 Note also that the same model, with the same hyperparameters, is used for each cluster and for each simulation.
 
 ###### 15% heterogeneity
-<img src = "https://user-images.githubusercontent.com/62892813/128527262-033d0a06-deac-4225-87cb-15ba3567243e.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128527266-2fbd96ba-536b-4840-b6e4-82b990e26599.png" width = "315" height = "210">
+<img src = "https://user-images.githubusercontent.com/62892813/128598903-27218f80-39fd-4817-915e-9033c127b626.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128598906-9dd274db-c848-4125-be8a-a3fe039ef162.png" width = "315" height = "210">
 
 ###### 50% heterogeneity
-<img src = "https://user-images.githubusercontent.com/62892813/128526240-286f44a4-94b2-4313-af0f-6e428f4f9e06.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128526237-8c08868c-cfce-4e3a-ad2e-7b67da91be0e.png" width = "315" height = "210">
+<img src = "https://user-images.githubusercontent.com/62892813/128598913-a93eab10-572c-42e5-9744-6b106a9d9108.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128598915-3b8ddedb-3372-4a18-9b85-b6a21ce2f006.png" width = "315" height = "210">
 
 ###### 80% heterogeneity
-<img src = "https://user-images.githubusercontent.com/62892813/128526068-44a3db49-dbab-4b28-b401-0f3dcb6b4f77.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128526063-6af8a7e0-a7a1-450e-b70d-edb9aa8d54e6.png" width = "315" height = "210">
+<img src = "https://user-images.githubusercontent.com/62892813/128598924-b07da911-f454-45a0-bd62-5fa73b464303.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128598925-8f2e75ab-90b3-4c8a-8874-356d6903d981.png" width = "315" height = "210">
 
 ## Aim of the project
 
-~~In the first case, with a low degree of heterogeneity, the curves are stable in a few communication rounds. The genie curve, as expected, is the highest, and all the others are quite at the same level. When we start to increase the heterogeneity level, the curves start to separate, because they need more communication rounds to stabilize. With an high degree of heterogeneity, the curve of the average local accuracies of the clusters models is the only one that passes the genie one.~~
-
-A new model could provide an higher global accuracy on the server testset, better exploiting the information from each single cluster. The objective is to stay in the **genie - avg softmax outputs** gap, in order to obtain better results with respect to the avg softmax outputs method, and reach as much as possible the genie performance. Test with various heterogeneity degrees are performed to simulate an high unbalanced scenario in which that gap is noticeably wide, especially in the first communication rounds.
-
-The following gif is on global accuracy results without augmenting the datasets.
-
-<img src = "https://user-images.githubusercontent.com/62892813/128377847-f757e079-2832-4c68-a8be-913c62c8552a.gif" width = "450" height = "300">
-
-As you can see, by augmenting the dataset, the gap gets wider. These gifs show the same plots as before (15, 50 and 80% heterogeneity) but with augmented datasets.
-
-<img src = "https://user-images.githubusercontent.com/62892813/128528039-b446e1da-fef1-4117-9899-52e2e0f0ca25.gif" width = "450" height = "300"><img src = "https://user-images.githubusercontent.com/62892813/128528615-890050c7-3fff-40b9-925a-77801452dd08.gif" width = "450" height = "300">
+A new model could provide an higher global accuracy on the server testset, better exploiting the information from each single cluster. The objective is to stay in the **gap** between the genie curve and the avg local models weights one, in order to obtain better results with respect to that, and reach as much as possible the genie performance. Test with various heterogeneity degrees and augmentation of the datasets are performed to simulate an high unbalanced scenario in which that gap is noticeably wide, especially in the first communication rounds.
+Also the local accuracy plots are interesting because all the approaches, except the avg local acc one, have about the same performance, so the objective is to find a model that performs better.
 
 ## References
 
