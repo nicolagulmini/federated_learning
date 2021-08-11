@@ -3,7 +3,7 @@ from tensorflow.keras.layers import Input
 from tensorflow.keras.layers import Flatten
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
-from tesorflow.keras.utils import to_categorical
+from tensorflow.keras.utils import to_categorical
 from numpy import array
 from numpy import argmax
 from numpy import swapaxes
