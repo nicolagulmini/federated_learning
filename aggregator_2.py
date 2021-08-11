@@ -45,7 +45,7 @@ class aggregator():
             acc += self.agg_2_evaluation(fed_scenario, cluster.test_data['images'], to_categorical(cluster.test_data['labels'], 10))
         return acc / len(fed_scenario.list_of_clusters)
     
-    def custom_y_for_aggregator_2(self, fed_scenario, train=True):
+    def custom_y(self, fed_scenario, train=True):
         if train == True:
             server_x = fed_scenario.server.x_train
             server_y = fed_scenario.server.y_train
