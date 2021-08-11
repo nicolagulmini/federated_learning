@@ -42,7 +42,7 @@ class aggregator():
     def local_evaluation(self, fed_scenario):
         acc = 0
         for cluster in fed_scenario.list_of_clusters:
-            acc += self.agg_2_evaluation(fed_scenario, cluster.test_data['images'], to_categorical(cluster.test_data['labels'], 10))
+            acc += self.evaluation(fed_scenario, cluster.test_data['images'], to_categorical(cluster.test_data['labels'], 10))
         return acc / len(fed_scenario.list_of_clusters)
     
     def custom_y(self, fed_scenario, train=True):
