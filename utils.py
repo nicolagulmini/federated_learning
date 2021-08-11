@@ -307,6 +307,7 @@ class federated_setup:
         return to_return_acc / len(y_test)
     
     def avg_softmax_on_local_datasets(list_of_clusters):
+        # computes the avg softmax performance on each local dataset and then returns the average local accuracy
         to_return_avg_local_acc_of_avg_model = 0
         for cluster_for_data in list_of_clusters:
             softmax_outputs = []
@@ -362,8 +363,7 @@ class federated_setup:
         # this method returns the results of the local training and the result of the final server update
         print("* Server FedAvg method. If local_updates is True, at the beginning of this method, the same weights of the server model are set on each cluster model.")
         if local_updates:
-            for cluster in list_of_clusters:
-                cluster.model.set_weights(server_model.get_weights())
+            federated_setup.server_to_cluster_classification(list_of_clusters, server_model)
             print("Cluster models weights updated.")
         avg_local_acc = federated_setup.train_one_shot(list_of_clusters, local_epochs, local_batch, verbose)
         # compute the len of each local dataset
