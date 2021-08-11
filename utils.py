@@ -192,11 +192,11 @@ class define_autoencoder_mnist():
         self.model.compile(optimizer='adam', loss='binary_crossentropy')
         
 class server():
-    def __init__(self, x_train, y_train, x_test, y_test, model):
-        self.x_train = x_train
-        self.y_train = y_train
-        self.x_test = x_test
-        self.y_test = y_test
+    def __init__(self, model):
+        self.x_train = []
+        self.y_train = []
+        self.x_test = []
+        self.y_test = []
         self.model = model
         
 class federated_setup:
