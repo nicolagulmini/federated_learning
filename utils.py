@@ -191,10 +191,22 @@ class define_autoencoder_mnist():
         self.model.add(Reshape((28, 28)))
         self.model.compile(optimizer='adam', loss='binary_crossentropy')
         
+class server():
+    def __init__(self, x_train, y_train, x_test, y_test, model):
+        self.x_train = x_train
+        self.y_train = y_train
+        self.x_test = x_test
+        self.y_test = y_test
+        self.model = model
+        
 class federated_setup:
     # in this class there are all the methods that use the previous classes and are necessary to build the federated setup
     
-    def initialize_users_to_clusters(number_of_users, number_of_clusters):
+    def __init__(self, server):
+        self.list_of_clusters = []
+        self.server = server
+    
+    def initialize_users_to_clusters(self, number_of_users, number_of_clusters):
         # assigns uniformly and in a sorted way, the given users to the given clusters. Returns a list of clusters. This step has to be done before the data assignment.
         if not number_of_users % number_of_clusters == 0:
             print("It is better to have the same number of users for each cluster, to make the computation easier. This issue will be solved.")
@@ -212,15 +224,16 @@ class federated_setup:
         # to recap
         for c in clusters_list:
             c.print_information()
+        self.list_of_clusters = clusters_list
         return clusters_list
     
-    def assign_dataset_to_clusters(list_of_clusters, list_of_training_dictionary, list_of_test_dictionary):
+    def assign_dataset_to_clusters(self, list_of_training_dictionary, list_of_test_dictionary):
         # given the already divided datasets, in a dictionary with 'images' and 'labels' for each cluster, this method modifies each cluster of the list setting the train and the test data
-        if not ((len(list_of_clusters) == len(list_of_training_dictionary)) and (len(list_of_training_dictionary) == len(list_of_test_dictionary))):
+        if not ((len(self.list_of_clusters) == len(list_of_training_dictionary)) and (len(list_of_training_dictionary) == len(list_of_test_dictionary))):
             print("The number of clusters, training datasets and test sets have to be the same! Also, provide the datasets as dictionary with images and labels.")
             return
-        for _ in range(len(list_of_clusters)):
-            c = list_of_clusters[_]
+        for _ in range(len(self.list_of_clusters)):
+            c = self.list_of_clusters[_]
             train_data = list_of_training_dictionary[_]
             test_data = list_of_test_dictionary[_]
             xtrain = train_data['images']
@@ -237,18 +250,18 @@ class federated_setup:
         print("Done.")
         return
     
-    def assign_clusters_data_to_users(list_of_clusters, verbose):
+    def assign_clusters_data_to_users(self, verbose):
         # for each cluster, assign the training data to its users
-        for cluster in list_of_clusters:
+        for cluster in self.list_of_clusters:
             cluster.assign_data_from_cluster_to_users(verbose)
         return
             
-    def server_to_cluster_classification(list_of_clusters, server_classification_model):
+    def server_to_cluster_classification(self):
         # assign a classification model to the clusters
         # pay attention: each cluster has its own model, so the weights are copied
         # this method has to be called AFTER initialize_classification_model()
-        for cluster in list_of_clusters:
-            cluster.model.set_weights(server_classification_model.get_weights())
+        for cluster in self.list_of_clusters:
+            cluster.model.set_weights(self.server.model.get_weights())
         return
        
     def train_validation_split(x_train, y_train):
@@ -269,49 +282,49 @@ class federated_setup:
         return 0 # return the same model but sparse!!
     '''
     
-    def global_acc_of_avg_softmax_model(list_of_clusters, x_test, y_test):
+    def global_acc_of_avg_softmax_model(self):
         # takes the softmax outputs of the clusters classification models and make the average to predict x_test images
         softmax_outputs = []
-        for cluster in list_of_clusters:
-            softmax_outputs.append(cluster.get_model().predict(x_test))
+        for cluster in self.list_of_clusters:
+            softmax_outputs.append(cluster.get_model().predict(self.server.x_test))
         average_model = sum(softmax_outputs)
         average_acc = 0
-        for _ in range(len(y_test)):
-            if argmax(average_model[_]) == argmax(y_test[_]):
+        for _ in range(len(self.server.y_test)):
+            if argmax(average_model[_]) == argmax(self.server.y_test[_]):
                 average_acc += 1
-        return average_acc / len(y_test)
+        return average_acc / len(self.server.y_test)
     
-    def genie(list_of_clusters, x_test, y_test):
+    def genie(self):
         # check the number of labels per cluster and per user
         favourite_label_per_cluster = []
         softmax_outputs = []
-        for cluster in list_of_clusters:
-            softmax_outputs.append(cluster.get_model().predict(x_test))
+        for cluster in self.list_of_clusters:
+            softmax_outputs.append(cluster.get_model().predict(self.server.x_test))
             labels = [0 for _ in range(10)]
             dataset = cluster.test_data['labels']
             for label in dataset:
                 labels[label] += 1
             favourite_label_per_cluster.append(argmax(labels))
         to_return_acc = 0
-        for _ in range(len(y_test)):
-            img_label = argmax(y_test[_])
+        for _ in range(len(self.server.y_test)):
+            img_label = argmax(self.server.y_test[_])
             if img_label in favourite_label_per_cluster:
                 cluster_to_listen = favourite_label_per_cluster.index(img_label)
                 if argmax(softmax_outputs[cluster_to_listen][_]) == img_label:
                     to_return_acc += 1
             else:
-                outputs_of_the_clusters = [softmax_outputs[i][_] for i in range(len(list_of_clusters))]
+                outputs_of_the_clusters = [softmax_outputs[i][_] for i in range(len(self.list_of_clusters))]
                 tmp_output = sum(outputs_of_the_clusters)
                 if argmax(tmp_output) == img_label:
                     to_return_acc += 1
-        return to_return_acc / len(y_test)
+        return to_return_acc / len(self.server.y_test)
     
-    def avg_softmax_on_local_datasets(list_of_clusters):
+    def avg_softmax_on_local_datasets(self):
         # computes the avg softmax performance on each local dataset and then returns the average local accuracy
         to_return_avg_local_acc_of_avg_model = 0
-        for cluster_for_data in list_of_clusters:
+        for cluster_for_data in self.list_of_clusters:
             softmax_outputs = []
-            for cluster_for_model in list_of_clusters:
+            for cluster_for_model in self.list_of_clusters:
                 softmax_outputs.append(cluster_for_model.get_model().predict(cluster_for_data.test_data['images']))
             average_model = sum(softmax_outputs)
             tmp_acc = 0
@@ -319,9 +332,9 @@ class federated_setup:
                 if argmax(average_model[_]) == argmax(to_categorical(cluster_for_data.test_data['labels'][_])):
                     tmp_acc += 1
             to_return_avg_local_acc_of_avg_model += tmp_acc / len(cluster_for_data.test_data['labels'])
-        return to_return_avg_local_acc_of_avg_model / len(list_of_clusters)  
+        return to_return_avg_local_acc_of_avg_model / len(self.list_of_clusters)  
             
-    def server_side_dataset_generator(number_of_server_training_data, number_of_server_test_data):
+    def server_side_dataset_generator(self, number_of_server_training_data, number_of_server_test_data):
         # server side homogeneous dataset
         (original_mnist_x_train, original_mnist_y_train), (original_mnist_x_test, original_mnist_y_test) = mnist.load_data()
         original_mnist_x_train = original_mnist_x_train.astype('float32') / 255.0
@@ -342,7 +355,12 @@ class federated_setup:
             server_y_test.append(original_mnist_y_test[tmp_index])
             
         print("Server dataset setting completed.")
-        return array(server_x_train), array(server_y_train), array(server_x_test), array(server_y_test)
+        
+        self.server.x_train = array(server_x_train)
+        self.server.y_train = array(server_y_train)
+        self.server.x_test = array(server_x_test)
+        self.server.y_test = array(server_y_test)
+        return 
     
     def train_one_shot(list_of_clusters, local_epochs, local_batch, verbose):
         # realizes one communication round: for each cluster, propagate the model to its users, train each user individually and then aggregate users model updating the cluster one
