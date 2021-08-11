@@ -2,18 +2,19 @@ from tensorflow.keras.datasets import mnist
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import Conv2D
-from tensorflow.keras.layers import MaxPooling2D
+#from tensorflow.keras.layers import Conv2D
+#from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
-from keras.optimizers import SGD
+#from keras.optimizers import SGD
 from keras.optimizers import Adam
 from random import randint
 from random import choice
 from numpy.random import permutation
-from numpy import add
-from numpy import subtract
+#from numpy import add
+#from numpy import subtract
 from numpy import array
+from numpy import argmax
 from skimage import transform
 
 
@@ -262,10 +263,63 @@ class federated_setup:
         y_train = y_train[validation_length:]
         return x_train, y_train, x_val, y_val
     
+    '''
     def sparsificate(model, k): # k is a fraction of parameters to save: k in [0,1]
         #modello.model.count_params()
         return 0 # return the same model but sparse!!
+    '''
     
+    def global_acc_of_avg_softmax_model(list_of_clusters, x_test, y_test):
+        # takes the softmax outputs of the clusters classification models and make the average to predict x_test images
+        softmax_outputs = []
+        for cluster in list_of_clusters:
+            softmax_outputs.append(cluster.get_model().predict(x_test))
+        average_model = sum(softmax_outputs)
+        average_acc = 0
+        for _ in range(len(y_test)):
+            if argmax(average_model[_]) == argmax(y_test[_]):
+                average_acc += 1
+        return average_acc / len(y_test)
+    
+    def genie(list_of_clusters, x_test, y_test):
+        # check the number of labels per cluster and per user
+        favourite_label_per_cluster = []
+        softmax_outputs = []
+        for cluster in list_of_clusters:
+            softmax_outputs.append(cluster.get_model().predict(x_test))
+            labels = [0 for _ in range(10)]
+            dataset = cluster.test_data['labels']
+            for label in dataset:
+                labels[label] += 1
+            favourite_label_per_cluster.append(argmax(labels))
+        to_return_acc = 0
+        for _ in range(len(y_test)):
+            img_label = argmax(y_test[_])
+            if img_label in favourite_label_per_cluster:
+                cluster_to_listen = favourite_label_per_cluster.index(img_label)
+                if argmax(softmax_outputs[cluster_to_listen][_]) == img_label:
+                    to_return_acc += 1
+            else:
+                outputs_of_the_clusters = [softmax_outputs[i][_] for i in range(len(list_of_clusters))]
+                tmp_output = sum(outputs_of_the_clusters)
+                if argmax(tmp_output) == img_label:
+                    to_return_acc += 1
+        return to_return_acc / len(y_test)
+    
+    def avg_softmax_on_local_datasets(list_of_clusters):
+        to_return_avg_local_acc_of_avg_model = 0
+        for cluster_for_data in list_of_clusters:
+            softmax_outputs = []
+            for cluster_for_model in list_of_clusters:
+                softmax_outputs.append(cluster_for_model.get_model().predict(cluster_for_data.test_data['images']))
+            average_model = sum(softmax_outputs)
+            tmp_acc = 0
+            for _ in range(len(cluster_for_data.test_data['labels'])):
+                if argmax(average_model[_]) == argmax(to_categorical(cluster_for_data.test_data['labels'][_])):
+                    tmp_acc += 1
+            to_return_avg_local_acc_of_avg_model += tmp_acc / len(cluster_for_data.test_data['labels'])
+        return to_return_avg_local_acc_of_avg_model / len(list_of_clusters)  
+            
     def server_side_dataset_generator(number_of_server_training_data, number_of_server_test_data):
         # server side homogeneous dataset
         (original_mnist_x_train, original_mnist_y_train), (original_mnist_x_test, original_mnist_y_test) = mnist.load_data()
