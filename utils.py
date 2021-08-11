@@ -300,7 +300,7 @@ class federated_setup:
             cluster.update_cluster_classification_model()
             local_acc = cluster.get_model().evaluate(cluster.test_data['images'], to_categorical(cluster.test_data['labels'], 10), verbose=0)[1]
             avg_local_acc += local_acc/len(list_of_clusters)
-            print("* LOCAL Accuracy of the cluster " + str(cluster.number) + " model is " + str(local_acc) + ".\n")
+            #print("* LOCAL Accuracy of the cluster " + str(cluster.number) + " model is " + str(local_acc) + ".\n")
         return avg_local_acc
     
     def clustered_fed_avg_one_shot(server_model, server_x_test, server_y_test, list_of_clusters, local_epochs, local_batch, verbose=0, local_updates=True):
