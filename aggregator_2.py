@@ -42,25 +42,19 @@ class aggregator():
             acc += self.evaluation(fed_scenario, cluster.test_data['images'], to_categorical(cluster.test_data['labels'], 10))
         return acc / len(fed_scenario.list_of_clusters)
     
-    def custom_y(self, fed_scenario, train=True):
-        if train == True:
-            server_x = fed_scenario.server.x_train
-            server_y = fed_scenario.server.y_train
-        else:
-            server_x = fed_scenario.server.x_test
-            server_y = fed_scenario.server.y_test
+    def custom_y(self, fed_scenario, x_dataset, y_dataset):
         predictions = []
         for cluster in fed_scenario.list_of_clusters:
-            predictions.append(cluster.get_model().predict(server_x))
+            predictions.append(cluster.get_model().predict(x_dataset))
         predictions = array(predictions)
         predictions = swapaxes(predictions, 0, 1)
         custom_y = []
-        for i in range(len(server_x)):
+        for i in range(len(x_dataset)):
             conf = 0
             max_conf = 0
             right_cand = -1
             nearest_cand = 0
-            right_pred = argmax(server_y[i])
+            right_pred = argmax(y_dataset[i])
             for j in range(len(predictions[i])):
                 if argmax(predictions[i][j]) == right_pred:
                     if predictions[i][j][right_pred] > conf:
