@@ -56,10 +56,21 @@ class aggregator():
         predictions = swapaxes(predictions, 0, 1)
         custom_y = []
         for i in range(len(server_x)):
+            conf = 0
+            max_conf = 0
+            right_cand = -1
+            nearest_cand = 0
+            right_pred = argmax(server_y[i])
             for j in range(len(predictions[i])):
-                if argmax(predictions[i][j]) == argmax(server_y[i]):
-                    custom_y.append(to_categorical(j, len(fed_scenario.list_of_clusters)))
-                    break
-            if not len(custom_y) == i+1: # FIX THIS CHOICE!
-                custom_y.append(to_categorical(randint(0, len(fed_scenario.list_of_clusters)-1), len(fed_scenario.list_of_clusters)))
+                if argmax(predictions[i][j]) == right_pred:
+                    if predictions[i][j][right_pred] > conf:
+                        conf = predictions[i][j][right_pred]
+                        right_cand = j
+                if predictions[i][j][right_pred] > max_conf:
+                    max_conf = predictions[i][j][right_pred]
+                    nearest_cand = j
+            if not right_cand == -1: # chosen candidates
+                custom_y.append(to_categorical(right_cand, len(fed_scenario.list_of_clusters)))
+            else: # there is no correct cluster prediction
+                custom_y.append(to_categorical(nearest_cand, len(fed_scenario.list_of_clusters)))
         return array(custom_y)
