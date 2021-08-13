@@ -267,6 +267,7 @@ class federated_setup:
             cluster.model.set_weights(self.server.model.get_weights())
         return
        
+    @staticmethod
     def train_validation_split(x_train, y_train):
         train_length = len(x_train)
         shuffler = permutation(train_length) # from numpy
