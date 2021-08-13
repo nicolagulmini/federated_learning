@@ -1,11 +1,6 @@
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Input
 from tensorflow.keras.layers import Flatten
-#
-from tensorflow.keras.layers import Conv2D
-from tensorflow.keras.layers import MaxPooling2D
-from tensorflow.keras.layers import Reshape
-#
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
@@ -18,7 +13,6 @@ class aggregator():
     
     def __init__(self, number_of_clusters):
         image = Input(shape=(28, 28), name="input_image")   
-        '''
         flatten_image = Flatten()(image)
         y = Dense(number_of_clusters**2, activation='relu')(flatten_image)
         y = Dense(number_of_clusters**2, activation='relu')(y)
@@ -27,18 +21,7 @@ class aggregator():
         opt = Adam(learning_rate = 0.001)
         model.compile(optimizer=opt, loss='categorical_crossentropy', metrics='accuracy')
         self.model = model
-        '''
-        reshaped_image = Reshape((28, 28, 1))(image)
-        conv_img = Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform')(reshaped_image)
-        max_pool = MaxPooling2D((2, 2))(conv_img)
-        flatten_image = Flatten()(max_pool)
-        y = Dense(number_of_clusters**2, activation='relu')(flatten_image)
-        y = Dense(number_of_clusters**2, activation='relu')(y)
-        y = Dense(number_of_clusters, activation='softmax')(y)
-        model = Model(inputs=image, outputs=y, name='aggregator')
-        opt = Adam(learning_rate = 0.001)
-        model.compile(optimizer=opt, loss='categorical_crossentropy', metrics='accuracy')
-        self.model = model
+
     
     def evaluation(self, fed_scenario, x_test, y_test):
         predictions = []
