@@ -22,7 +22,6 @@ class aggregator():
         model.compile(optimizer=opt, loss='categorical_crossentropy', metrics='accuracy')
         self.model = model
 
-    
     def evaluation(self, fed_scenario, x_test, y_test):
         predictions = []
         for cluster in fed_scenario.list_of_clusters:
