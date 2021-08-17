@@ -14,8 +14,8 @@ class aggregator():
     def __init__(self, number_of_clusters):
         image = Input(shape=(28, 28), name="input_image")   
         flatten_image = Flatten()(image)
-        y = Dense(number_of_clusters**2, activation='relu')(flatten_image)
-        y = Dense(number_of_clusters**2, activation='relu')(y)
+        y = Dense(100, activation='relu')(flatten_image)
+        y = Dense(100, activation='relu')(y)
         y = Dense(number_of_clusters, activation='softmax')(y)
         model = Model(inputs=image, outputs=y, name='aggregator')
         opt = Adam(learning_rate = 0.001)
