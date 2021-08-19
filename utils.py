@@ -7,7 +7,7 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
 #from keras.optimizers import SGD
-from keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adam
 from random import randint
 from random import choice
 from numpy.random import permutation
