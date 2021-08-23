@@ -55,9 +55,6 @@ Note also that the same model, with the same hyperparameters, is used for each c
 ###### 80% heterogeneity
 <img src = "https://user-images.githubusercontent.com/62892813/128598924-b07da911-f454-45a0-bd62-5fa73b464303.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128598925-8f2e75ab-90b3-4c8a-8874-356d6903d981.png" width = "315" height = "210">
 
-## Some comments
-The grey curve and the black curve denote an interesting fact: the local models converge without communicate each other. This could be caused by the same initialization, but it is still strange. TODO: investigate.
-
 ## Aim of the project
 
 A new model could provide an higher global accuracy on the server testset, better exploiting the information from each single cluster. The objective is to stay in the **gap** between the genie curve and the avg local models weights one, in order to obtain better results with respect to that, and reach as much as possible the genie performance. Test with various heterogeneity degrees and augmentation of the datasets are performed to simulate an high unbalanced scenario in which that gap is noticeably wide, especially in the first communication rounds.
@@ -86,4 +83,4 @@ The following gifs show the curves changing according to the heterogeneity degre
 - [ ] make a directory with a set of already trained model, for different scenarios
 - [x] ~~add metrics in train_one_shot method~~ added metrics in notebook
 - [ ] add estimation model section
-- [ ] investigate about avg models weights and fedavg performance
+- [x] investigate about avg models weights and fedavg performance
