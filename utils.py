@@ -206,7 +206,7 @@ class federated_setup:
         self.list_of_clusters = []
         self.server = server
         # standard values for one shot training
-        self.local_epochs  = 4
+        self.local_epochs  = 2
         self.local_batch = 16
     
     def initialize_users_to_clusters(self, number_of_users, number_of_clusters):
