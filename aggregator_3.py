@@ -24,7 +24,7 @@ class aggregator():
         # other dense layers?
         y = Dense(10, activation='softmax')(concat)
 
-        model = Model(inputs=[image, clusters_weights], outputs=y, name='aggregator 3')
+        model = Model(inputs=[image, clusters_weights], outputs=y, name='aggregator_3')
         opt = Adam(learning_rate = 0.001)
         model.compile(optimizer=opt, loss='categorical_crossentropy', metrics='accuracy')
         self.model = model
