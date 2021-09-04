@@ -18,13 +18,12 @@ class aggregator():
         clusters_weights = Input(shape=(number_of_clusters, 784, 10), name='input_cluster_model_weights')
         
         flatten_image = Flatten()(image)
-        dense_flatten_img = Dense(30, activation='relu')(flatten_image)
+        dense_flatten_img = Dense(10, activation='relu')(flatten_image)
         flatten_clusters_weights = Flatten()(clusters_weights)
-        dense_flatten_clus_w = Dense(10*number_of_clusters, activation='relu')(flatten_clusters_weights)
+        dense_flatten_clus_w = Dense(10, activation='relu')(flatten_clusters_weights)
         concat = Concatenate()([dense_flatten_img, dense_flatten_clus_w])
         # other dense layers?
-        y = Dense(100, activation='relu')(concat)
-        y = Dense(10, activation='softmax')(y)
+        y = Dense(10, activation='softmax')(concat)
 
         model = Model(inputs=[image, clusters_weights], outputs=y, name='aggregator_3')
         opt = Adam(learning_rate = 0.001)
