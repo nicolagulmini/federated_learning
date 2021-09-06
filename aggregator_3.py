@@ -15,12 +15,12 @@ class aggregator():
     
     def __init__(self, number_of_clusters):
         image = Input(shape=(28, 28), name="input_image") 
-        clusters_weights = Input(shape=(number_of_clusters, 784, 10), name='input_cluster_model_weights')
+        clusters_weights = Input(shape=(number_of_clusters, 10), name='input_cluster_model_interm_outputs')
         
         flatten_image = Flatten()(image)
-        dense_flatten_img = Dense(10, activation='relu')(flatten_image)
+        #dense_flatten_img = Dense(10, activation='relu')(flatten_image)
         flatten_clusters_weights = Flatten()(clusters_weights)
-        dense_flatten_clus_w = Dense(10, activation='relu')(flatten_clusters_weights)
+        #dense_flatten_clus_w = Dense(10, activation='relu')(flatten_clusters_weights)
         concat = Concatenate()([dense_flatten_img, dense_flatten_clus_w])
         # other dense layers?
         y = Dense(10, activation='softmax')(concat)
