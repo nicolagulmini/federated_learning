@@ -21,7 +21,7 @@ class aggregator():
         #dense_flatten_img = Dense(10, activation='relu')(flatten_image)
         flatten_clusters_weights = Flatten()(clusters_weights)
         #dense_flatten_clus_w = Dense(10, activation='relu')(flatten_clusters_weights)
-        concat = Concatenate()([dense_flatten_img, dense_flatten_clus_w])
+        concat = Concatenate()([flatten_image, flatten_clusters_weights])
         # other dense layers?
         y = Dense(10, activation='softmax')(concat)
 
