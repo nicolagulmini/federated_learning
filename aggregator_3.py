@@ -1,6 +1,7 @@
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Input
 from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import Dot
 from tensorflow.keras.layers import Concatenate
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
@@ -34,12 +35,9 @@ class attention_based_aggregator():
         cluster_outputs = Input(shape=(number_of_clusters, 10), name='softmax_outputs')
         
         flatten_image = Flatten()(image)
-        #flatten_cluster_outputs = Flatten()(cluster_outputs)
         weights = Dense(number_of_clusters, activation='sigmoid')(flatten_image) # or tanh or softmax
-        #concat = Concatenate()([flatten_image, flatten_clusters_weights])
-        # take the sum
-        #y = Dense(10, activation='softmax')(concat)
-
+        summ = Dot(axes=1)([weights.reshape(1, number_of_clusters), cluster_outputs.reshape(1, number_of_clusters, 10)])
+        y = Dense(10, activation='softmax')(summ)
         model = Model(inputs=[image, cluster_outputs], outputs=y, name='attention_based_aggregator')
         opt = Adam(learning_rate = 0.001)
         model.compile(optimizer=opt, loss='categorical_crossentropy', metrics='accuracy')
