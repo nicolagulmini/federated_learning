@@ -70,7 +70,7 @@ class attention_based_aggregator():
         
         summ = Dot(axes=1)([weights, cluster_outputs])
         #y = Dense(10, activation='softmax')(summ)
-        y = Softmax()(summ)
+        #y = Softmax()(summ)
         
         model = Model(inputs=[image, cluster_outputs], outputs=y, name='attention_based_aggregator')
         opt = Adam(learning_rate = 0.001)
