@@ -63,12 +63,13 @@ class attention_based_aggregator():
         image = Input(shape=(28, 28), name="input_image") 
         cluster_outputs = Input(shape=(number_of_clusters, 10), name='softmax_outputs')
         
-        image = Reshape((28, 28, 1))(image)
-        image = Conv2D(3, 3)(image) # layer in piu 
         flatten_image = Flatten()(image)
+        
         weights = Dense(number_of_clusters, activation='softmax')(flatten_image) # sigmoid or tanh or softmax
+        
         summ = Dot(axes=1)([weights, cluster_outputs])
         y = Dense(10, activation='softmax')(summ)
+        
         model = Model(inputs=[image, cluster_outputs], outputs=y, name='attention_based_aggregator')
         opt = Adam(learning_rate = 0.001)
         model.compile(optimizer=opt, loss='categorical_crossentropy', metrics='accuracy')
