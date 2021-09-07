@@ -64,7 +64,7 @@ class attention_based_aggregator():
         image = Input(shape=(28, 28), name="input_image") 
         cluster_outputs = Input(shape=(number_of_clusters, 10), name='softmax_outputs')
         flatten_image = Flatten()(image)
-        weights = Dense(number_of_clusters, activation='linear')(flatten_image) # sigmoid or tanh or softmax
+        weights = Dense(number_of_clusters, activation='tanh')(flatten_image) # sigmoid or tanh or softmax
         summ = Dot(axes=1)([weights, cluster_outputs])
         #y = Dense(10, activation='softmax')(summ)
         
