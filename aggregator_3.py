@@ -63,16 +63,11 @@ class attention_based_aggregator():
     def __init__(self, number_of_clusters):
         image = Input(shape=(28, 28), name="input_image") 
         cluster_outputs = Input(shape=(number_of_clusters, 10), name='softmax_outputs')
-        flatten_clusters = Flatten()(cluster_outputs) #
-        cluster_dense = Dense(number_of_clusters*10)(flatten_clusters) # 
-        boiade = Reshape((number_of_clusters, 10))(cluster_dense) #
         flatten_image = Flatten()(image)
-        weights = Dense(100)(flatten_image) #
-        weights = Dense(number_of_clusters, activation='linear')(weights) # sigmoid or tanh or softmax
-        summ = Dot(axes=1)([weights, boiade])
-        y = Dense(10, activation='softmax')(summ) #
+        weights = Dense(number_of_clusters, activation='softmax')(flatten_image) # sigmoid or tanh or softmax
+        summ = Dot(axes=1)([weights, cluster_outputs])
         
-        model = Model(inputs=[image, cluster_outputs], outputs=y, name='attention_based_aggregator')
+        model = Model(inputs=[image, cluster_outputs], outputs=summ, name='attention_based_aggregator')
         opt = Adam(learning_rate = 0.001)
         model.compile(optimizer=opt, loss='categorical_crossentropy', metrics='accuracy')
         self.model = model
