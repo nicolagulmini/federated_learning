@@ -69,7 +69,7 @@ class attention_based_aggregator():
         #y = Dense(10, activation='softmax')(summ)
         
         model = Model(inputs=[image, cluster_outputs], outputs=summ, name='attention_based_aggregator')
-        opt = Adam(learning_rate = 0.001)
+        opt = Adam(learning_rate = 0.0001)
         model.compile(optimizer=opt, loss='categorical_crossentropy', metrics='accuracy')
         self.model = model
         
