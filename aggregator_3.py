@@ -9,7 +9,6 @@ from tensorflow.keras.layers import Concatenate
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.initializers import Ones
 from numpy import array
 from numpy import argmax
 from numpy import swapaxes
@@ -65,7 +64,7 @@ class attention_based_aggregator():
         image = Input(shape=(28, 28), name="input_image") 
         cluster_outputs = Input(shape=(number_of_clusters, 10), name='softmax_outputs')
         flatten_image = Flatten()(image)
-        weights = Dense(number_of_clusters, activation='softmax', bias_initializer=Ones())(flatten_image) # sigmoid or tanh or softmax
+        weights = Dense(number_of_clusters, activation='linear')(flatten_image) # sigmoid or tanh or softmax
         summ = Dot(axes=1)([weights, cluster_outputs])
         #y = Dense(10, activation='softmax')(summ)
         
