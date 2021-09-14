@@ -80,14 +80,14 @@ class attention_based_aggregator():
         test_outputs = array([cluster.get_model().predict(fed_setup.server.x_test) for cluster in fed_setup.list_of_clusters])
         return ([server_x_train, outputs.reshape((len(server_x_train), len(fed_setup.list_of_clusters), 10))], server_y_train), ([server_x_val, val_outputs.reshape((len(server_x_val), len(fed_setup.list_of_clusters), 10))], server_y_val), ([fed_setup.server.x_test, test_outputs.reshape((len(fed_setup.server.x_test), len(fed_setup.list_of_clusters), 10))], fed_setup.server.y_test) 
         
-    def train(self, x_train, y_train, x_val, y_val, verbose, epochs):
+    def train(self, x_train, y_train, verbose, epochs):# x_val, y_val, verbose, epochs):
         history = self.model.fit(
             x=x_train,
             y=y_train,
             batch_size=32, 
             epochs=epochs, 
             verbose=verbose, 
-            validation_data=(x_val, y_val),
+            #validation_data=(x_val, y_val),
             shuffle=True    
             )
         return history.history['accuracy'], history.history['loss'], history.history['val_accuracy'], history.history['val_loss']
