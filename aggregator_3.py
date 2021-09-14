@@ -63,7 +63,8 @@ class attention_based_aggregator():
     def __init__(self, number_of_clusters):
         image = Input(shape=(28, 28), name="input_image") 
         cluster_outputs = Input(shape=(number_of_clusters, 10), name='softmax_outputs')
-        cluster_dense = Dense(number_of_clusters*10)(cluster_outputs) # 
+        flatten_clusters = Flatten()(cluster_outputs) #
+        cluster_dense = Dense(number_of_clusters*10)(flatten_clusters) # 
         cluster_outputs = Reshape((number_of_clusters, 10))(cluster_dense) #
         flatten_image = Flatten()(image)
         weights = Dense(100)(flatten_image) #
