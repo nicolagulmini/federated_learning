@@ -167,7 +167,7 @@ class define_model_mnist():
     def __init__(self):
         self.model = Sequential()
         self.model.add(Flatten(input_shape=(28, 28)))
-        self.model.add(Dense(10, activation='relu', name='dense_interm'))
+        #self.model.add(Dense(10, activation='relu', name='dense_interm'))
         self.model.add(Dense(10, activation='softmax'))
         self.model.compile(optimizer = Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
         '''        
