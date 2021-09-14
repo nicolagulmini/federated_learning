@@ -92,7 +92,7 @@ class attention_based_aggregator():
             #validation_data=(x_val, y_val),
             shuffle=True    
             )
-        return history.history['accuracy'], history.history['loss'], history.history['val_accuracy'], history.history['val_loss']
+        return history.history['accuracy'], history.history['loss']#, history.history['val_accuracy'], history.history['val_loss']
         
     def evaluate(self, x_test, y_test, verbose):
         return self.model.evaluate(x_test, y_test, verbose=verbose)[1]
