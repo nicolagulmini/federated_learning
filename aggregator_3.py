@@ -80,7 +80,8 @@ class attention_based_aggregator():
         
         # concatenate
         conc = Concatenate()([summ, summ2, summ3])
-        out = Dense(10)(conc)
+        out = Dense(100)(conc)
+        out = Dense(10, activation='softmax')(out)
         
         
         model = Model(inputs=[image, cluster_outputs], outputs=out, name='attention_based_aggregator')
