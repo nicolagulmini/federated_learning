@@ -73,14 +73,12 @@ class attention_based_aggregator():
         model.compile(optimizer=opt, loss='categorical_crossentropy', metrics='accuracy')
         self.model = model
         
-    ''' there is a bug
     def produce_datasets(self, fed_setup):
         server_x_train, server_y_train, server_x_val, server_y_val = fed_setup.train_validation_split(fed_setup.server.x_train, fed_setup.server.y_train)
-        outputs = array([cluster.get_model().predict(server_x_train) for cluster in fed_setup.list_of_clusters])
-        val_outputs = array([cluster.get_model().predict(server_x_val) for cluster in fed_setup.list_of_clusters])
-        test_outputs = array([cluster.get_model().predict(fed_setup.server.x_test) for cluster in fed_setup.list_of_clusters])
-        return ([server_x_train, outputs.reshape((len(server_x_train), len(fed_setup.list_of_clusters), 10))], server_y_train), ([server_x_val, val_outputs.reshape((len(server_x_val), len(fed_setup.list_of_clusters), 10))], server_y_val), ([fed_setup.server.x_test, test_outputs.reshape((len(fed_setup.server.x_test), len(fed_setup.list_of_clusters), 10))], fed_setup.server.y_test) 
-    ''' 
+        outputs = swapaxes(array([cluster.get_model().predict(server_x_train) for cluster in fed_setup.list_of_clusters]), 0, 1)
+        val_outputs = swapaxes(array([cluster.get_model().predict(server_x_val) for cluster in fed_setup.list_of_clusters]), 0, 1)
+        test_outputs = swapaxes(array([cluster.get_model().predict(fed_setup.server.x_test) for cluster in fed_setup.list_of_clusters]), 0, 1)
+        return ([server_x_train, outputs], server_y_train), ([server_x_val, val_outputs], server_y_val), ([fed_setup.server.x_test, test_outputs], fed_setup.server.y_test) 
     
     def train(self, x_train, y_train, x_val, y_val, verbose, epochs):
         history = self.model.fit(
