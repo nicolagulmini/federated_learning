@@ -65,12 +65,10 @@ class attention_based_aggregator():
         image = Input(shape=(28, 28), name="input_image") 
         cluster_outputs = Input(shape=(number_of_clusters, 10), name='softmax_outputs')
         flatten_image = Flatten()(image)
-        weights = Dense(number_of_clusters, activation='softmax', kernel_initializer=Ones())(flatten_image) # sigmoid or tanh or softmax
-        summ = Dot(axes=1)([cluster_outputs, weights])
-        
+        weights = Dense(number_of_clusters, activation='softmax')(flatten_image)#, kernel_initializer=Ones(), bias_initializer=RandomNormal(stddev=0.01))(flatten_image)
+        summ = Dot(axes=1)([weights, cluster_outputs])
         model = Model(inputs=[image, cluster_outputs], outputs=summ, name='attention_based_aggregator')
-        opt = Adam(learning_rate = 0.001)
-        model.compile(optimizer=opt, loss='categorical_crossentropy', metrics='accuracy')
+        model.compile(optimizer=Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics='accuracy')
         self.model = model
         
     def produce_datasets(self, fed_setup):
