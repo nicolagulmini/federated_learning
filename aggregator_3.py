@@ -66,7 +66,7 @@ class attention_based_aggregator():
         image = Input(shape=(28, 28), name="input_image") 
         cluster_outputs = Input(shape=(number_of_clusters, 10), name='softmax_outputs')
         flatten_image = Flatten()(image)
-        weights = Dense(number_of_clusters, activation='linear', kernel_initializer=Ones(), bias_initializer=Zeros())(flatten_image)
+        weights = Dense(number_of_clusters, activation='softmax', kernel_initializer=Zeros(), bias_initializer=Ones())(flatten_image)
         out = Dot(axes=1)([weights, cluster_outputs])
         model = Model(inputs=[image, cluster_outputs], outputs=out, name='attention_based_aggregator')
         model.compile(optimizer=Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics='accuracy')
@@ -78,6 +78,9 @@ class attention_based_aggregator():
         val_outputs = swapaxes(array([cluster.get_model().predict(server_x_val) for cluster in fed_setup.list_of_clusters]), 0, 1)
         test_outputs = swapaxes(array([cluster.get_model().predict(fed_setup.server.x_test) for cluster in fed_setup.list_of_clusters]), 0, 1)
         return ([server_x_train, outputs], server_y_train), ([server_x_val, val_outputs], server_y_val), ([fed_setup.server.x_test, test_outputs], fed_setup.server.y_test) 
+    
+    #def ordered_dataset(self, fed_setup):
+        
     
     def train(self, x_train, y_train, x_val, y_val, verbose, epochs):
         history = self.model.fit(
