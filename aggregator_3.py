@@ -91,7 +91,7 @@ class attention_based_aggregator():
             epochs=epochs, 
             verbose=verbose, 
             validation_data=(x_val, y_val),
-            #shuffle=True    
+            shuffle=True    
             )
         return history.history['accuracy'], history.history['loss'], history.history['val_accuracy'], history.history['val_loss']
         
