@@ -56,12 +56,12 @@ Note also that the same model, with the same hyperparameters, is used for each c
 
 ## Aim of the project
 
-A new model could provide an higher global accuracy on the server testset, better exploiting the information from each single cluster. The objective is to stay in the **gap** between the genie curve and the avg local models weights one, in order to obtain better results with respect to that, and reach as much as possible the genie performance. Test with various heterogeneity degrees and augmentation of the datasets are performed to simulate an high unbalanced scenario in which that gap is noticeably wide, especially in the first communication rounds.
-Also the local accuracy plots are interesting because all the approaches, except the avg local acc one, have about the same performance, so the objective is to find a model that performs better.
+A new model could provide an higher global accuracy on the server testset, better exploiting the information from each single cluster. The objective is to stay in the **gap** between the genie curve and the avg local models weights one (i.e. between the red and the pink curves), in order to obtain better results with respect to that, and reach as much as possible the genie performance. Test with various heterogeneity degrees and augmentation of the datasets are performed to simulate an high unbalanced scenario in which that gap is noticeably wide, especially in the first communication rounds. Nevertheless, a 200 rounds simulation in 80% heterogeneity degree was performed, and the related models saved, to exploit models in a already saturated trend. We focus only on the global accuracy: in our scenario, the users use their local optimal models, but the server wants to know how to combine them.
 
-The following gifs show the curves changing according to the heterogeneity degree. Even if the global gap in which our model has to stay does not change a lot, there is another gap in the local plots that gets wider, so the 80% heterogeneity is the best scenario in which we can run our experiments.
+![global](https://user-images.githubusercontent.com/62892813/135488672-7fb95aaa-0c44-428e-8944-a70992b0ada2.png)
 
-<img src = "https://user-images.githubusercontent.com/62892813/128599509-77e9975a-dbb3-420d-b274-a7b71445d66f.gif" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/128599507-b5192e98-6881-44f2-a01f-8224e5f4ce61.gif" width = "315" height = "210">
+For now, we are interested in learning a combination between the final models' (after the 200 communication rounds) that performs better than the averaging softmax outputs, so we do not train our aggregator in each round.
+
 
 ## References
 
