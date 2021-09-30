@@ -78,7 +78,7 @@ The following gifs show the curves changing according to the heterogeneity degre
 - [x] update the figures on readme
 - [ ] make federated_cifar10
 - [ ] ~~tutorial notebook for the simulations~~ add the tutorial notebook
-- [ ] make a directory with a set of already trained model, for different scenarios
+- [x] make a directory with a set of already trained model, for different scenarios
 - [x] ~~add metrics in train_one_shot method~~ added metrics in notebook
 - [ ] add estimation model section
 - [x] investigate about avg models weights and fedavg performance
