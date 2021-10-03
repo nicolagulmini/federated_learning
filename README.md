@@ -84,10 +84,13 @@ Non-trainable params: 0
 __________________________________________________________________________________________________
 ```
 
-![global (1)](https://user-images.githubusercontent.com/62892813/135502734-6c92ad3e-571d-434c-9409-cf4919eace3d.png)
+![model](https://user-images.githubusercontent.com/62892813/135764394-38460fdc-254b-4e1a-83e6-6d8dc1416bc8.png)
 
-For now, we are interested in learning a combination between the final models' (after the 200 communication rounds) that performs better than the averaging softmax outputs, so we do not train our aggregator in each round.
+## Performance
 
+<img src = "https://user-images.githubusercontent.com/62892813/135764484-38954d77-2a08-43c8-b3e9-047a68247f07.png" width = "315" height = "210"><img src = "https://user-images.githubusercontent.com/62892813/135764491-fe615a00-0a2b-4b12-9c97-c06ecc22c73f.png" width = "315" height = "210">
+
+<img src = "https://user-images.githubusercontent.com/62892813/135764511-e044db59-6a0b-4467-b109-2acea957ee26.png" width = "630" height = "420">
 
 ## References
 
