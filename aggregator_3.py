@@ -71,7 +71,7 @@ class attention_based_aggregator():
         image = Input(shape=(28, 28), name="input_image") 
         cluster_outputs = Input(shape=(number_of_clusters, 10), name='softmax_outputs')
         flatten_image = Flatten()(image)
-        weights = Dense(number_of_clusters, activation='linear', bias_initializer=Zeros(), kernel_initializer=Identity())(flatten_image) #activation='softmax', bias_initializer=Zeros(), kernel_initializer=Zeros()
+        weights = Dense(number_of_clusters, activation='linear', bias_initializer=Ones(), kernel_initializer=Zeros())(flatten_image) #activation='softmax', bias_initializer=Zeros(), kernel_initializer=Zeros()
         out = Dot(axes=1)([weights, cluster_outputs])
         out = Dense(10, activation='linear', kernel_initializer=Identity(), bias_initializer=Zeros())(out)
         model = Model(inputs=[image, cluster_outputs], outputs=out, name='attention_based_aggregator')
