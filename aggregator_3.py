@@ -71,7 +71,7 @@ class attention_based_aggregator():
         out = Dot(axes=1)([weights, cluster_outputs])
         out = Dense(10, activation='linear', kernel_initializer=Identity(), bias_initializer=Zeros())(out)
         model = Model(inputs=[image, cluster_outputs], outputs=out, name='attention_based_aggregator')
-        model.compile(optimizer=Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics='accuracy')
+        model.compile(optimizer=Adam(learning_rate=0.1), loss='categorical_crossentropy', metrics='accuracy')
         self.model = model
         '''
         image = Input(shape=(28, 28), name="input_image") 
