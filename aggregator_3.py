@@ -9,6 +9,7 @@ from tensorflow.keras.layers import Concatenate
 from tensorflow.keras.models import Model
 from tensorflow.keras.initializers import Ones
 from tensorflow.keras.initializers import Zeros
+from tensorflow.keras.initializers import Identity
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
 from numpy import array
@@ -66,9 +67,9 @@ class attention_based_aggregator():
         image = Input(shape=(28, 28), name="input_image") 
         cluster_outputs = Input(shape=(number_of_clusters, 10), name='softmax_outputs')
         flatten_image = Flatten()(image)
-        weights = Dense(number_of_clusters, activation='linear', bias_initializer=Ones(), kernel_initializer=Zeros())(flatten_image) #activation='softmax', bias_initializer=Zeros(), kernel_initializer=Zeros()
+        weights = Dense(number_of_clusters, activation='linear', bias_initializer=Ones(), kernel_initializer=Identity())(flatten_image) #activation='softmax', bias_initializer=Zeros(), kernel_initializer=Zeros()
         out = Dot(axes=1)([weights, cluster_outputs])
-        out = Dense(10, activation='softmax', kernel_initializer=Ones(), bias_initializer=Zeros())(out)
+        out = Dense(10, activation='linear', kernel_initializer=Identity(), bias_initializer=Zeros())(out)
         model = Model(inputs=[image, cluster_outputs], outputs=out, name='attention_based_aggregator')
         model.compile(optimizer=Adam(learning_rate=0.01), loss='categorical_crossentropy', metrics='accuracy')
         self.model = model
