@@ -102,12 +102,10 @@ ________________________________________________________________________________
 
 # TODO
 - [x] make more versions of federated_mnist, organize them in a directory
-- [ ] other versions of federated_mnist to study the heterogeneity
 - [x] include the fedavg performance 
 - [x] update the figures on readme
-- [ ] make federated_cifar10
-- [ ] ~~tutorial notebook for the simulations~~ add the tutorial notebook
+- [x] add the notebook
 - [x] make a directory with a set of already trained model, for different scenarios
-- [x] ~~add metrics in train_one_shot method~~ added metrics in notebook
-- [ ] add estimation model section
 - [x] investigate about avg models weights and fedavg performance
+- [ ] try with the old estimated marginals strategy
+- [ ] repeat the entire analysis with a federated version of cifar10
