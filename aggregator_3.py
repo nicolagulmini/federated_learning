@@ -7,9 +7,13 @@ from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import Softmax
 from tensorflow.keras.layers import Concatenate
 from tensorflow.keras.models import Model
+# initializers 
 from tensorflow.keras.initializers import Ones
 from tensorflow.keras.initializers import Zeros
 from tensorflow.keras.initializers import Identity
+from tensorflow.keras.initializers import RandomNormal
+
+
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
 from numpy import array
@@ -67,25 +71,12 @@ class attention_based_aggregator():
         image = Input(shape=(28, 28), name="input_image") 
         cluster_outputs = Input(shape=(number_of_clusters, 10), name='softmax_outputs')
         flatten_image = Flatten()(image)
-        weights = Dense(number_of_clusters, activation='linear', bias_initializer=Ones(), kernel_initializer=Identity())(flatten_image) #activation='softmax', bias_initializer=Zeros(), kernel_initializer=Zeros()
+        weights = Dense(number_of_clusters, activation='linear', bias_initializer=Zeros(), kernel_initializer=Identity())(flatten_image) #activation='softmax', bias_initializer=Zeros(), kernel_initializer=Zeros()
         out = Dot(axes=1)([weights, cluster_outputs])
         out = Dense(10, activation='linear', kernel_initializer=Identity(), bias_initializer=Zeros())(out)
         model = Model(inputs=[image, cluster_outputs], outputs=out, name='attention_based_aggregator')
         model.compile(optimizer=Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics='accuracy')
         self.model = model
-        '''
-        image = Input(shape=(28, 28), name="input_image") 
-        cluster_outputs = Input(shape=(number_of_clusters, 10), name='softmax_outputs')
-        flatten_image = Flatten()(image)
-        weights_from_image = Dense(number_of_clusters, activation='linear', bias_initializer=Zeros(), kernel_initializer=Zeros())(flatten_image)
-        weights_from_clusters = Flatten()(cluster_outputs)
-        weights_from_clusters = Dense(number_of_clusters)(weights_from_clusters)
-        out = Dot(axes=1)([weights, cluster_outputs])
-        out = Dense(10, activation='softmax', kernel_initializer=Ones(), bias_initializer=Zeros())(out)
-        model = Model(inputs=[image, cluster_outputs], outputs=out, name='attention_based_aggregator')
-        model.compile(optimizer=Adam(learning_rate=0.01), loss='categorical_crossentropy', metrics='accuracy')
-        self.model = model
-        '''
         
     def produce_datasets(self, fed_setup):
         server_x_train, server_y_train, server_x_val, server_y_val = fed_setup.train_validation_split(fed_setup.server.x_train, fed_setup.server.y_train)
