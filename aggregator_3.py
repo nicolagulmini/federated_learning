@@ -1,18 +1,12 @@
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Input
-from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Dot
-from tensorflow.keras.layers import Conv2D
-from tensorflow.keras.layers import Softmax
-from tensorflow.keras.layers import Concatenate
 from tensorflow.keras.models import Model
 # initializers 
 from tensorflow.keras.initializers import Ones
-from tensorflow.keras.initializers import Zeros
 from tensorflow.keras.initializers import Identity
 from tensorflow.keras.initializers import RandomNormal
-
 
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
@@ -20,7 +14,6 @@ from numpy import array
 from numpy import argmax
 from numpy import swapaxes
 from random import randint
-
 
 class attention_based_aggregator():
     
@@ -54,8 +47,7 @@ class attention_based_aggregator():
         outputs = swapaxes(array([cluster.get_model().predict(server_x_train) for cluster in fed_setup.list_of_clusters]), 0, 1)
         val_outputs = swapaxes(array([cluster.get_model().predict(server_x_val) for cluster in fed_setup.list_of_clusters]), 0, 1)
         return ([server_x_train, outputs], server_y_train), ([server_x_val, val_outputs], server_y_val)
-        
-    
+       
     def train(self, x_train, y_train, x_val, y_val, verbose, epochs):
         history = self.model.fit(
             x=x_train,
