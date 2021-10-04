@@ -92,6 +92,27 @@ ________________________________________________________________________________
 
 <img src = "https://user-images.githubusercontent.com/62892813/135764511-e044db59-6a0b-4467-b109-2acea957ee26.png" width = "630" height = "420">
 
+### Is the aggregator able to detect?
+The aggregator performance are satisfactory, but why? Is the aggregator able to give at the right clusters, the bigger weight? 
+To verify this, it is sufficient to build an intermediate model 
+```
+intermediate_model = Model(inputs=server_agg.model.input, outputs=server_agg.model.layers[2].output)
+```
+(where `server_agg.model` is the aggregator, and `server_agg.model.layers[2].output` is the output of the dense layer that gives the weights). Note that to perform this test, the aggregator is modified with a sigmoid activation function to the intermediate dense layer. Despite this, overall performance does not change. 
+Let's visualize, for each label, if a bigger weight is given to the output of a model trained on a cluster which is the 'expert' of images of that label. For instance: if the i-th local model is trained on a dataset with 80% of images of the digit, let's say, 5, then for an image of the figit 5 the aggregator should have the i-th weight of the dense layer output bigger than the others.
+Here the average weights vector for each label, with a red bar on the cluster with that label as predominant.
+
+![0](https://user-images.githubusercontent.com/62892813/135819795-06a780e3-adb0-4ade-a724-a1b06c4bf262.png)
+![1](https://user-images.githubusercontent.com/62892813/135819792-d0e9ec07-a48b-4758-b9d1-147e8a3a615f.png)
+![2](https://user-images.githubusercontent.com/62892813/135819791-b4a36592-095e-49f1-bd70-6e8dc13fb5d8.png)
+![3](https://user-images.githubusercontent.com/62892813/135819790-2b0888a6-20b4-4eb3-a930-27dd93c487eb.png)
+![4](https://user-images.githubusercontent.com/62892813/135819787-05520dc0-02f8-4643-bd5d-9e749ec07c61.png)
+![5](https://user-images.githubusercontent.com/62892813/135819805-1a67943b-6e0f-45cb-96fe-23f41eb32fec.png)
+![6](https://user-images.githubusercontent.com/62892813/135819804-9a2dfd53-f683-4f48-bfbc-d946065c0102.png)
+![7](https://user-images.githubusercontent.com/62892813/135819802-bd110492-e61f-46de-81fa-839f56e992bb.png)
+![8](https://user-images.githubusercontent.com/62892813/135819799-1ccc465d-1bad-4c24-818e-f53681291267.png)
+![9](https://user-images.githubusercontent.com/62892813/135819797-e937e7df-29ca-4461-bdd1-1caf0f11cea1.png)
+
 ## References
 
 - [The Communication-Aware Clustered Federated Learning Problem](https://ieeexplore.ieee.org/document/9174245)
