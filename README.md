@@ -8,7 +8,9 @@ Research project: "*Communication-Aware Clustered Federated Learning: How to Lev
 The first experiments are carried out with a federated version of mnist, to have a fast computation. 
 Soon will be available also a federated version of cifar10 and the related notebook.
 
-## federated_mnist_x
+## federated datasets
+
+### federated_mnist_x
 
 The federated_mnist folder contains:
 - 9 heterogeneous datasets (training and test)
@@ -25,6 +27,10 @@ number_of_images_per_dataset = 1000
 where in this case there are 9 local datasets, with 1000 train and 1000 test images each, and an 80% (= bias * 100) heterogeneity. 
 
 In the following results, the loaded dataset was augmented to make the learning more challenging.
+
+### federated_fashion_mnist_x
+
+Despite all the following results are for federated_mnist, once obtained them, we decided to try with another dataset. The federated version of fashion-mnist is built in a similar manner as the previous dataset. In this case the heterogeneous local datasets are 15, not 9.
 
 ## Results
 
