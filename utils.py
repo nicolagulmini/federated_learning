@@ -1,4 +1,5 @@
 from tensorflow.keras.datasets import mnist
+from tensorflow.keras.datasets import fashion_mnist
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.layers import Dense
@@ -339,9 +340,12 @@ class federated_setup:
             to_return_avg_local_acc_of_avg_model += tmp_acc / len(cluster_for_data.test_data['labels'])
         return to_return_avg_local_acc_of_avg_model / len(self.list_of_clusters)  
             
-    def server_side_dataset_generator(self, number_of_server_training_data, number_of_server_test_data):
+    def server_side_dataset_generator(self, number_of_server_training_data, number_of_server_test_data, dataset='mnist'):
         # server side homogeneous dataset
-        (original_mnist_x_train, original_mnist_y_train), (original_mnist_x_test, original_mnist_y_test) = mnist.load_data()
+        if dataset == 'mnist':
+            (original_mnist_x_train, original_mnist_y_train), (original_mnist_x_test, original_mnist_y_test) = mnist.load_data()
+        elif dataset == 'fashion' or dataset == 'fashion_mnist' or dataset == 'fashion-mnist':
+            (original_mnist_x_train, original_mnist_y_train), (original_mnist_x_test, original_mnist_y_test) = fashion_mnist.load_data()
         original_mnist_x_train = original_mnist_x_train.astype('float32') / 255.0
         original_mnist_x_test = original_mnist_x_test.astype('float32') / 255.0
         original_mnist_y_train = to_categorical(original_mnist_y_train, 10)
