@@ -6,7 +6,7 @@ in which each user trains a classification model on its own data distribution.
 Research project: "*Communication-Aware Clustered Federated Learning: How to Leverage Data Heterogeneity*"
 
 The first experiments are carried out with a federated version of mnist, to have a fast computation. 
-Soon will be available also a federated version of cifar10 and the related notebook.
+Soon will be available also a federated version of other datasets.
 
 ## federated datasets
 
