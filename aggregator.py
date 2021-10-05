@@ -34,20 +34,7 @@ class attention_based_aggregator():
         val_outputs = swapaxes(array([cluster.get_model().predict(server_x_val) for cluster in fed_setup.list_of_clusters]), 0, 1)
         test_outputs = swapaxes(array([cluster.get_model().predict(fed_setup.server.x_test) for cluster in fed_setup.list_of_clusters]), 0, 1)
         return ([server_x_train, outputs], server_y_train), ([server_x_val, val_outputs], server_y_val), ([fed_setup.server.x_test, test_outputs], fed_setup.server.y_test) 
-    
-    def ordered_dataset(self, fed_setup, favourite_label):
-        x, y = fed_setup.server.x_train, fed_setup.server.y_train
-        new_x = []
-        new_y = []
-        for i in range(len(x)):
-            if argmax(y[i]) == favourite_label:
-                new_x.append(x[i])
-                new_y.append(y[i])
-        server_x_train, server_y_train, server_x_val, server_y_val = fed_setup.train_validation_split(array(new_x), array(new_y))
-        outputs = swapaxes(array([cluster.get_model().predict(server_x_train) for cluster in fed_setup.list_of_clusters]), 0, 1)
-        val_outputs = swapaxes(array([cluster.get_model().predict(server_x_val) for cluster in fed_setup.list_of_clusters]), 0, 1)
-        return ([server_x_train, outputs], server_y_train), ([server_x_val, val_outputs], server_y_val)
-       
+           
     def train(self, x_train, y_train, x_val, y_val, verbose, epochs):
         history = self.model.fit(
             x=x_train,
