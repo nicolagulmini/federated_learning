@@ -149,4 +149,4 @@ Here the average weights vector for each label, with a red bar on the cluster wi
 - [x] make a directory with a set of already trained model, for different scenarios
 - [x] investigate about avg models weights and fedavg performance
 - [ ] try with the old estimated marginals strategy
-- [ ] repeat the entire analysis with a federated version of cifar10
+- [x] repeat the entire analysis with a federated version of cifar10
