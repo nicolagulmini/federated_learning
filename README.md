@@ -35,6 +35,24 @@ Despite all the following results are for federated_mnist, once obtained them, w
 - federated_fashion_mnist_80, with the same settings as federated_mnist_80.
 Since fashion images are intrinsically more difficult than the digits, we used models with the input, flatten, and final dense layer with softmax activation function. To train them we put epochs=4 for each user's model.
 
+### federated_cifar10_x
+
+The federated version of cifar10 is obtained as the previous datasets, but changing something in the `dataset_split.py` file, in the line 20 and 24:
+```
+single_digit_training_sets[Y_train[i]]
+...
+single_digit_test_sets[Y_test[i]]
+```
+into
+```
+single_digit_training_sets[Y_train[i][0]]
+...
+single_digit_test_sets[Y_test[i][0]]
+```
+
+The available datasets are:
+- federated_cifar10_80: same settings as the previous 80%-heterogeneous datasets
+
 ## Results
 
 Let the *global accuracy* be the accuracy of a model on the homogeneous (balanced) server-side dataset; and the *local accuracy* the accuracy of a model on a local dataset, i.e. a cluster heterogeneous (unbalanced) dataset. 
