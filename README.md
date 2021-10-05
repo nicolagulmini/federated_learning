@@ -30,7 +30,10 @@ In the following results, the loaded dataset was augmented to make the learning 
 
 ### federated_fashion_mnist_x
 
-Despite all the following results are for federated_mnist, once obtained them, we decided to try with another dataset. The federated version of fashion-mnist is built in a similar manner as the previous dataset. In this case the heterogeneous local datasets are 15, not 9. The comfort is that the fashion-mnist images are 28x28 like the digits mnist, so the models do not need any modification.
+Despite all the following results are for federated_mnist, once obtained them, we decided to try with another dataset. The federated version of fashion-mnist is built in a similar manner as the previous dataset. The comfort is that the fashion-mnist images are 28x28 like the digits mnist, so the models do not need any modification. The available datasets are:
+- federated_fashion_mnist_90. In this case the heterogeneous local datasets are 15, not 9. 
+- federated_fashion_mnist_80, with the same settings as federated_mnist_80.
+Since fashion images are intrinsically more difficult than the digits, we used models with the input, flatten, and final dense layer with softmax activation function. To train them we put epochs=4 for each user's model.
 
 ## Results
 
