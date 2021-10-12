@@ -61,15 +61,14 @@ When we want to test the local / clusters models on the server dataset, each one
 
 In the following plots these metrics are taken into account:
 - **avg local acc - clusters models**: each local model measures the accuracy on its local dataset, and then the average is considered. No cross measures (for instance the cluster 1 model on the cluster 2 dataset) is considered;
-- **avg global acc - cluster models**: each local model measures the accuracy on the same balanced server dataset, and then the average is considered;
 - **global acc - avg softmax outputs**: given a server dataset image, each cluster model predicts its label. Then the average of the softmax outputs (the last layer of each classification model) is considered and the argmax of that unique vector is used to predict the label;
 - **global acc - genie**: this is the expected upper bound that we want to reach on the server dataset. For each image we look at its label, and if there is a cluster with a local dataset unbalanced on that label (i.e. in that dataset there are a lot of images with that label), its model is used to predict it (note that it could be wrong). Otherwise, if there are not any dataset unbalanced on that label, the softmax average is considered, like the "global acc - avg softmax outputs" case;
 - **avg local acc - avg softmax outputs**: the average softmax outputs method on each local dataset, and then the average of each local accuracy is considered.
 - **global acc - avg local models weights**: the accuracy on the server dataset, computed my a model whose weights are the average of the clusters models weights, for each communication round. There is no weights update: the server does not share the model with the clusters, it only receives the updated weights.
-- **global acc - server fedavg with cluster models**: the same as before, but the server shares the weights with the clusters, so the scenario is different (in fact the simulation is performed in a separated way, and then the curves are included in the same plot).
 - **avg local acc - avg local models weights** and **avg local acc - server fedavg with cluster models** are the same as before, but computing the accuracies on the local datasets and then averaging them.
+- the other metrics indicated are not interesting for the purposes of our analysis.
 
-In order to make a comparation on the same dataset the following plots are divided in global accuracy and local accuracy, for different heterogeneity degrees, and with rotated images in both the local and the server side datasets.
+In order to make a comparation on the same dataset the following plots are divided in global accuracy and local accuracy.
 Note also that the same model, with the same hyperparameters, is used for each cluster and for each simulation.
 
 ###### 15% heterogeneity
@@ -120,7 +119,7 @@ ________________________________________________________________________________
 <img src = "https://user-images.githubusercontent.com/62892813/135764511-e044db59-6a0b-4467-b109-2acea957ee26.png" width = "630" height = "420">
 
 ### Is the aggregator able to detect?
-The aggregator performance are satisfactory, but why? Is the aggregator able to give at the right clusters, the bigger weight? 
+The aggregator performance are satisfactory, but why? Is the aggregator able to give at the right clusters, the bigger weight? Note that the aggregator is trained to classify in the right way the given images, as the local models.
 To verify this, it is sufficient to build an intermediate model 
 ```
 intermediate_model = Model(inputs=server_agg.model.input, outputs=server_agg.model.layers[2].output)
