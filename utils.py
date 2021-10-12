@@ -291,6 +291,7 @@ class federated_setup:
         favourite_label_per_cluster = []
         softmax_outputs = []
         for cluster in self.list_of_clusters:
+            print(cluster.get_model().predict(self.server.x_test).shape)
             softmax_outputs.append(cluster.get_model().predict(self.server.x_test))
             labels = [0 for _ in range(10)]
             dataset = cluster.test_data['labels']
