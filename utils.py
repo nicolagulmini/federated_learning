@@ -1,5 +1,4 @@
-from tensorflow.keras.datasets import mnist
-from tensorflow.keras.datasets import fashion_mnist
+from tensorflow.keras.datasets import mnist, fashion_mnist, cifar10
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.layers import Dense
@@ -291,7 +290,6 @@ class federated_setup:
         favourite_label_per_cluster = []
         softmax_outputs = []
         for cluster in self.list_of_clusters:
-            print(cluster.get_model().predict(self.server.x_test).shape)
             softmax_outputs.append(cluster.get_model().predict(self.server.x_test))
             labels = [0 for _ in range(10)]
             dataset = cluster.test_data['labels']
@@ -333,6 +331,8 @@ class federated_setup:
             (original_mnist_x_train, original_mnist_y_train), (original_mnist_x_test, original_mnist_y_test) = mnist.load_data()
         elif dataset == 'fashion' or dataset == 'fashion_mnist' or dataset == 'fashion-mnist':
             (original_mnist_x_train, original_mnist_y_train), (original_mnist_x_test, original_mnist_y_test) = fashion_mnist.load_data()
+        elif dataset == 'cifar' or dataset == 'cifar10' or dataset == 'cifar_10' or dataset == 'cifar-10' or dataset == 'cifar 10':
+            (original_mnist_x_train, original_mnist_y_train), (original_mnist_x_test, original_mnist_y_test) = cifar10.load_data()
         original_mnist_x_train = original_mnist_x_train.astype('float32') / 255.0
         original_mnist_x_test = original_mnist_x_test.astype('float32') / 255.0
         original_mnist_y_train = to_categorical(original_mnist_y_train, 10)
