@@ -49,6 +49,7 @@ single_digit_training_sets[Y_train[i][0]]
 ...
 single_digit_test_sets[Y_test[i][0]]
 ```
+and also at the line 41, changing `client_y_test[c].append(Y_test[random_index])` into `client_y_test[c].append(Y_test[random_index][0])`.
 
 The available datasets are:
 - federated_cifar10_80: same settings as the previous 80%-heterogeneous datasets
