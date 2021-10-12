@@ -3,11 +3,10 @@ from tensorflow.keras.datasets import fashion_mnist
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.layers import Dense
-#from tensorflow.keras.layers import Conv2D
-#from tensorflow.keras.layers import MaxPooling2D
-from tensorflow.keras.layers import Reshape
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import MaxPooling2D
+#from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
-#from keras.optimizers import SGD
 from tensorflow.keras.optimizers import Adam
 from random import randint
 from random import choice
@@ -53,24 +52,13 @@ class cluster:
     def print_information(self):
         print("Cluster number " + str(self.number) + ". User ids: " + str([user.name for user in self.users]))
         
-    def initialize_models(self):
+    def initialize_models(self, mnist=True):
         # inizialize the models
-        classification_model = define_model_mnist()
-        estimation_model = define_autoencoder_mnist()
+        classification_model = define_model(mnist)
+        #estimation_model = define_autoencoder_mnist()
         self.set_model(classification_model.model)
-        self.set_estimation(estimation_model.model)
+        #self.set_estimation(estimation_model.model)
         return
-    
-    '''
-    def cluster_to_users_initialization(self):
-        # to copy the initial models from the cluster to its users
-        for user in self.users:
-            user.set_model(clone_model(self.model))
-            user.set_estimation(clone_model(self.estimation))
-            user.model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-            user.estimation.compile(optimizer='adam', loss='binary_crossentropy')
-        return
-    '''
     
     def transfer_cluster_model_to_users(self):
         # propagate from cluster to its users the classification model
@@ -130,8 +118,8 @@ class user_information:
     def __init__(self, name, cluster):
         self.name = name
         self.cluster = cluster
-    def initialize_classification_model(self):
-        model = define_model_mnist().model
+    def initialize_classification_model(self, mnist=True):
+        model = define_model(mnist).model
         self.set_model(model)
     def set_data(self, data):
         self.data = data
@@ -139,10 +127,12 @@ class user_information:
         self.model = model
     def get_model(self):
         return self.model
+    '''
     def set_estimation(self, estimation):
         self.estimation = estimation
     def get_estimation(self):
         return self.estimation
+    '''
     
     def train(self, epochs, batch, verbose):
         # train the local user model on the local user dataset and compute the accuracy on the local cluster dataset
@@ -164,34 +154,30 @@ class user_information:
         validation_accuracy = self.model.evaluate(x_val, y_val, verbose=0)[1]
         return validation_accuracy
     
-class define_model_mnist():
-    def __init__(self):
-        self.model = Sequential()
-        self.model.add(Flatten(input_shape=(28, 28)))
-        #self.model.add(Dense(10, activation='relu', name='dense_interm'))
-        self.model.add(Dense(10, activation='softmax'))
-        self.model.compile(optimizer = Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
-        '''        
-        self.model = Sequential() 
-        self.model.add(Reshape((28, 28, 1), input_shape=(28, 28)))
-        self.model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform'))
-        self.model.add(MaxPooling2D((2, 2)))
-        self.model.add(Flatten())
-        self.model.add(Dense(100, activation='relu', kernel_initializer='he_uniform'))
-        self.model.add(Dense(10, activation='softmax'))
-    	# compile model
-        opt = SGD(learning_rate=0.01, momentum=0.9)
-        self.model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
-        '''
+class define_model():
+    def __init__(self, mnist=True):
+        if mnist:
+            self.model = Sequential()
+            self.model.add(Flatten(input_shape=(28, 28)))
+            #self.model.add(Dense(10, activation='relu', name='dense_interm'))
+            self.model.add(Dense(10, activation='softmax'))
+            self.model.compile(optimizer = Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+        else: # cifar
+            self.model = Sequential()
+            self.model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same', input_shape=(32, 32, 3)))
+            self.model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+            self.model.add(MaxPooling2D((2, 2)))
+            self.model.add(Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+            self.model.add(Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+            self.model.add(MaxPooling2D((2, 2)))
+            self.model.add(Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+            self.model.add(Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+            self.model.add(MaxPooling2D((2, 2)))
+            self.model.add(Flatten())
+            self.model.add(Dense(128, activation='relu', kernel_initializer='he_uniform'))
+            self.model.add(Dense(10, activation='softmax'))
+            self.model.compile(optimizer=Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
 
-class define_autoencoder_mnist():
-    def __init__(self):
-        self.model = Sequential()
-        self.model.add(Flatten(input_shape=(28, 28)))
-        self.model.add(Dense(10, activation='relu'))
-        self.model.add(Dense(784, activation='sigmoid'))
-        self.model.add(Reshape((28, 28)))
-        self.model.compile(optimizer='adam', loss='binary_crossentropy')
         
 class server():
     def __init__(self):
