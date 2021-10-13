@@ -163,6 +163,12 @@ class define_model():
             self.model.compile(optimizer = Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
         else: # cifar
             self.model = Sequential()
+            self.model.add(Flatten(input_shape=(32, 32, 3)))
+            #self.model.add(Dense(10, activation='relu', name='dense_interm'))
+            self.model.add(Dense(10, activation='softmax'))
+            self.model.compile(optimizer = Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+            '''
+            self.model = Sequential()
             self.model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same', input_shape=(32, 32, 3)))
             self.model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
             self.model.add(MaxPooling2D((2, 2)))
@@ -176,6 +182,7 @@ class define_model():
             self.model.add(Dense(128, activation='relu', kernel_initializer='he_uniform'))
             self.model.add(Dense(10, activation='softmax'))
             self.model.compile(optimizer=Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+            '''
 
         
 class server():
