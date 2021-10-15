@@ -38,13 +38,13 @@ Since fashion images are intrinsically more difficult than the digits, we used m
 ### federated_cifar10_x
 
 The federated version of cifar10 is obtained as the previous datasets, but changing something in the `dataset_split.py` file, in the line 20 and 24:
-```
+```python
 single_digit_training_sets[Y_train[i]]
 ...
 single_digit_test_sets[Y_test[i]]
 ```
 into
-```
+```python
 single_digit_training_sets[Y_train[i][0]]
 ...
 single_digit_test_sets[Y_test[i][0]]
@@ -122,7 +122,7 @@ ________________________________________________________________________________
 ### Is the aggregator able to detect?
 The aggregator performance are satisfactory, but why? Is the aggregator able to give at the right clusters, the bigger weight? Note that the aggregator is trained to classify in the right way the given images, as the local models.
 To verify this, it is sufficient to build an intermediate model 
-```
+```python
 intermediate_model = Model(inputs=server_agg.model.input, outputs=server_agg.model.layers[2].output)
 ```
 (where `server_agg.model` is the aggregator, and `server_agg.model.layers[2].output` is the output of the dense layer that gives the weights). Note that to perform this test, the aggregator is modified with a sigmoid activation function to the intermediate dense layer. Despite this, overall performance does not change. 
@@ -132,6 +132,34 @@ Here the average weights vector for each label, with a red bar on the cluster wi
 <img src = "https://user-images.githubusercontent.com/62892813/135819795-06a780e3-adb0-4ade-a724-a1b06c4bf262.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819792-d0e9ec07-a48b-4758-b9d1-147e8a3a615f.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819791-b4a36592-095e-49f1-bd70-6e8dc13fb5d8.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819790-2b0888a6-20b4-4eb3-a930-27dd93c487eb.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819787-05520dc0-02f8-4643-bd5d-9e749ec07c61.png" width = "150" height = "110">
 
 <img src = "https://user-images.githubusercontent.com/62892813/135819805-1a67943b-6e0f-45cb-96fe-23f41eb32fec.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819804-9a2dfd53-f683-4f48-bfbc-d946065c0102.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819802-bd110492-e61f-46de-81fa-839f56e992bb.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819799-1ccc465d-1bad-4c24-818e-f53681291267.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819797-e937e7df-29ca-4461-bdd1-1caf0f11cea1.png" width = "150" height = "110">
+
+### Mathematical formulation
+ If https://render.githubusercontent.com/render/math?math=\mathcal{C} is the set of clusters, each classification model, parametrized by $\boldsymbol{\vartheta}_{i\in [1, |\mathcal{C}|]}$, returns a probability distribution over the classes $q_{\boldsymbol{\vartheta}_i}(\boldsymbol{y}|\boldsymbol{x})$. Then the \emph{attention polling mapping} $h_{\boldsymbol{\delta}}$ of the aggregator, which receives the image $\boldsymbol{x}$, has to return a weight for each cluster model $\boldsymbol{\vartheta}_i$, that can be seen as the likelihood of the image under the cluster distribution: 
+    \[
+        \boldsymbol{h}_{\boldsymbol{\delta}}(\boldsymbol{x})=\big(p_{\mathcal{D}_i}(\boldsymbol{x})\big)_{i=1}^{|\mathcal{C}|},
+    \]
+    and this is the reason why the layer has the sigmoid activation function, so the weighted sum performed is not a convex combination, i.e. the weights do not sum to one
+    \[
+    \sum_{i=1}^{|\mathcal{C}|}h_{\boldsymbol{\delta}}^{(i)}(\boldsymbol{x})\in [0, |\mathcal{C}|]
+    \]
+    and this is done because we do not have any guarantee about the local distributions, so we do not know if $\mathcal{D}_i\neq \mathcal{D}_j, \forall i\neq j$.
+    
+    The server architecture $m_{\boldsymbol{A, b, \delta}}$ uses $h_{\boldsymbol{\delta}}(\boldsymbol{x})$ to compute a weighted sum of the cluster outputs:
+    \[
+        m_{\boldsymbol{A, b, \delta};\boldsymbol{\vartheta}_1,\dots,\boldsymbol{\vartheta}_{|\mathcal{C}|}}
+        (\boldsymbol{y}|\boldsymbol{x})
+        =
+        \text{softmax}\bigg( \boldsymbol{A} \cdot \sum_{i=1}^{|\mathcal{C}|} \big(
+        h_{\boldsymbol{\delta}}^{(i)}(\boldsymbol{x})\cdot q_{\boldsymbol{\vartheta}_i}(\boldsymbol{y}|\boldsymbol{x})\big)
+        + \boldsymbol{b}
+        \bigg)
+    \]
+    where $\boldsymbol{A, b, \delta}$ are trainable, and $\boldsymbol{\vartheta}_1,\dots,\boldsymbol{\vartheta}_{|\mathcal{C}|}$ are given.
+    
+    \subsection{Scenario} % o background...
+    % citare welling
+    We assume that the data are generated from some sort of stochastic process which depends on some continuous latent variable $\mathbf{z}\in\mathcal{Z}$, where $\mathcal{Z}$ is the latent space. This value is generated from the \emph{prior distribution}, parametrized by $\boldsymbol{\vartheta}^*$. We write $\mathbf{z}\sim p_{\boldsymbol{\vartheta}^*}(\mathbf{z})$. The conditional genesis of the data is written as $\mathbf{x}\sim p_{\vartheta^*}(\mathbf{x}|\mathbf{z})$. % non so se genesis sia il termine giusto, e bisogna specificare che x è un data point, e i dati sono altri
+    Here we assume that the prior and the \emph{likelihood} $p_{\vartheta^*}(\mathbf{x}|\mathbf{z})$ both belong to the family of distributions parametrized by $\boldsymbol{\vartheta}^*$, and that their probability density functions are differentiable almost everywhere with respect of $\mathbf{z}$ and $\boldsymbol{\vartheta}$. Both the latent variable $\mathbf{z}$ and the exact value of the parameters $\boldsymbol{\vartheta}^*$ are unknown to us.
 
 ## References
 
