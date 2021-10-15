@@ -4,14 +4,13 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import MaxPooling2D
-#from tensorflow.keras.layers import Reshape
+from tensorflow.keras.layers import Dropout
+from tensorflow.keras.layers import Softmax
 from tensorflow.keras.layers import Flatten
 from tensorflow.keras.optimizers import Adam
 from random import randint
 from random import choice
 from numpy.random import permutation
-#from numpy import add
-#from numpy import subtract
 from numpy import array
 from numpy import argmax
 from skimage import transform
@@ -162,11 +161,24 @@ class define_model():
             self.model.add(Dense(10, activation='softmax'))
             self.model.compile(optimizer = Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
         else: # cifar
+            '''
             self.model = Sequential()
             self.model.add(Flatten(input_shape=(32, 32, 3)))
             #self.model.add(Dense(10, activation='relu', name='dense_interm'))
             self.model.add(Dense(10, activation='softmax'))
             self.model.compile(optimizer = Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+            '''
+            self.model = Sequential()
+            self.model.add(Flatten(input_shape=(32, 32, 3)))
+            self.model.add(Dense(1024, activation='relu'))
+            self.model.add(Dense(512, activation='relu'))
+            self.model.add(Dense(256, activation='relu'))
+            self.model.add(Dense(128, activation='relu'))
+            self.model.add(Dense(64, activation='relu'))
+            self.model.add(Dropout(0.3))
+            self.model.add(Dense(10, activation='softmax'))
+            self.model.compile(optimizer = Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+            
             '''
             self.model = Sequential()
             self.model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same', input_shape=(32, 32, 3)))
@@ -183,6 +195,10 @@ class define_model():
             self.model.add(Dense(10, activation='softmax'))
             self.model.compile(optimizer=Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
             '''
+            
+            
+            
+
 
         
 class server():
