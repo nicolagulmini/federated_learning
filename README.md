@@ -19,7 +19,7 @@ The federated_mnist folder contains:
 - each dataset contains 1000 images, so each cluster contains exactly 2000 images. Some of these could be in common between more clusters.
 
 If you want to generate your own version of federated mnist, you can use `dataset_split.py`, changing the initial parameters:
-```
+```python
 number_of_clusters = 9
 bias = 0.8
 number_of_images_per_dataset = 1000
