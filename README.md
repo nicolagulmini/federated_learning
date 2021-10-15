@@ -135,7 +135,7 @@ Here the average weights vector for each label, with a red bar on the cluster wi
 
 ### Mathematical formulation
  If 
- <img src="https://render.githubusercontent.com/render/math?math=\mathcal{C}">
+ <img src="https://render.githubusercontent.com/render/math?math=\color{white}\mathcal{C}">
   is the set of clusters, each classification model, parametrized by $\boldsymbol{\vartheta}_{i\in [1, |\mathcal{C}|]}$, returns a probability distribution over the classes $q_{\boldsymbol{\vartheta}_i}(\boldsymbol{y}|\boldsymbol{x})$. Then the \emph{attention polling mapping} $h_{\boldsymbol{\delta}}$ of the aggregator, which receives the image $\boldsymbol{x}$, has to return a weight for each cluster model $\boldsymbol{\vartheta}_i$, that can be seen as the likelihood of the image under the cluster distribution: 
     \[
         \boldsymbol{h}_{\boldsymbol{\delta}}(\boldsymbol{x})=\big(p_{\mathcal{D}_i}(\boldsymbol{x})\big)_{i=1}^{|\mathcal{C}|},
