@@ -134,23 +134,11 @@ Here the average weights vector for each label, with a red bar on the cluster wi
 <img src = "https://user-images.githubusercontent.com/62892813/135819805-1a67943b-6e0f-45cb-96fe-23f41eb32fec.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819804-9a2dfd53-f683-4f48-bfbc-d946065c0102.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819802-bd110492-e61f-46de-81fa-839f56e992bb.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819799-1ccc465d-1bad-4c24-818e-f53681291267.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819797-e937e7df-29ca-4461-bdd1-1caf0f11cea1.png" width = "150" height = "110">
 
 ### Mathematical formulation
- If 
- <img src="https://render.githubusercontent.com/render/math?math=\color{white}\mathcal{C}">
-  is the set of clusters, each classification model, parametrized by 
-  <img src="https://render.githubusercontent.com/render/math?math=\color{white}\boldsymbol{\vartheta}_{i\in%20[1,%20|\mathcal{C}|]}">
-  , returns a probability distribution over the classes 
-  $q_{\boldsymbol{\vartheta}_i}(\boldsymbol{y}|\boldsymbol{x})$
-  . Then the \emph{attention polling mapping} 
-  $h_{\boldsymbol{\delta}}$
-  of the aggregator, which receives the image 
-  $\boldsymbol{x}$
-  , has to return a weight for each cluster model 
-  $\boldsymbol{\vartheta}_i$
-  , that can be seen as the likelihood of the image under the cluster distribution: 
-    
-    \boldsymbol{h}_{\boldsymbol{\delta}}(\boldsymbol{x})=\big(p_{\mathcal{D}_i}(\boldsymbol{x})\big)_{i=1}^{|\mathcal{C}|}
-    
-    ,
+<!-- 
+If $\mathcal{C}$ is the set of clusters, a classification model, parametrized by $\boldsymbol{\vartheta}_{i\in [1, |\mathcal{C}|]}$, returns a probability distribution over the classes $q_{\boldsymbol{\vartheta}_i}(\boldsymbol{y}|\boldsymbol{x})$. Then the \emph{attention polling mapping} $h_{\boldsymbol{\delta}}$ of the aggregator, which receives the image $\boldsymbol{x}$, has to return a weight for each cluster model $\boldsymbol{\vartheta}_i$, that can be seen as the likelihood of the image under the cluster distribution: 
+    \[
+        \boldsymbol{h}_{\boldsymbol{\delta}}(\boldsymbol{x})=\big(p_{\mathcal{D}_i}(\boldsymbol{x})\big)_{i=1}^{|\mathcal{C}|},
+    \]
     and this is the reason why the layer has the sigmoid activation function, so the weighted sum performed is not a convex combination, i.e. the weights do not sum to one
     \[
     \sum_{i=1}^{|\mathcal{C}|}h_{\boldsymbol{\delta}}^{(i)}(\boldsymbol{x})\in [0, |\mathcal{C}|]
@@ -168,11 +156,9 @@ Here the average weights vector for each label, with a red bar on the cluster wi
         \bigg)
     \]
     where $\boldsymbol{A, b, \delta}$ are trainable, and $\boldsymbol{\vartheta}_1,\dots,\boldsymbol{\vartheta}_{|\mathcal{C}|}$ are given.
-    
-    \subsection{Scenario} % o background...
-    % citare welling
-    We assume that the data are generated from some sort of stochastic process which depends on some continuous latent variable $\mathbf{z}\in\mathcal{Z}$, where $\mathcal{Z}$ is the latent space. This value is generated from the \emph{prior distribution}, parametrized by $\boldsymbol{\vartheta}^*$. We write $\mathbf{z}\sim p_{\boldsymbol{\vartheta}^*}(\mathbf{z})$. The conditional genesis of the data is written as $\mathbf{x}\sim p_{\vartheta^*}(\mathbf{x}|\mathbf{z})$. % non so se genesis sia il termine giusto, e bisogna specificare che x è un data point, e i dati sono altri
-    Here we assume that the prior and the \emph{likelihood} $p_{\vartheta^*}(\mathbf{x}|\mathbf{z})$ both belong to the family of distributions parametrized by $\boldsymbol{\vartheta}^*$, and that their probability density functions are differentiable almost everywhere with respect of $\mathbf{z}$ and $\boldsymbol{\vartheta}$. Both the latent variable $\mathbf{z}$ and the exact value of the parameters $\boldsymbol{\vartheta}^*$ are unknown to us.
+-->
+![Cattura](https://user-images.githubusercontent.com/62892813/137509493-d1437388-6c1b-4283-bddd-ea9d9eb8291f.JPG)
+
 
 ## References
 
