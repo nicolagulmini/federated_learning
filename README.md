@@ -134,7 +134,9 @@ Here the average weights vector for each label, with a red bar on the cluster wi
 <img src = "https://user-images.githubusercontent.com/62892813/135819805-1a67943b-6e0f-45cb-96fe-23f41eb32fec.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819804-9a2dfd53-f683-4f48-bfbc-d946065c0102.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819802-bd110492-e61f-46de-81fa-839f56e992bb.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819799-1ccc465d-1bad-4c24-818e-f53681291267.png" width = "150" height = "110"><img src = "https://user-images.githubusercontent.com/62892813/135819797-e937e7df-29ca-4461-bdd1-1caf0f11cea1.png" width = "150" height = "110">
 
 ### Mathematical formulation
- If https://render.githubusercontent.com/render/math?math=\mathcal{C} is the set of clusters, each classification model, parametrized by $\boldsymbol{\vartheta}_{i\in [1, |\mathcal{C}|]}$, returns a probability distribution over the classes $q_{\boldsymbol{\vartheta}_i}(\boldsymbol{y}|\boldsymbol{x})$. Then the \emph{attention polling mapping} $h_{\boldsymbol{\delta}}$ of the aggregator, which receives the image $\boldsymbol{x}$, has to return a weight for each cluster model $\boldsymbol{\vartheta}_i$, that can be seen as the likelihood of the image under the cluster distribution: 
+ If 
+ <img src="https://render.githubusercontent.com/render/math?math=\mathcal{C}">
+  is the set of clusters, each classification model, parametrized by $\boldsymbol{\vartheta}_{i\in [1, |\mathcal{C}|]}$, returns a probability distribution over the classes $q_{\boldsymbol{\vartheta}_i}(\boldsymbol{y}|\boldsymbol{x})$. Then the \emph{attention polling mapping} $h_{\boldsymbol{\delta}}$ of the aggregator, which receives the image $\boldsymbol{x}$, has to return a weight for each cluster model $\boldsymbol{\vartheta}_i$, that can be seen as the likelihood of the image under the cluster distribution: 
     \[
         \boldsymbol{h}_{\boldsymbol{\delta}}(\boldsymbol{x})=\big(p_{\mathcal{D}_i}(\boldsymbol{x})\big)_{i=1}^{|\mathcal{C}|},
     \]
