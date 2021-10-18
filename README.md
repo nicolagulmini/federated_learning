@@ -88,29 +88,6 @@ The **aggregator** model provides an higher global accuracy on the server testse
 Since the objective is to find an optimal combination of the softmax outputs, i.e. 9 (because we have 9 clusters) coefficients, the following architecture is used:
 an image is given to each cluster model to produce the softmax output. Then both the image and the outputs vector are given to the aggregator. The image is given to a flatten layer and then to a dense layer which return a 9-dimensional vector, the vector of the coefficients. A dot product between this vector and the softmax outputs is performed, then a dense layer with a softmax activation function returns the 10-dimensional vector with the probability of each class: this architecture is trained to classify, like the local ones. 
 
-```
-__________________________________________________________________________________________________
-Layer (type)                    Output Shape         Param #     Connected to                     
-==================================================================================================
-input_image (InputLayer)        [(None, 28, 28)]     0                                            
-__________________________________________________________________________________________________
-flatten_64 (Flatten)            (None, 784)          0           input_image[0][0]                
-__________________________________________________________________________________________________
-dense_73 (Dense)                (None, 9)            7065        flatten_64[0][0]                 
-__________________________________________________________________________________________________
-softmax_outputs (InputLayer)    [(None, 9, 10)]      0                                            
-__________________________________________________________________________________________________
-dot (Dot)                       (None, 10)           0           dense_73[0][0]                   
-                                                                 softmax_outputs[0][0]            
-__________________________________________________________________________________________________
-dense_74 (Dense)                (None, 10)           110         dot[0][0]                        
-==================================================================================================
-Total params: 7,175
-Trainable params: 7,175
-Non-trainable params: 0
-__________________________________________________________________________________________________
-```
-
 ![model](https://user-images.githubusercontent.com/62892813/135764394-38460fdc-254b-4e1a-83e6-6d8dc1416bc8.png)
 
 ## Performance
@@ -157,7 +134,7 @@ If $\mathcal{C}$ is the set of clusters, a classification model, parametrized by
     \]
     where $\boldsymbol{A, b, \delta}$ are trainable, and $\boldsymbol{\vartheta}_1,\dots,\boldsymbol{\vartheta}_{|\mathcal{C}|}$ are given.
 -->
-![Cattura](https://user-images.githubusercontent.com/62892813/137509493-d1437388-6c1b-4283-bddd-ea9d9eb8291f.JPG)
+![Schermata 2021-10-18 alle 17 35 34](https://user-images.githubusercontent.com/62892813/137763626-f301dd5d-6f1a-4935-b6e9-fa8aafdf6ac6.png)
 
 
 ## References
