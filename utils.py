@@ -170,12 +170,12 @@ class define_model():
             '''
             self.model = Sequential()
             self.model.add(Flatten(input_shape=(32, 32, 3)))
-            self.model.add(Dense(1024, activation='relu'))
-            self.model.add(Dense(512, activation='relu'))
-            self.model.add(Dense(256, activation='relu'))
-            self.model.add(Dense(128, activation='relu'))
-            self.model.add(Dense(64, activation='relu'))
-            self.model.add(Dropout(0.3))
+            #self.model.add(Dense(1024, activation='relu'))
+            #self.model.add(Dense(512, activation='relu'))
+            #self.model.add(Dense(256, activation='relu'))
+            #self.model.add(Dense(128, activation='relu'))
+            #self.model.add(Dense(64, activation='relu'))
+            #self.model.add(Dropout(0.3))
             self.model.add(Dense(10, activation='softmax'))
             self.model.compile(optimizer = Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
             
@@ -365,12 +365,12 @@ class federated_setup:
         
         for _ in range(number_of_server_training_data):
             tmp_index = randint(0, len(original_mnist_x_train)-1)
-            server_x_train.append(transform.rotate(original_mnist_x_train[tmp_index], choice([0])))#, 90, 180, 270])))
+            server_x_train.append(transform.rotate(original_mnist_x_train[tmp_index], choice([0, 90, 180, 270])))
             server_y_train.append(original_mnist_y_train[tmp_index])
             
         for _ in range(number_of_server_test_data):
             tmp_index = randint(0, len(original_mnist_x_test)-1)
-            server_x_test.append(transform.rotate(original_mnist_x_test[tmp_index], choice([0])))#, 90, 180, 270])))
+            server_x_test.append(transform.rotate(original_mnist_x_test[tmp_index], choice([0, 90, 180, 270])))
             server_y_test.append(original_mnist_y_test[tmp_index])
             
         print("Server dataset setting completed.")
@@ -395,14 +395,14 @@ class federated_setup:
             #print("* LOCAL Accuracy of the cluster " + str(cluster.number) + " model is " + str(local_acc) + ".\n")
         return avg_local_acc
     
-    def clustered_fed_avg_one_shot(self, local_updates=True):
+    def clustered_fed_avg_one_shot(self, local_updates=True, verbose=0):
         # realizes one communication round in which the server model is updated using fed avg on clusters models
         # this method returns the results of the local training and the result of the final server update
         print("* Server FedAvg method. If local_updates is True, at the beginning of this method, the same weights of the server model are set on each cluster model.")
         if local_updates:
             self.server_to_cluster_classification()
             print("Cluster models weights updated.")
-        avg_local_acc = self.train_one_shot()
+        avg_local_acc = self.train_one_shot(verbose)
         # compute the len of each local dataset
         fracs = [len(cluster.train_data['labels']) for cluster in self.list_of_clusters]
         tot_data = sum(fracs)
