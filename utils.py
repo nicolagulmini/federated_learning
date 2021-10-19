@@ -395,14 +395,14 @@ class federated_setup:
             #print("* LOCAL Accuracy of the cluster " + str(cluster.number) + " model is " + str(local_acc) + ".\n")
         return avg_local_acc
     
-    def clustered_fed_avg_one_shot(self, local_updates=True):
+    def clustered_fed_avg_one_shot(self, local_updates=True, verbose=0):
         # realizes one communication round in which the server model is updated using fed avg on clusters models
         # this method returns the results of the local training and the result of the final server update
         print("* Server FedAvg method. If local_updates is True, at the beginning of this method, the same weights of the server model are set on each cluster model.")
         if local_updates:
             self.server_to_cluster_classification()
             print("Cluster models weights updated.")
-        avg_local_acc = self.train_one_shot()
+        avg_local_acc = self.train_one_shot(verbose)
         # compute the len of each local dataset
         fracs = [len(cluster.train_data['labels']) for cluster in self.list_of_clusters]
         tot_data = sum(fracs)
