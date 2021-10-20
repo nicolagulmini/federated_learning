@@ -53,6 +53,9 @@ and also at the line 38 and 41, changing `client_y_train[c].append(Y_train[rando
 
 The available datasets are:
 - federated_cifar10_80: same settings as the previous 80%-heterogeneous datasets
+- federated_cifar10_10: a balanced dataset in which each user has iid data
+- federated_cifar10_50: 50%-heterogeneous datasets
+- federated_cifar10_70: 70%-heterogeneous datasets
 
 ## Results
 
