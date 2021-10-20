@@ -193,7 +193,7 @@ class define_model():
             self.model.add(Flatten())
             self.model.add(Dense(128, activation='relu', kernel_initializer='he_uniform'))
             self.model.add(Dense(10, activation='softmax'))
-            self.model.compile(optimizer=Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+            self.model.compile(optimizer=Adam(learning_rate = 0.0001), loss='categorical_crossentropy', metrics=['accuracy'])
             
 
 class server():
