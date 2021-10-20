@@ -164,7 +164,8 @@ class define_model():
             
             self.model = Sequential()
             self.model.add(Flatten(input_shape=(32, 32, 3)))
-            #self.model.add(Dense(10, activation='relu', name='dense_interm'))
+            self.model.add(Dense(10, activation='relu', name='dense_interm'))
+            self.model.add(Dropout(0.3))
             self.model.add(Dense(10, activation='softmax'))
             self.model.compile(optimizer = Adam(learning_rate = 0.0001), loss='categorical_crossentropy', metrics=['accuracy'])
             '''
