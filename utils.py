@@ -161,7 +161,7 @@ class define_model():
             self.model.add(Dense(10, activation='softmax'))
             self.model.compile(optimizer = Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
         else: # cifar
-            
+            '''
             self.model = Sequential()
             self.model.add(Flatten(input_shape=(32, 32, 3)))
             self.model.add(Dropout(0.9))
@@ -169,7 +169,7 @@ class define_model():
             self.model.add(Dropout(0.9))
             self.model.add(Dense(10, activation='softmax', kernel_initializer='he_uniform'))
             self.model.compile(optimizer = Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
-            '''
+            
             self.model = Sequential()
             self.model.add(Flatten(input_shape=(32, 32, 3)))
             #self.model.add(Dense(1024, activation='relu'))
@@ -181,7 +181,7 @@ class define_model():
             self.model.add(Dense(10, activation='softmax'))
             self.model.compile(optimizer = Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
             '''
-            '''
+            
             self.model = Sequential()
             self.model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same', input_shape=(32, 32, 3)))
             self.model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
@@ -196,7 +196,7 @@ class define_model():
             self.model.add(Dense(128, activation='relu', kernel_initializer='he_uniform'))
             self.model.add(Dense(10, activation='softmax'))
             self.model.compile(optimizer=Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
-            '''
+            
 
 class server():
     def __init__(self):
