@@ -52,10 +52,7 @@ single_digit_test_sets[Y_test[i][0]]
 and also at the line 38 and 41, changing `client_y_train[c].append(Y_train[random_index])` and `client_y_test[c].append(Y_test[random_index])` into `client_y_train[c].append(Y_train[random_index][0])` and `client_y_test[c].append(Y_test[random_index][0])`.
 
 The available datasets are:
-- federated_cifar10_80: same settings as the previous 80%-heterogeneous datasets
-- federated_cifar10_10: a balanced dataset in which each user has iid data
-- federated_cifar10_50: 50%-heterogeneous datasets
-- federated_cifar10_70: 70%-heterogeneous datasets
+- federated_cifar10_40: since cifar10 is more difficult than mnist to learn, the number of clusters is 3, and there are 3000 images for each local dataset.
 
 ## Results
 
