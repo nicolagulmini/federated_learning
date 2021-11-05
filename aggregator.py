@@ -53,7 +53,7 @@ class attention_based_aggregator():
 class cifar_aggregator():
     # based on the same architecture... but I do not know if it works, and also the number of parameters has to be quite the same as the local models
     
-    def __init__(self, number_of_classes=10, number_of_clusters):
+    def __init__(self, number_of_clusters, number_of_classes=10):
         image = Input(shape=(32, 32, 3), name='input_image')
         cluster_outputs = Input(shape=(number_of_clusters, number_of_classes), name='softmax_outputs')
         flatten_image = Flatten()(image)
