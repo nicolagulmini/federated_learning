@@ -366,6 +366,9 @@ class federated_setup:
             
         for _ in range(number_of_server_test_data):
             tmp_index = randint(0, len(original_mnist_x_test)-1)
+            print('server_y_test[tmp_index][0]', server_y_test[tmp_index][0])
+            print('len(original_mnist_x_test)', len(original_mnist_x_test))
+            print('len(original_mnist_y_test)', len(original_mnist_y_test))
             if server_y_test[tmp_index][0] < number_of_classes:
                 server_x_test.append(transform.rotate(original_mnist_x_test[tmp_index], choice([0, 90, 180, 270])))
                 server_y_test.append(original_mnist_y_test[tmp_index][0])
