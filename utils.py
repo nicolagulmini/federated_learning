@@ -369,6 +369,7 @@ class federated_setup:
             if original_mnist_y_train[tmp_index][0] < number_of_classes:
                 server_x_test.append(transform.rotate(original_mnist_x_test[tmp_index], choice([0, 90, 180, 270])))
                 server_y_test.append(original_mnist_y_test[tmp_index][0])
+        print(server_y_test) # focus
                 
         server_y_test = to_categorical(server_y_test, number_of_classes)
         server_y_train = to_categorical(server_y_train, number_of_classes)
