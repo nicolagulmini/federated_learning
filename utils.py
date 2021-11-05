@@ -132,7 +132,7 @@ class user_information:
         return self.estimation
     '''
     
-    def train(self, epochs, batch, number_of_classes=10, verbose):
+    def train(self, epochs, batch, number_of_classes=10, verbose=0):
         # train the local user model on the local user dataset and compute the accuracy on the local cluster dataset
         
         # to_categorical is from keras.utils
