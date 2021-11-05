@@ -153,7 +153,7 @@ class user_information:
         return validation_accuracy
     
 class define_model():
-    def __init__(self, mnist=True):
+    def __init__(self, number_of_classes=10, mnist=True):
         if mnist:
             self.model = Sequential()
             self.model.add(Flatten(input_shape=(28, 28)))
@@ -194,7 +194,7 @@ class define_model():
             self.model.add(MaxPooling2D((2, 2)))
             self.model.add(Flatten())
             self.model.add(Dense(128, activation='relu', kernel_initializer='he_uniform'))
-            self.model.add(Dense(10, activation='softmax'))
+            self.model.add(Dense(number_of_classes, activation='softmax'))
             self.model.compile(optimizer=Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
             
 
