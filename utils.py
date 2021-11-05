@@ -50,9 +50,9 @@ class cluster:
     def print_information(self):
         print("Cluster number " + str(self.number) + ". User ids: " + str([user.name for user in self.users]))
         
-    def initialize_models(self, mnist=True):
+    def initialize_models(self, number_of_classes=10, mnist=True):
         # inizialize the models
-        classification_model = define_model(mnist)
+        classification_model = define_model(number_of_classes, mnist)
         #estimation_model = define_autoencoder_mnist()
         self.set_model(classification_model.model)
         #self.set_estimation(estimation_model.model)
