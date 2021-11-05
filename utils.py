@@ -388,7 +388,7 @@ class federated_setup:
             print("** Cluster number " + str(cluster.number) + " training just started.")   
             cluster.transfer_cluster_model_to_users()
             for user in cluster.users:
-                user.train(self.local_epochs, self.local_batch, number_of_classes=number_of_classes, verbose) / len(cluster.users)
+                user.train(self.local_epochs, self.local_batch, number_of_classes=number_of_classes, verbose=verbose) / len(cluster.users)
             cluster.update_cluster_classification_model()
             local_acc = cluster.get_model().evaluate(cluster.test_data['images'], to_categorical(cluster.test_data['labels'], number_of_classes), verbose=0)[1]
             avg_local_acc += local_acc/len(self.list_of_clusters)
