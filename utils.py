@@ -116,8 +116,8 @@ class user_information:
     def __init__(self, name, cluster):
         self.name = name
         self.cluster = cluster
-    def initialize_classification_model(self, mnist=True):
-        model = define_model(mnist).model
+    def initialize_classification_model(self, number_of_classes=10, mnist=True):
+        model = define_model(number_of_classes, mnist).model
         self.set_model(model)
     def set_data(self, data):
         self.data = data
