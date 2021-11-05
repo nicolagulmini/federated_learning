@@ -53,14 +53,13 @@ class attention_based_aggregator():
 class cifar_aggregator():
     # based on the same architecture... but I do not know if it works, and also the number of parameters has to be quite the same as the local models
     
-    def __init__(self, number_of_clusters):
+    def __init__(self, number_of_classes=10, number_of_clusters):
         image = Input(shape=(32, 32, 3), name='input_image')
-        cluster_outputs = Input(shape=(number_of_clusters, 10), name='softmax_outputs')
+        cluster_outputs = Input(shape=(number_of_clusters, number_of_classes), name='softmax_outputs')
         flatten_image = Flatten()(image)
         weights = Dense(number_of_clusters, activation='sigmoid', bias_initializer=Ones(), kernel_initializer=RandomNormal(mean=0.0, stddev=.05, seed=None))(flatten_image)
         out = Dot(axes=1)([weights, cluster_outputs])
-        out = Dense(10, activation='softmax', kernel_initializer=Identity(), bias_initializer=RandomNormal(mean=.0, stddev=.05, seed=None))(out)
+        out = Dense(number_of_classes, activation='softmax', kernel_initializer=Identity(), bias_initializer=RandomNormal(mean=.0, stddev=.05, seed=None))(out)
         model = Model(inputs=[image, cluster_outputs], outputs=out, name='first_attempt_cifar10_attention_based_aggregator')
         model.compile(optimizer=Adam(learning_rate=.001), loss='categorical_crossentropy', metrics='accuracy')
         self.model = model
-        
