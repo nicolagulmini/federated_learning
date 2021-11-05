@@ -402,7 +402,7 @@ class federated_setup:
         if local_updates:
             self.server_to_cluster_classification()
             print("Cluster models weights updated.")
-        avg_local_acc = self.train_one_shot(number_of_classes=number_of_classes, verbose)
+        avg_local_acc = self.train_one_shot(number_of_classes=number_of_classes, verbose=verbose)
         # compute the len of each local dataset
         fracs = [len(cluster.train_data['labels']) for cluster in self.list_of_clusters]
         tot_data = sum(fracs)
