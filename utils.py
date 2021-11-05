@@ -50,9 +50,9 @@ class cluster:
     def print_information(self):
         print("Cluster number " + str(self.number) + ". User ids: " + str([user.name for user in self.users]))
         
-    def initialize_models(self, mnist=True):
+    def initialize_models(self, number_of_classes=10, mnist=True):
         # inizialize the models
-        classification_model = define_model(mnist)
+        classification_model = define_model(number_of_classes, mnist)
         #estimation_model = define_autoencoder_mnist()
         self.set_model(classification_model.model)
         #self.set_estimation(estimation_model.model)
@@ -116,8 +116,8 @@ class user_information:
     def __init__(self, name, cluster):
         self.name = name
         self.cluster = cluster
-    def initialize_classification_model(self, mnist=True):
-        model = define_model(mnist).model
+    def initialize_classification_model(self, number_of_classes=10, mnist=True):
+        model = define_model(number_of_classes, mnist).model
         self.set_model(model)
     def set_data(self, data):
         self.data = data
@@ -132,28 +132,28 @@ class user_information:
         return self.estimation
     '''
     
-    def train(self, epochs, batch, verbose):
+    def train(self, epochs, batch, number_of_classes=10, verbose=0):
         # train the local user model on the local user dataset and compute the accuracy on the local cluster dataset
         
         # to_categorical is from keras.utils
-        x_train, y_train, x_val, y_val = federated_setup.train_validation_split(self.data['images'], to_categorical(self.data['labels'], 10))
+        x_train, y_train, x_val, y_val = federated_setup.train_validation_split(self.data['images'], to_categorical(self.data['labels'], number_of_classes))
         
         if not verbose == 0:
-            accuracy = self.model.evaluate(self.cluster.test_data['images'], to_categorical(self.cluster.test_data['labels'], 10))[1]
+            accuracy = self.model.evaluate(self.cluster.test_data['images'], to_categorical(self.cluster.test_data['labels'], number_of_classes))[1]
             print("Accuracy of the user " + str(self.name) + " of the cluster " + str(self.cluster.number) + " BEFORE the training is " + str(accuracy))
         
         # training
         self.model.fit(x_train, y_train, epochs=epochs, batch_size=batch, verbose=0, validation_data=(x_val, y_val), shuffle=True)
 
         if not verbose == 0:
-            accuracy = self.model.evaluate(self.cluster.test_data['images'], to_categorical(self.cluster.test_data['labels'], 10))[1]
+            accuracy = self.model.evaluate(self.cluster.test_data['images'], to_categorical(self.cluster.test_data['labels'], number_of_classes))[1]
             print("Accuracy of the user " + str(self.name) + " of the cluster " + str(self.cluster.number) + " AFTER the training is " + str(accuracy))
         
         validation_accuracy = self.model.evaluate(x_val, y_val, verbose=0)[1]
         return validation_accuracy
     
 class define_model():
-    def __init__(self, mnist=True):
+    def __init__(self, number_of_classes=10, mnist=True):
         if mnist:
             self.model = Sequential()
             self.model.add(Flatten(input_shape=(28, 28)))
@@ -194,7 +194,7 @@ class define_model():
             self.model.add(MaxPooling2D((2, 2)))
             self.model.add(Flatten())
             self.model.add(Dense(128, activation='relu', kernel_initializer='he_uniform'))
-            self.model.add(Dense(10, activation='softmax'))
+            self.model.add(Dense(number_of_classes, activation='softmax'))
             self.model.compile(optimizer=Adam(learning_rate = 0.001), loss='categorical_crossentropy', metrics=['accuracy'])
             
 
@@ -305,13 +305,13 @@ class federated_setup:
                 average_acc += 1
         return average_acc / len(self.server.y_test)
     
-    def genie(self):
+    def genie(self, number_of_classes=10):
         # check the number of labels per cluster and per user
         favourite_label_per_cluster = []
         softmax_outputs = []
         for cluster in self.list_of_clusters:
             softmax_outputs.append(cluster.get_model().predict(self.server.x_test))
-            labels = [0 for _ in range(10)]
+            labels = [0 for _ in range(number_of_classes)]
             dataset = cluster.test_data['labels']
             for label in dataset:
                 labels[label] += 1
@@ -344,8 +344,8 @@ class federated_setup:
                     tmp_acc += 1
             to_return_avg_local_acc_of_avg_model += tmp_acc / len(cluster_for_data.test_data['labels'])
         return to_return_avg_local_acc_of_avg_model / len(self.list_of_clusters)  
-            
-    def server_side_dataset_generator(self, number_of_server_training_data, number_of_server_test_data, dataset='mnist'):
+    
+    def server_side_dataset_generator(self, number_of_server_training_data, number_of_server_test_data, number_of_classes=10, dataset='mnist'):
         # server side homogeneous dataset
         if dataset == 'mnist':
             (original_mnist_x_train, original_mnist_y_train), (original_mnist_x_test, original_mnist_y_test) = mnist.load_data()
@@ -355,20 +355,23 @@ class federated_setup:
             (original_mnist_x_train, original_mnist_y_train), (original_mnist_x_test, original_mnist_y_test) = cifar10.load_data()
         original_mnist_x_train = original_mnist_x_train.astype('float32') / 255.0
         original_mnist_x_test = original_mnist_x_test.astype('float32') / 255.0
-        original_mnist_y_train = to_categorical(original_mnist_y_train, 10)
-        original_mnist_y_test = to_categorical(original_mnist_y_test, 10)
         
         server_x_train, server_y_train, server_x_test, server_y_test = [], [], [], []
         
         for _ in range(number_of_server_training_data):
             tmp_index = randint(0, len(original_mnist_x_train)-1)
-            server_x_train.append(transform.rotate(original_mnist_x_train[tmp_index], choice([0, 90, 180, 270])))
-            server_y_train.append(original_mnist_y_train[tmp_index])
+            if original_mnist_y_train[tmp_index][0] < number_of_classes:
+                server_x_train.append(transform.rotate(original_mnist_x_train[tmp_index], choice([0, 90, 180, 270])))
+                server_y_train.append(original_mnist_y_train[tmp_index][0])
             
         for _ in range(number_of_server_test_data):
             tmp_index = randint(0, len(original_mnist_x_test)-1)
-            server_x_test.append(transform.rotate(original_mnist_x_test[tmp_index], choice([0, 90, 180, 270])))
-            server_y_test.append(original_mnist_y_test[tmp_index])
+            if original_mnist_y_test[tmp_index][0] < number_of_classes:
+                server_x_test.append(transform.rotate(original_mnist_x_test[tmp_index], choice([0, 90, 180, 270])))
+                server_y_test.append(original_mnist_y_test[tmp_index][0])
+                
+        server_y_test = to_categorical(server_y_test, number_of_classes)
+        server_y_train = to_categorical(server_y_train, number_of_classes)
             
         print("Server dataset setting completed.")
         
@@ -378,28 +381,28 @@ class federated_setup:
         self.server.y_test = array(server_y_test)
         return 
     
-    def train_one_shot(self, verbose=0):
+    def train_one_shot(self, number_of_classes=10, verbose=0):
         # realizes one communication round: for each cluster, propagate the model to its users, train each user individually and then aggregate users model updating the cluster one
         avg_local_acc = 0
         for cluster in self.list_of_clusters:
             print("** Cluster number " + str(cluster.number) + " training just started.")   
             cluster.transfer_cluster_model_to_users()
             for user in cluster.users:
-                user.train(self.local_epochs, self.local_batch, verbose) / len(cluster.users)
+                user.train(self.local_epochs, self.local_batch, number_of_classes=number_of_classes, verbose=verbose) / len(cluster.users)
             cluster.update_cluster_classification_model()
-            local_acc = cluster.get_model().evaluate(cluster.test_data['images'], to_categorical(cluster.test_data['labels'], 10), verbose=0)[1]
+            local_acc = cluster.get_model().evaluate(cluster.test_data['images'], to_categorical(cluster.test_data['labels'], number_of_classes), verbose=0)[1]
             avg_local_acc += local_acc/len(self.list_of_clusters)
             #print("* LOCAL Accuracy of the cluster " + str(cluster.number) + " model is " + str(local_acc) + ".\n")
         return avg_local_acc
     
-    def clustered_fed_avg_one_shot(self, local_updates=True, verbose=0):
+    def clustered_fed_avg_one_shot(self, local_updates=True, number_of_classes=10, verbose=0):
         # realizes one communication round in which the server model is updated using fed avg on clusters models
         # this method returns the results of the local training and the result of the final server update
         print("* Server FedAvg method. If local_updates is True, at the beginning of this method, the same weights of the server model are set on each cluster model.")
         if local_updates:
             self.server_to_cluster_classification()
             print("Cluster models weights updated.")
-        avg_local_acc = self.train_one_shot(verbose)
+        avg_local_acc = self.train_one_shot(number_of_classes=number_of_classes, verbose=verbose)
         # compute the len of each local dataset
         fracs = [len(cluster.train_data['labels']) for cluster in self.list_of_clusters]
         tot_data = sum(fracs)
