@@ -356,20 +356,22 @@ class federated_setup:
             (original_mnist_x_train, original_mnist_y_train), (original_mnist_x_test, original_mnist_y_test) = cifar10.load_data()
         original_mnist_x_train = original_mnist_x_train.astype('float32') / 255.0
         original_mnist_x_test = original_mnist_x_test.astype('float32') / 255.0
-        original_mnist_y_train = to_categorical(original_mnist_y_train, 10)
-        original_mnist_y_test = to_categorical(original_mnist_y_test, 10)
+        original_mnist_y_train = to_categorical(original_mnist_y_train, number_of_classes)
+        original_mnist_y_test = to_categorical(original_mnist_y_test, number_of_classes)
         
         server_x_train, server_y_train, server_x_test, server_y_test = [], [], [], []
         
         for _ in range(number_of_server_training_data):
             tmp_index = randint(0, len(original_mnist_x_train)-1)
-            server_x_train.append(transform.rotate(original_mnist_x_train[tmp_index], choice([0, 90, 180, 270])))
-            server_y_train.append(original_mnist_y_train[tmp_index])
+            if argmax(original_mnist_y_train[tmp_index]) < number_of_classes:
+                server_x_train.append(transform.rotate(original_mnist_x_train[tmp_index], choice([0, 90, 180, 270])))
+                server_y_train.append(original_mnist_y_train[tmp_index])
             
         for _ in range(number_of_server_test_data):
             tmp_index = randint(0, len(original_mnist_x_test)-1)
-            server_x_test.append(transform.rotate(original_mnist_x_test[tmp_index], choice([0, 90, 180, 270])))
-            server_y_test.append(original_mnist_y_test[tmp_index])
+            if argmax(original_mnist_y_train[tmp_index]) < number_of_classes:
+                server_x_test.append(transform.rotate(original_mnist_x_test[tmp_index], choice([0, 90, 180, 270])))
+                server_y_test.append(original_mnist_y_test[tmp_index])
             
         print("Server dataset setting completed.")
         
