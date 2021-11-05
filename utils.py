@@ -360,15 +360,13 @@ class federated_setup:
         
         for _ in range(number_of_server_training_data):
             tmp_index = randint(0, len(original_mnist_x_train)-1)
-            if original_mnist_y_train[tmp_index] < number_of_classes:
-                print('y:', original_mnist_y_train[tmp_index])
-                print('number_of_classes', number_of_classes) # focus here
+            if original_mnist_y_train[tmp_index][0] < number_of_classes:
                 server_x_train.append(transform.rotate(original_mnist_x_train[tmp_index], choice([0, 90, 180, 270])))
                 server_y_train.append(original_mnist_y_train[tmp_index])
             
         for _ in range(number_of_server_test_data):
             tmp_index = randint(0, len(original_mnist_x_test)-1)
-            if original_mnist_y_train[tmp_index] < number_of_classes:
+            if original_mnist_y_train[tmp_index][0] < number_of_classes:
                 server_x_test.append(transform.rotate(original_mnist_x_test[tmp_index], choice([0, 90, 180, 270])))
                 server_y_test.append(original_mnist_y_test[tmp_index])
                 
