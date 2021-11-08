@@ -3,6 +3,7 @@ from tensorflow.keras.layers import Input
 from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Dot
 from tensorflow.keras.models import Model
+from tensorflow.keras.callbacks import EarlyStopping
 # initializers 
 from tensorflow.keras.initializers import Ones
 from tensorflow.keras.initializers import Identity
@@ -43,6 +44,7 @@ class attention_based_aggregator():
             epochs=epochs, 
             verbose=verbose, 
             validation_data=(x_val, y_val),
+            callbacks=[EarlyStopping(monitor='loss', patience=10)],
             shuffle=True    
             )
         return history.history['accuracy'], history.history['loss'], history.history['val_accuracy'], history.history['val_loss']
